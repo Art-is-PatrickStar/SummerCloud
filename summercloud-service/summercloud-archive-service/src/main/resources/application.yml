@@ -1,0 +1,53 @@
+server:
+  port: 8091
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: archive-service
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.223.100:3306/summercloud?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
+    username: root
+    password: Wsw19980801.
+    hikari:
+      #连接超时时间,小于250毫秒,否则被重置为默认值30秒
+      connection-timeout: 60000
+      #空闲连接超时时间,默认值600000单位毫秒,大于等于max-lifetime且max-lifetime>0,会被重置为0,不等于0且小于10秒,会被重置为10秒
+      idle-timeout: 500000
+      #连接最大存活时间,不等于0且小于30秒,会被重置为默认值30分钟,设置应该比mysql设置的超时时间短
+      max-lifetime: 540000
+      #最小空闲连接,默认值10,小于0或大于maximum-pool-size,都会重置为maximum-pool-size
+      minimum-idle: 5
+      #最大连接数,小于等于0会被重置为默认值10,大于零小于1会被重置为minimum-idle的值
+      maximum-pool-size: 20
+      pool-name: HikariPool-archive
+
+  rabbitmq:
+    addresses: 192.168.223.100
+    port: 5672
+    connection-timeout: 30000
+    username: guest
+    password: guest
+    virtual-host: /
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+  configuration.log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+task:
+  service:
+    url: ${TASK_SERVICE_ENDPOINT:http://localhost:8092}
+
+archive:
+  realtime-exchange: resource_realtime_exchange
+  realtime-queue: resource_realtime_queue
+  realtime-routingKey: resource_realtime_routing_key
+  realtime-dead-exchange: resource_realtime_dlq_exchange
+  realtime-dead-queue: resource_realtime_dlq_queue
+  realtime-dead-routingKey: resource_realtime_dlq_routing_key
+  history-exchange: resource_history_exchange
+  history-queue: resource_history_queue
+  history-routingKey: resource_history_routing_key

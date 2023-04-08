@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: archive-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: archive-service
+  template:
+    metadata:
+      labels:
+        app: archive-service
+    spec:
+      containers:
+        - image: summer15/archive-service:0.0.1
+          name: archive-container
+          env:
+            - name: TASK_SERVICE_ENDPOINT
+              value: http://task-service:8092

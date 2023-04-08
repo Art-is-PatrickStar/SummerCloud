@@ -1,0 +1,58 @@
+server:
+  port: 8092
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: task-service
+  datasource:
+    dynamic:
+      primary: taskDataSource
+
+datasource:
+  h2:
+    driver-class-name: org.h2.Driver
+    jdbcUrl: jdbc:h2:mem:task
+    username: root
+    password: root
+  task:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://192.168.223.100:3306/summercloud?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
+    username: root
+    password: Wsw19980801.
+    connection-timeout: 60000
+    idle-timeout: 500000
+    max-lifetime: 540000
+    minimum-idle: 5
+    maximum-pool-size: 20
+    pool-name: HikariPool-task
+    connection-test-query: SELECT 1
+sharding-props:
+  task:
+    max:
+      connections:
+        size:
+          per:
+            query: 50
+    sql:
+      show: true
+sharding-rules:
+  task:
+    tables:
+      task_job:
+        actualDataNodes: ds0.task_job_$->{[20230301,20230401,20230501]}
+        tableStrategy:
+          standard:
+            shardingColumn: created_time
+            preciseAlgorithmClassName: com.wsw.summercloud.task.config.CustomShardingAlgorithm
+            rangeAlgorithmClassName: com.wsw.summercloud.task.config.CustomShardingAlgorithm
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+  configuration.log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+management:
+  health:
+    db:
+      enabled: false

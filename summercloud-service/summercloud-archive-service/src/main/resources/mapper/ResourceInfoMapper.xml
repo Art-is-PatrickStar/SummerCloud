@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wsw.summercloud.archive.mapper.ResourceInfoMapper">
+    <resultMap id="BaseResultMap" type="com.wsw.summercloud.archive.entities.ResourceInfoEntity">
+        <id column="resource_id" jdbcType="BIGINT" property="resourceId"/>
+        <result column="data" jdbcType="VARCHAR" property="data"/>
+        <result column="archive_status" jdbcType="INTEGER" property="archiveStatus"/>
+        <result column="enable_type" jdbcType="INTEGER" property="enableType"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        resource_id
+        ,
+        data,
+        archive_status,
+        enable_type,
+        created_time,
+        updated_time
+    </sql>
+
+</mapper>
