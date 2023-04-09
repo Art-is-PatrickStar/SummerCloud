@@ -19,4 +19,32 @@
         updated_time
     </sql>
 
+    <select id="selectResourceInfos" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from resource_info
+        <where>
+            <if test="query.resourceId != null">
+                and resource_id = #{query.resourceId,jdbcType=BIGINT}
+            </if>
+            <if test="query.archiveStatus != null">
+                and archive_status = #{query.archiveStatus,jdbcType=INTEGER}
+            </if>
+            <if test="query.enableType != null">
+                and enable_type = #{query.enableType,jdbcType=INTEGER}
+            </if>
+            <if test="query.createdTimeBegin != null">
+                and created_time <![CDATA[>=]]> #{query.createdTimeBegin,jdbcType=TIMESTAMP}
+            </if>
+            <if test="query.createdTimeEnd != null">
+                and created_time <![CDATA[<=]]> #{query.createdTimeEnd,jdbcType=TIMESTAMP}
+            </if>
+            <if test="query.updatedTimeBegin != null">
+                and updated_time <![CDATA[>=]]> #{query.updatedTimeBegin,jdbcType=TIMESTAMP}
+            </if>
+            <if test="query.updatedTimeEnd != null">
+                and updated_time <![CDATA[<=]]> #{query.updatedTimeEnd,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
 </mapper>

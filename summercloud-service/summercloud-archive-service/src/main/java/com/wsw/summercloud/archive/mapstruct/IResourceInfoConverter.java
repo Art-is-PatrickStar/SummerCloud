@@ -1,5 +1,6 @@
 package com.wsw.summercloud.archive.mapstruct;
 
+import com.wsw.summercloud.api.dto.ResourceInfoResponseDto;
 import com.wsw.summercloud.api.msg.ResourceMsg;
 import com.wsw.summercloud.archive.entities.ResourceInfoEntity;
 import org.mapstruct.Mapper;
@@ -19,4 +20,8 @@ public interface IResourceInfoConverter {
     ResourceInfoEntity resourceMsgToResourceInfoEntity(ResourceMsg resourceMsg);
 
     List<ResourceInfoEntity> resourceMsgToResourceInfoEntity(List<ResourceMsg> resourceMsgs);
+
+    ResourceInfoResponseDto resourceInfoEntityToResourceInfoResponseDto(ResourceInfoEntity resourceInfoEntity);
+
+    List<ResourceInfoResponseDto> resourceInfoEntityToResourceInfoResponseDto(List<ResourceInfoEntity> resourceInfoEntities);
 }

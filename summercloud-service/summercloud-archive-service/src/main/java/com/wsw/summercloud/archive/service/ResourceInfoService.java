@@ -1,7 +1,12 @@
 package com.wsw.summercloud.archive.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wsw.summercloud.api.basic.PageInfo;
+import com.wsw.summercloud.api.dto.ResourceInfoQueryDto;
+import com.wsw.summercloud.api.dto.ResourceInfoResponseDto;
 import com.wsw.summercloud.api.msg.ResourceMsg;
 import com.wsw.summercloud.archive.entities.ResourceInfoEntity;
 import com.wsw.summercloud.archive.mapper.ResourceInfoMapper;
@@ -31,5 +36,11 @@ public class ResourceInfoService extends ServiceImpl<ResourceInfoMapper, Resourc
                 .in(ResourceInfoEntity::getResourceId, resourceMsgs.stream().map(ResourceMsg::getResourceId).toArray())
                 .set(ResourceInfoEntity::getArchiveStatus, 1)
                 .update();
+    }
+
+    public PageInfo<ResourceInfoResponseDto> selectResourceInfos(ResourceInfoQueryDto queryDto) {
+        IPage<ResourceInfoEntity> resourceInfoEntityIPage = baseMapper.selectResourceInfos(new Page<>(queryDto.getCurrentPage(), queryDto.getPageSize()), queryDto);
+        List<ResourceInfoResponseDto> resourceInfoResponseDtos = IResourceInfoConverter.INSTANCE.resourceInfoEntityToResourceInfoResponseDto(resourceInfoEntityIPage.getRecords());
+        return new PageInfo<>(resourceInfoEntityIPage.getCurrent(), resourceInfoEntityIPage.getSize(), resourceInfoEntityIPage.getTotal(), resourceInfoResponseDtos);
     }
 }

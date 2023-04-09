@@ -1,6 +1,9 @@
 package com.wsw.summercloud.archive.controller;
 
+import com.wsw.summercloud.api.basic.PageInfo;
 import com.wsw.summercloud.api.basic.Result;
+import com.wsw.summercloud.api.dto.ResourceInfoQueryDto;
+import com.wsw.summercloud.api.dto.ResourceInfoResponseDto;
 import com.wsw.summercloud.api.msg.ResourceMsg;
 import com.wsw.summercloud.archive.client.TaskClient;
 import com.wsw.summercloud.archive.service.ResourceInfoService;
@@ -46,10 +49,18 @@ public class ArchiveController {
     }
 
     @ApiOperation("批量增加资源")
-    @PostMapping("/insertResourceInfo")
+    @PostMapping("/insertResourceInfos")
     public Result<Void> insertResourceInfo(@RequestBody List<ResourceMsg> resourceMsgs) {
         Result<Void> result = Result.success();
         resourceInfoService.saveOrUpdateResourceInfos(resourceMsgs);
+        return result;
+    }
+
+    @ApiOperation("查询资源")
+    @PostMapping("/selectResourceInfos")
+    public Result<PageInfo<ResourceInfoResponseDto>> selectResourceInfos(@RequestBody ResourceInfoQueryDto queryDto) {
+        Result<PageInfo<ResourceInfoResponseDto>> result = Result.success();
+        result.value(resourceInfoService.selectResourceInfos(queryDto));
         return result;
     }
 }
