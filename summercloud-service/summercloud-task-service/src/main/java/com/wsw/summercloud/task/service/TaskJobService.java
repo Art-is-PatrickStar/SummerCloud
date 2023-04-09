@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wsw.summercloud.api.basic.PageInfo;
 import com.wsw.summercloud.api.dto.TaskJobQueryDto;
+import com.wsw.summercloud.api.dto.TaskJobRecordRequestDto;
 import com.wsw.summercloud.api.dto.TaskJobRequestDto;
 import com.wsw.summercloud.api.dto.TaskJobResponseDto;
 import com.wsw.summercloud.api.msg.ResourceMsg;
@@ -13,6 +14,7 @@ import com.wsw.summercloud.task.mapper.TaskJobMapper;
 import com.wsw.summercloud.task.mapstruct.ITaskJobConverter;
 import groovy.util.logging.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,14 +26,18 @@ import java.util.List;
 @Slf4j
 @Service
 public class TaskJobService extends ServiceImpl<TaskJobMapper, TaskJobEntity> {
-    public void insertTaskJobs(List<TaskJobRequestDto> taskJobRequestDtos) {
-        List<TaskJobEntity> taskJobEntities = ITaskJobConverter.INSTANCE.taskJobRequestDtoToTaskJobEntity(taskJobRequestDtos);
-        baseMapper.insertTaskJobs(taskJobEntities);
+    private final TaskJobRecordService taskJobRecordService;
+
+    public TaskJobService(TaskJobRecordService taskJobRecordService) {
+        this.taskJobRecordService = taskJobRecordService;
     }
 
-    public void createTask(List<ResourceMsg> resourceMsgs) {
+    @Transactional
+    public void createTasks(List<ResourceMsg> resourceMsgs) {
         List<TaskJobEntity> taskJobEntities = ITaskJobConverter.INSTANCE.resourceMsgToTaskJobEntity(resourceMsgs);
         baseMapper.insertTaskJobs(taskJobEntities);
+        List<TaskJobRecordRequestDto> taskJobRecordRequestDtos = ITaskJobConverter.INSTANCE.taskJobEntityToTaskJobRecordrequestDto(taskJobEntities);
+        taskJobRecordService.createTaskJobRecords(taskJobRecordRequestDtos);
     }
 
     public PageInfo<TaskJobResponseDto> selectTaskJobs(TaskJobQueryDto queryDto) {
