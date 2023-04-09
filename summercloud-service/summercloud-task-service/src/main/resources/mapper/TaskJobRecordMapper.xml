@@ -28,4 +28,38 @@
         </foreach>
     </insert>
 
+    <select id="selectTaskJobRecords" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from task_job_record
+        <where>
+            <if test="query.recordId != null">
+                and record_id = #{query.recordId,jdbcType=BIGINT}
+            </if>
+            <if test="query.jobId != null">
+                and job_id = #{query.jobId,jdbcType=BIGINT}
+            </if>
+            <if test="query.resourceId != null">
+                and resource_id = #{query.resourceId,jdbcType=BIGINT}
+            </if>
+            <if test="query.jobStatus != null">
+                and job_status = #{query.jobStatus,jdbcType=INTEGER}
+            </if>
+            <if test="query.isDelete != null">
+                and is_delete = #{query.isDelete,jdbcType=INTEGER}
+            </if>
+            <if test="query.createdTimeBegin != null">
+                and created_time <![CDATA[>=]]> #{query.createdTimeBegin,jdbcType=TIMESTAMP}
+            </if>
+            <if test="query.createdTimeEnd != null">
+                and created_time <![CDATA[<=]]> #{query.createdTimeEnd,jdbcType=TIMESTAMP}
+            </if>
+            <if test="query.updatedTimeBegin != null">
+                and updated_time <![CDATA[>=]]> #{query.updatedTimeBegin,jdbcType=TIMESTAMP}
+            </if>
+            <if test="query.updatedTimeEnd != null">
+                and updated_time <![CDATA[<=]]> #{query.updatedTimeEnd,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
 </mapper>
