@@ -51,3 +51,16 @@ archive:
   history-exchange: resource_history_exchange
   history-queue: resource_history_queue
   history-routingKey: resource_history_routing_key
+
+xxl:
+  job:
+    admin:
+      addresses: http://192.168.223.100:8080/xxl-job-admin
+    accessToken: default_token
+    executor:
+      appname: archive-service-executor
+      address:
+      ip:
+      port: 9998
+      logpath: /data/applogs/xxl-job/jobhandler
+      logretentiondays: 7
