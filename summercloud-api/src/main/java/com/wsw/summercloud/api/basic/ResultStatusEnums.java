@@ -27,6 +27,7 @@ public enum ResultStatusEnums {
     USER_NOT_FOUND(6006, "用户不存在", 0),
     USER_INFORMATION_ERROR(6007, "用户名或密码错误", 0),
     USER_IS_EXIST(6008, "用户名已存在", 0),
+    REDIS_LOCK_GET_FAILD(6009, "分布式锁获取失败", 0),
     ;
 
     private final Integer status;

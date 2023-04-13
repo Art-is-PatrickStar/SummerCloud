@@ -20,7 +20,7 @@ public class RedisServiceTests {
 
     @Test
     void setTest() {
-        redisService.setValueByKey("name", "wsw", 10, TimeUnit.SECONDS);
+        redisService.setValueByKey("name", "wsw", 300, TimeUnit.SECONDS);
     }
 
     @Test

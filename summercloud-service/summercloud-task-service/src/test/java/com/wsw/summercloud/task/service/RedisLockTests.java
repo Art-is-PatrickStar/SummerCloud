@@ -1,6 +1,8 @@
 package com.wsw.summercloud.task.service;
 
+import com.wsw.summercloud.api.basic.ResultStatusEnums;
 import com.wsw.summercloud.api.dto.TaskJobRequestDto;
+import com.wsw.summercloud.common.exception.BusinessException;
 import com.wsw.summercloud.task.entities.TaskJobEntity;
 import org.junit.jupiter.api.Test;
 import org.redisson.api.RLock;
@@ -26,11 +28,11 @@ public class RedisLockTests {
     @Test
     void lockTest() {
         String lockName = "wswtest";
-        RLock lock = redissonClient.getLock(lockName);
+        RLock rLock = redissonClient.getLock(lockName);
         try {
-            boolean tryLock = lock.tryLock(10, 10, TimeUnit.SECONDS);
+            boolean tryLock = rLock.tryLock(10, 10, TimeUnit.SECONDS);
             if (!tryLock) {
-                throw new RuntimeException("分布式锁获取失败, lockName: " + lockName);
+                throw new BusinessException(ResultStatusEnums.REDIS_LOCK_GET_FAILD);
             }
 //            TaskJobRequestDto taskJobRequestDto = new TaskJobRequestDto();
 //            taskJobRequestDto.setJobId(20L);
@@ -42,8 +44,8 @@ public class RedisLockTests {
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            if (lock != null && lock.isHeldByCurrentThread()) {
-                lock.unlock();
+            if (rLock != null && rLock.isHeldByCurrentThread()) {
+                rLock.unlock();
             }
         }
     }
