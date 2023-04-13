@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
+
 /**
  * @Description: 归档服务RabbitMQ配置类
  * @Author: wangsongwen
@@ -14,11 +16,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ArchiveRabbitConfig {
-    private final ArchiveRabbitProperties archiveRabbitProperties;
-
-    public ArchiveRabbitConfig(ArchiveRabbitProperties archiveRabbitProperties) {
-        this.archiveRabbitProperties = archiveRabbitProperties;
-    }
+    @Resource
+    private ArchiveRabbitProperties archiveRabbitProperties;
 
     /**
      * 实时资源Direct交换机 支持持久化

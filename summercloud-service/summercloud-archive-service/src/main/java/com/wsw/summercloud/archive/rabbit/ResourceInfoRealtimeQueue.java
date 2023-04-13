@@ -10,6 +10,7 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,13 +23,10 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class ResourceInfoRealtimeQueue {
-    private final ArchiveRabbitProperties archiveRabbitProperties;
-    private final ResourceMsgService resourceMsgService;
-
-    public ResourceInfoRealtimeQueue(ArchiveRabbitProperties archiveRabbitProperties, ResourceMsgService resourceMsgService) {
-        this.archiveRabbitProperties = archiveRabbitProperties;
-        this.resourceMsgService = resourceMsgService;
-    }
+    @Resource
+    private ArchiveRabbitProperties archiveRabbitProperties;
+    @Resource
+    private ResourceMsgService resourceMsgService;
 
     @RabbitListener(queues = "#{archiveRabbitProperties.getRealtimeQueue()}", containerFactory = "consumerBatchContainerFactory")
     public void realTimeMessage(List<Message> messages, Channel channel) throws Exception {

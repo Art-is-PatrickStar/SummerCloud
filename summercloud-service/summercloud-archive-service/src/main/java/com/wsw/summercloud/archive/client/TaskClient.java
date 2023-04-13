@@ -1,11 +1,11 @@
 package com.wsw.summercloud.archive.client;
 
 import com.wsw.summercloud.api.msg.ResourceMsg;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,11 +17,8 @@ import java.util.List;
 public class TaskClient {
     @Value("${task.service.url}")
     private String taskServiceUrl;
-    private final RestTemplate archiveRestTemplate;
-
-    public TaskClient(@Qualifier("archiveRestTemplate") RestTemplate archiveRestTemplate) {
-        this.archiveRestTemplate = archiveRestTemplate;
-    }
+    @Resource
+    private RestTemplate archiveRestTemplate;
 
     public String sayHello() {
         return archiveRestTemplate.getForObject(taskServiceUrl + "/task/hello", String.class);

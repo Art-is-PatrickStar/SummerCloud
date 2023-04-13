@@ -1,10 +1,7 @@
-package com.wsw.summercloud.archive;
+package com.wsw.summercloud.archive.service;
 
 import com.alibaba.fastjson.JSON;
 import com.wsw.summercloud.api.msg.ResourceMsg;
-import com.wsw.summercloud.archive.entities.ResourceInfoEntity;
-import com.wsw.summercloud.archive.mapstruct.IResourceInfoConverter;
-import com.wsw.summercloud.archive.service.ResourceInfoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -14,8 +11,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @Description:
+ * @Author: wangsongwen
+ * @Date: 2023/4/13 16:17
+ */
 @SpringBootTest
-class SummercloudArchiveServiceApplicationTests {
+public class ResourceInfoServiceTests {
     @Resource
     private ResourceInfoService resourceInfoService;
 
@@ -31,8 +33,6 @@ class SummercloudArchiveServiceApplicationTests {
         resourceMsg.setData(JSON.toJSONString(dataMap));
         resourceMsg.setEnableType(1);
         resourceMsgs.add(resourceMsg);
-        List<ResourceInfoEntity> resourceInfoEntities = IResourceInfoConverter.INSTANCE.resourceMsgToResourceInfoEntity(resourceMsgs);
-        resourceInfoService.saveBatch(resourceInfoEntities);
+        resourceInfoService.saveOrUpdateResourceInfos(resourceMsgs);
     }
-
 }

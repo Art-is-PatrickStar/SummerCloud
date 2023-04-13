@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -26,13 +27,10 @@ import java.util.List;
 @RequestMapping("/archive")
 @Api(tags = "归档相关接口")
 public class ArchiveController {
-    private final TaskClient taskClient;
-    private final ResourceInfoService resourceInfoService;
-
-    public ArchiveController(TaskClient taskClient, ResourceInfoService resourceInfoService) {
-        this.taskClient = taskClient;
-        this.resourceInfoService = resourceInfoService;
-    }
+    @Resource
+    private TaskClient taskClient;
+    @Resource
+    private ResourceInfoService resourceInfoService;
 
     @GetMapping("/hello")
     public Result<String> sayHello() {
