@@ -1,4 +1,4 @@
-package com.wsw.summercloud.task;
+package com.wsw.summercloud.task.service;
 
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
@@ -6,7 +6,6 @@ import com.wsw.summercloud.api.basic.PageInfo;
 import com.wsw.summercloud.api.dto.TaskJobQueryDto;
 import com.wsw.summercloud.api.dto.TaskJobResponseDto;
 import com.wsw.summercloud.api.msg.ResourceMsg;
-import com.wsw.summercloud.task.service.TaskJobService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,8 +13,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @Description:
+ * @Author: wangsongwen
+ * @Date: 2023/4/13 16:57
+ */
 @SpringBootTest
-class SummercloudTaskServiceApplicationTests {
+public class TaskJobServiceTests {
     @Autowired
     private TaskJobService taskJobService;
 

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+
 /**
  * @Description:
  * @Author: wangsongwen
@@ -23,11 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/taskRecord")
 @Api(tags = "任务记录相关接口")
 public class TaskJobRecordController {
-    private final TaskJobRecordService taskJobRecordService;
-
-    public TaskJobRecordController(TaskJobRecordService taskJobRecordService) {
-        this.taskJobRecordService = taskJobRecordService;
-    }
+    @Resource
+    private TaskJobRecordService taskJobRecordService;
 
     @ApiOperation("查询任务记录")
     @PostMapping("/selectTaskRecords")

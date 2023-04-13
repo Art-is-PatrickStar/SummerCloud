@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -25,11 +26,8 @@ import java.util.List;
 @RequestMapping("/task")
 @Api(tags = "任务相关接口")
 public class TaskJobController {
-    private final TaskJobService taskJobService;
-
-    public TaskJobController(TaskJobService taskJobService) {
-        this.taskJobService = taskJobService;
-    }
+    @Resource
+    private TaskJobService taskJobService;
 
     @GetMapping("/hello")
     public Result<String> sayHello() {
