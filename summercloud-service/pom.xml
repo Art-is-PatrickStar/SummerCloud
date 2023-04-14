@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>summercloud-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <description>summercloud service.</description>
 
     <packaging>pom</packaging>
@@ -12,7 +12,7 @@
     <parent>
         <groupId>com.wsw</groupId>
         <artifactId>SummerCloud</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.2-SNAPSHOT</version>
     </parent>
 
     <modules>

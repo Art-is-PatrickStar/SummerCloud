@@ -5,7 +5,7 @@
 
     <groupId>com.wsw</groupId>
     <artifactId>SummerCloud</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>SummerCloud</name>
     <description>Java microservices built with Spring Boot, Docker, and Kubernetes.</description>
 

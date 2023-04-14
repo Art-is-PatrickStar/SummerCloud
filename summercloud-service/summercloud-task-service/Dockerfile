@@ -3,7 +3,7 @@ FROM openjdk:8-jre-alpine
 # 将本地文件挂载到容器
 VOLUME /tmp
 # 拷贝文件到容器
-ADD target/summercloud-task-service-0.0.1-SNAPSHOT.jar /usr/share/task-service.jar
+ADD target/summercloud-task-service-0.0.2-SNAPSHOT.jar /usr/share/task-service.jar
 ENV JAVA_OPTS=""
 # 声明要暴露的端口
 EXPOSE 8092
