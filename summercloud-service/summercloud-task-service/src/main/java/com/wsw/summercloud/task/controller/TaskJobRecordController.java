@@ -23,7 +23,7 @@ import javax.annotation.Resource;
 @Slf4j
 @RestController
 @RequestMapping("/taskRecord")
-@Api(tags = "任务记录相关接口")
+@Api(tags = "任务记录接口")
 public class TaskJobRecordController {
     @Resource
     private TaskJobRecordService taskJobRecordService;

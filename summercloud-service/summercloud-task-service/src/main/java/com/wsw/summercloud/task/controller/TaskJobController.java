@@ -24,7 +24,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/task")
-@Api(tags = "任务相关接口")
+@Api(tags = "任务接口")
 public class TaskJobController {
     @Resource
     private TaskJobService taskJobService;
