@@ -1,14 +1,14 @@
 package com.wsw.summercloud.archive.entities;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
@@ -19,11 +19,12 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("resource_info")
+@Entity
+@Table(name = "resource_info")
 @ApiModel(value = "资源信息实体类")
 public class ResourceInfoEntity {
+    @Id
     @ApiModelProperty(value = "资源id")
-    @TableId(value = "resource_id", type = IdType.INPUT)
     private Long resourceId;
 
     @ApiModelProperty(value = "数据")

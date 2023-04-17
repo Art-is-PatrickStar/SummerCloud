@@ -1,14 +1,14 @@
 package com.wsw.summercloud.archive.entities;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
@@ -19,11 +19,12 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("archive_node")
+@Entity
+@Table(name = "archive_node")
 @ApiModel(value = "归档节点实体类")
 public class ArchiveNodeEntity {
+    @Id
     @ApiModelProperty(value = "归档id")
-    @TableId(value = "archive_id", type = IdType.INPUT)
     private Long archiveId;
 
     @ApiModelProperty(value = "归档队则")
