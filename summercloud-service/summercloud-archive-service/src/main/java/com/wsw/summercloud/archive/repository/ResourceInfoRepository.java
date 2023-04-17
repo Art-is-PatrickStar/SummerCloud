@@ -14,6 +14,6 @@ import java.util.List;
  */
 @Repository
 public interface ResourceInfoRepository extends JpaRepository<ResourceInfoEntity, Long> {
-    void updateResourceInfoArchiveStatus(List<ResourceMsg> resourceMsgs);
+    //void updateResourceInfoArchiveStatus(List<ResourceMsg> resourceMsgs);
     //IPage<ResourceInfoEntity> selectResourceInfos(Page<?> page, @Param("query") ResourceInfoQueryDto queryDto);
 }

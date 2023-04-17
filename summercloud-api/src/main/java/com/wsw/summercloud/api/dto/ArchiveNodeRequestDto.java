@@ -10,13 +10,12 @@ import java.util.Date;
 /**
  * @Description:
  * @Author: wangsongwen
- * @Date: 2023/4/16 17:01
+ * @Date: 2023/4/17 21:55
  */
 @Data
-@ApiModel(value = "归档节点响应实体类")
-public class ArchiveNodeResponseDto implements Serializable {
-    private static final long serialVersionUID = 7866202147737800820L;
-
+@ApiModel(value = "归档节点请求实体类")
+public class ArchiveNodeRequestDto implements Serializable {
+    private static final long serialVersionUID = 3696229950120156388L;
     @ApiModelProperty(value = "归档id")
     private Long archiveId;
 

@@ -1,14 +1,13 @@
 package com.wsw.summercloud.archive.controller;
 
 import com.wsw.summercloud.api.basic.Result;
+import com.wsw.summercloud.api.dto.ArchiveNodeRequestDto;
 import com.wsw.summercloud.api.dto.ArchiveNodeResponseDto;
 import com.wsw.summercloud.archive.client.TaskClient;
 import com.wsw.summercloud.archive.service.ArchiveNodeService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -48,6 +47,13 @@ public class ArchiveNodeController {
     public Result<List<ArchiveNodeResponseDto>> getAllArchiveNodes() {
         Result<List<ArchiveNodeResponseDto>> result = Result.success();
         result.value(archiveNodeService.getAllArchiveNodes());
+        return result;
+    }
+
+    @PostMapping("/insertArchiveNodes")
+    public Result<Void> insertArchiveNodes(@RequestBody List<ArchiveNodeRequestDto> requestDtos) {
+        Result<Void> result = Result.success();
+        archiveNodeService.insertArchiveNodes(requestDtos);
         return result;
     }
 }

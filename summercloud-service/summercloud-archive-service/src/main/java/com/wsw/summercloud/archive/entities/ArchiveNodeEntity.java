@@ -6,9 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -24,21 +22,27 @@ import java.util.Date;
 @ApiModel(value = "归档节点实体类")
 public class ArchiveNodeEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @ApiModelProperty(value = "归档id")
     private Long archiveId;
 
-    @ApiModelProperty(value = "归档队则")
+    @Column(name = "archive_rule")
+    @ApiModelProperty(value = "归档规则")
     private String archiveRule;
 
+    @Column(name = "enable")
     @ApiModelProperty(value = "是否启用 1:是 0:否")
     private Integer enable;
 
+    @Column(name = "is_delete")
     @ApiModelProperty(value = "是否删除 1:是 0:否")
     private Integer isDelete;
 
+    @Column(name = "created_time", insertable = false, updatable = false)
     @ApiModelProperty(value = "归档节点创建时间")
     private Date createdTime;
 
+    @Column(name = "updated_time", insertable = false)
     @ApiModelProperty(value = "归档节点修改时间")
     private Date updatedTime;
 }

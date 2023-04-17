@@ -1,5 +1,6 @@
 package com.wsw.summercloud.archive.service.impl;
 
+import com.wsw.summercloud.api.dto.ArchiveNodeRequestDto;
 import com.wsw.summercloud.api.dto.ArchiveNodeResponseDto;
 import com.wsw.summercloud.archive.entities.ArchiveNodeEntity;
 import com.wsw.summercloud.archive.mapstruct.IArchiveNodeConverter;
@@ -26,5 +27,11 @@ public class ArchiveNodeServiceImpl implements ArchiveNodeService {
     public List<ArchiveNodeResponseDto> getAllArchiveNodes() {
         List<ArchiveNodeEntity> archiveNodeEntities = archiveNodeRepository.getAllArchiveNodes();
         return IArchiveNodeConverter.INSTANCE.entityToResponseDto(archiveNodeEntities);
+    }
+
+    @Override
+    public void insertArchiveNodes(List<ArchiveNodeRequestDto> requestDtos) {
+        List<ArchiveNodeEntity> archiveNodeEntities = IArchiveNodeConverter.INSTANCE.requestDtoToEntity(requestDtos);
+        archiveNodeRepository.saveAll(archiveNodeEntities);
     }
 }

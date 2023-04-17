@@ -21,7 +21,7 @@ public interface IResourceInfoConverter {
 
     List<ResourceInfoEntity> resourceMsgToResourceInfoEntity(List<ResourceMsg> resourceMsgs);
 
-    ResourceInfoResponseDto resourceInfoEntityToResourceInfoResponseDto(ResourceInfoEntity resourceInfoEntity);
+    ResourceInfoResponseDto resourceInfoEntityToResourceInfoResponseDto(ResourceInfoEntity entity);
 
-    List<ResourceInfoResponseDto> resourceInfoEntityToResourceInfoResponseDto(List<ResourceInfoEntity> resourceInfoEntities);
+    List<ResourceInfoResponseDto> resourceInfoEntityToResourceInfoResponseDto(List<ResourceInfoEntity> entities);
 }

@@ -33,7 +33,7 @@ public class ResourceInfoServiceImpl implements ResourceInfoService {
 
     @Override
     public void updateResourceInfoArchiveStatus(List<ResourceMsg> resourceMsgs) {
-        resourceInfoRepository.updateResourceInfoArchiveStatus(resourceMsgs);
+        //resourceInfoRepository.updateResourceInfoArchiveStatus(resourceMsgs);
 //        lambdaUpdate().in(ResourceInfoEntity::getResourceId, resourceMsgs.stream().map(ResourceMsg::getResourceId).toArray())
 //                .set(ResourceInfoEntity::getArchiveStatus, 1).update();
     }
