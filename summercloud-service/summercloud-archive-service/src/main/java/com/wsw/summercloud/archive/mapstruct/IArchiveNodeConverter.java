@@ -1,5 +1,6 @@
 package com.wsw.summercloud.archive.mapstruct;
 
+import com.wsw.summercloud.api.dto.ArchiveNodeRequestDto;
 import com.wsw.summercloud.api.dto.ArchiveNodeResponseDto;
 import com.wsw.summercloud.archive.entities.ArchiveNodeEntity;
 import org.mapstruct.Mapper;
@@ -16,7 +17,11 @@ import java.util.List;
 public interface IArchiveNodeConverter {
     IArchiveNodeConverter INSTANCE = Mappers.getMapper(IArchiveNodeConverter.class);
 
-    ArchiveNodeResponseDto entityToResponseDto(ArchiveNodeEntity archiveNodeEntity);
+    ArchiveNodeResponseDto entityToResponseDto(ArchiveNodeEntity entity);
 
-    List<ArchiveNodeResponseDto> entityToResponseDto(List<ArchiveNodeEntity> archiveNodeEntities);
+    List<ArchiveNodeResponseDto> entityToResponseDto(List<ArchiveNodeEntity> entities);
+
+    ArchiveNodeEntity requestDtoToEntity(ArchiveNodeRequestDto requestDto);
+
+    List<ArchiveNodeEntity> requestDtoToEntity(List<ArchiveNodeRequestDto> requestDtos);
 }

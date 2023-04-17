@@ -6,9 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -24,6 +22,7 @@ import java.util.Date;
 @ApiModel(value = "资源信息实体类")
 public class ResourceInfoEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @ApiModelProperty(value = "资源id")
     private Long resourceId;
 

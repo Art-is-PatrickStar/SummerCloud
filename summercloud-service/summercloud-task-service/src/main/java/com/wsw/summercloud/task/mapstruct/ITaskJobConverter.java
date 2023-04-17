@@ -21,9 +21,9 @@ import java.util.List;
 public interface ITaskJobConverter {
     ITaskJobConverter INSTANCE = Mappers.getMapper(ITaskJobConverter.class);
 
-    TaskJobEntity taskJobRequestDtoToTaskJobEntity(TaskJobRequestDto taskJobRequestDto);
+    TaskJobEntity taskJobRequestDtoToTaskJobEntity(TaskJobRequestDto requestDto);
 
-    List<TaskJobEntity> taskJobRequestDtoToTaskJobEntity(List<TaskJobRequestDto> taskJobRequestDtos);
+    List<TaskJobEntity> taskJobRequestDtoToTaskJobEntity(List<TaskJobRequestDto> requestDtos);
 
     @Mappings({
             @Mapping(target = "resourceId", source = "resourceId"),
@@ -34,14 +34,14 @@ public interface ITaskJobConverter {
 
     List<TaskJobEntity> resourceMsgToTaskJobEntity(List<ResourceMsg> resourceMsgs);
 
-    TaskJobResponseDto taskJobEntityToTaskJobResponseDto(TaskJobEntity taskJobEntity);
+    TaskJobResponseDto taskJobEntityToTaskJobResponseDto(TaskJobEntity entity);
 
-    List<TaskJobResponseDto> taskJobEntityToTaskJobResponseDto(List<TaskJobEntity> taskJobEntities);
+    List<TaskJobResponseDto> taskJobEntityToTaskJobResponseDto(List<TaskJobEntity> entities);
 
     @Mappings({
             @Mapping(target = "recordId", source = "jobId")
     })
-    TaskJobRecordRequestDto taskJobEntityToTaskJobRecordrequestDto(TaskJobEntity taskJobEntity);
+    TaskJobRecordRequestDto taskJobEntityToTaskJobRecordrequestDto(TaskJobEntity entity);
 
-    List<TaskJobRecordRequestDto> taskJobEntityToTaskJobRecordrequestDto(List<TaskJobEntity> taskJobEntities);
+    List<TaskJobRecordRequestDto> taskJobEntityToTaskJobRecordrequestDto(List<TaskJobEntity> entities);
 }

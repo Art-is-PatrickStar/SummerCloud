@@ -14,7 +14,7 @@ CREATE TABLE `resource_info`
 CREATE TABLE `archive_node`
 (
     `archive_id`   bigint NOT NULL COMMENT '归档id',
-    `archive_rule` varchar(2000) DEFAULT '' COMMENT '归档队则',
+    `archive_rule` varchar(2000) DEFAULT '' COMMENT '归档规则',
     `enable`       int           DEFAULT '0' COMMENT '是否启用 1:是 0:否',
     `is_delete`    int           DEFAULT '0' COMMENT '是否删除 1:是 0:否',
     `created_time` datetime(3) DEFAULT CURRENT_TIMESTAMP (3) COMMENT '归档节点创建时间',
