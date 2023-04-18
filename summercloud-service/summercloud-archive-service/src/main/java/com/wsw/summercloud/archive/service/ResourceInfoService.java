@@ -4,6 +4,7 @@ import com.wsw.summercloud.api.basic.PageInfo;
 import com.wsw.summercloud.api.dto.ResourceInfoQueryDto;
 import com.wsw.summercloud.api.dto.ResourceInfoResponseDto;
 import com.wsw.summercloud.api.msg.ResourceMsg;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -35,5 +36,5 @@ public interface ResourceInfoService {
      * @param queryDto
      * @return PageInfo<ResourceInfoResponseDto>
      */
-    PageInfo<ResourceInfoResponseDto> selectResourceInfos(ResourceInfoQueryDto queryDto);
+    Page<ResourceInfoResponseDto> selectResourceInfos(ResourceInfoQueryDto queryDto);
 }
