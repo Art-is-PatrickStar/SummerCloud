@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Description:
@@ -33,9 +34,8 @@ public class ResourceInfoServiceImpl implements ResourceInfoService {
 
     @Override
     public void updateResourceInfoArchiveStatus(List<ResourceMsg> resourceMsgs) {
-        //resourceInfoRepository.updateResourceInfoArchiveStatus(resourceMsgs);
-//        lambdaUpdate().in(ResourceInfoEntity::getResourceId, resourceMsgs.stream().map(ResourceMsg::getResourceId).toArray())
-//                .set(ResourceInfoEntity::getArchiveStatus, 1).update();
+        List<Long> resourceIds = resourceMsgs.stream().map(ResourceMsg::getResourceId).collect(Collectors.toList());
+        resourceInfoRepository.updateResourceInfoArchiveStatus(resourceIds);
     }
 
     @Override

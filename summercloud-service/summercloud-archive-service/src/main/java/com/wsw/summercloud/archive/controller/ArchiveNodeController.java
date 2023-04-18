@@ -6,6 +6,7 @@ import com.wsw.summercloud.api.dto.ArchiveNodeResponseDto;
 import com.wsw.summercloud.archive.client.TaskClient;
 import com.wsw.summercloud.archive.service.ArchiveNodeService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +44,7 @@ public class ArchiveNodeController {
         return Result.success(msgFromTask);
     }
 
+    @ApiOperation("获取所有归档节点")
     @GetMapping("/getAllArchiveNodes")
     public Result<List<ArchiveNodeResponseDto>> getAllArchiveNodes() {
         Result<List<ArchiveNodeResponseDto>> result = Result.success();
@@ -50,6 +52,7 @@ public class ArchiveNodeController {
         return result;
     }
 
+    @ApiOperation("批量增加归档节点")
     @PostMapping("/insertArchiveNodes")
     public Result<Void> insertArchiveNodes(@RequestBody List<ArchiveNodeRequestDto> requestDtos) {
         Result<Void> result = Result.success();

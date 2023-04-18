@@ -46,9 +46,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(value = Exception.class)
     public Result<String> exceptionHandler(Exception e) {
-        Result<String> result = Result.fail(ResultStatusEnums.SYSTEM_EXCEPTION);
         log.error("全局异常 - exceptionHandler: ", e);
-        result.setData(ResultStatusEnums.SYSTEM_EXCEPTION.getMsg() + ": " + e.getMessage());
-        return result;
+        return Result.fail(ResultStatusEnums.SYSTEM_EXCEPTION, ResultStatusEnums.SYSTEM_EXCEPTION.getMsg() + ": " + e.getMessage());
     }
 }
