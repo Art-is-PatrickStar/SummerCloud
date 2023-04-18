@@ -6,7 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
@@ -22,7 +25,6 @@ import java.util.Date;
 @ApiModel(value = "归档节点实体类")
 public class ArchiveNodeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @ApiModelProperty(value = "归档id")
     private Long archiveId;
 
@@ -42,7 +44,7 @@ public class ArchiveNodeEntity {
     @ApiModelProperty(value = "归档节点创建时间")
     private Date createdTime;
 
-    @Column(name = "updated_time", insertable = false)
+    @Column(name = "updated_time", insertable = false, updatable = false)
     @ApiModelProperty(value = "归档节点修改时间")
     private Date updatedTime;
 }

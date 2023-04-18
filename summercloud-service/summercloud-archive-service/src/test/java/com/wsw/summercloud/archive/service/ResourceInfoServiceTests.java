@@ -35,4 +35,13 @@ public class ResourceInfoServiceTests {
         resourceMsgs.add(resourceMsg);
         resourceInfoService.saveOrUpdateResourceInfos(resourceMsgs);
     }
+
+    @Test
+    void testUpdate() {
+        List<ResourceMsg> resourceMsgs = new ArrayList<>();
+        ResourceMsg resourceMsg = new ResourceMsg();
+        resourceMsg.setResourceId(1L);
+        resourceMsgs.add(resourceMsg);
+        resourceInfoService.updateResourceInfoArchiveStatus(resourceMsgs);
+    }
 }
