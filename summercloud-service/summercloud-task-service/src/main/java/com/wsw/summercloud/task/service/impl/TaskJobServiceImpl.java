@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wsw.summercloud.api.basic.PageInfo;
 import com.wsw.summercloud.api.dto.TaskJobQueryDto;
 import com.wsw.summercloud.api.dto.TaskJobRecordRequestDto;
+import com.wsw.summercloud.api.dto.TaskJobRequestDto;
 import com.wsw.summercloud.api.dto.TaskJobResponseDto;
-import com.wsw.summercloud.api.msg.ResourceMsg;
 import com.wsw.summercloud.task.entities.TaskJobEntity;
 import com.wsw.summercloud.task.mapper.TaskJobMapper;
 import com.wsw.summercloud.task.mapstruct.ITaskJobConverter;
@@ -33,8 +33,8 @@ public class TaskJobServiceImpl extends ServiceImpl<TaskJobMapper, TaskJobEntity
 
     @Override
     @Transactional
-    public void createTasks(List<ResourceMsg> resourceMsgs) {
-        List<TaskJobEntity> taskJobEntities = ITaskJobConverter.INSTANCE.resourceMsgToTaskJobEntity(resourceMsgs);
+    public void createTasks(List<TaskJobRequestDto> requestDtos) {
+        List<TaskJobEntity> taskJobEntities = ITaskJobConverter.INSTANCE.requestDtoToEntity(requestDtos);
         baseMapper.insertTaskJobs(taskJobEntities);
         List<TaskJobRecordRequestDto> taskJobRecordRequestDtos = ITaskJobConverter.INSTANCE.taskJobEntityToTaskJobRecordrequestDto(taskJobEntities);
         taskJobRecordService.createTaskJobRecords(taskJobRecordRequestDtos);
@@ -43,7 +43,7 @@ public class TaskJobServiceImpl extends ServiceImpl<TaskJobMapper, TaskJobEntity
     @Override
     public PageInfo<TaskJobResponseDto> selectTaskJobs(TaskJobQueryDto queryDto) {
         IPage<TaskJobEntity> taskJobEntityIPage = baseMapper.selectTaskJobs(new Page<>(queryDto.getCurrentPage(), queryDto.getPageSize()), queryDto);
-        List<TaskJobResponseDto> taskJobResponseDtos = ITaskJobConverter.INSTANCE.taskJobEntityToTaskJobResponseDto(taskJobEntityIPage.getRecords());
+        List<TaskJobResponseDto> taskJobResponseDtos = ITaskJobConverter.INSTANCE.entityToResponseDto(taskJobEntityIPage.getRecords());
         return new PageInfo<>(taskJobEntityIPage.getCurrent(), taskJobEntityIPage.getSize(), taskJobEntityIPage.getTotal(), taskJobResponseDtos);
     }
 }

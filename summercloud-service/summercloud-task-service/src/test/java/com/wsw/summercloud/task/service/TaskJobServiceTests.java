@@ -4,8 +4,8 @@ import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.wsw.summercloud.api.basic.PageInfo;
 import com.wsw.summercloud.api.dto.TaskJobQueryDto;
+import com.wsw.summercloud.api.dto.TaskJobRequestDto;
 import com.wsw.summercloud.api.dto.TaskJobResponseDto;
-import com.wsw.summercloud.api.msg.ResourceMsg;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,14 +25,16 @@ public class TaskJobServiceTests {
 
     @Test
     void testInsert() {
-        List<ResourceMsg> resourceMsgs = new ArrayList<>();
-        ResourceMsg resourceMsg1 = new ResourceMsg();
-        resourceMsg1.setResourceId(12L);
-        resourceMsgs.add(resourceMsg1);
-        ResourceMsg resourceMsg2 = new ResourceMsg();
-        resourceMsg2.setResourceId(13L);
-        resourceMsgs.add(resourceMsg2);
-        taskJobService.createTasks(resourceMsgs);
+        List<TaskJobRequestDto> requestDtos = new ArrayList<>();
+        TaskJobRequestDto requestDto1 = new TaskJobRequestDto();
+        requestDto1.setResourceId(1L);
+        requestDto1.setArchiveId(2L);
+        requestDtos.add(requestDto1);
+        TaskJobRequestDto requestDto2 = new TaskJobRequestDto();
+        requestDto2.setResourceId(2L);
+        requestDto2.setArchiveId(2L);
+        requestDtos.add(requestDto2);
+        taskJobService.createTasks(requestDtos);
     }
 
     @Test

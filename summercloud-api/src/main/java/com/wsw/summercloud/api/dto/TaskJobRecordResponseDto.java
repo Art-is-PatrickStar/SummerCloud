@@ -22,9 +22,6 @@ public class TaskJobRecordResponseDto implements Serializable {
     @ApiModelProperty(value = "任务id")
     private Long jobId;
 
-    @ApiModelProperty(value = "资源id")
-    private Long resourceId;
-
     @ApiModelProperty(value = "任务状态 1:待处理 2:处理中 3:处理完成 4:不处理")
     private Integer jobStatus;
 

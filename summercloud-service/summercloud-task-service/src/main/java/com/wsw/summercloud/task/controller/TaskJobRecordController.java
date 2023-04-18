@@ -28,7 +28,7 @@ public class TaskJobRecordController {
     @Resource
     private TaskJobRecordService taskJobRecordService;
 
-    @ApiOperation("查询任务记录")
+    @ApiOperation("分页查询任务记录")
     @PostMapping("/selectTaskRecords")
     public Result<PageInfo<TaskJobRecordResponseDto>> selectTaskRecords(@RequestBody TaskJobRecordQueryDto queryDto) {
         Result<PageInfo<TaskJobRecordResponseDto>> result = Result.success();

@@ -58,7 +58,6 @@ CREATE TABLE `task_job_record_20230401`
 (
     `record_id`    bigint NOT NULL COMMENT '任务记录id',
     `job_id`       bigint NOT NULL COMMENT '任务id',
-    `resource_id`  bigint NOT NULL COMMENT '资源id',
     `job_status`   int     DEFAULT '1' COMMENT '任务状态 1:待处理 2:处理中 3:处理完成 4:不处理',
     `is_delete`    tinyint DEFAULT '0' COMMENT '是否逻辑删除 0:否 1:是',
     `created_time` datetime(3) DEFAULT CURRENT_TIMESTAMP (3) COMMENT '任务记录创建时间',
@@ -72,7 +71,6 @@ CREATE TABLE `task_job_record_20230501`
 (
     `record_id`    bigint NOT NULL COMMENT '任务记录id',
     `job_id`       bigint NOT NULL COMMENT '任务id',
-    `resource_id`  bigint NOT NULL COMMENT '资源id',
     `job_status`   int     DEFAULT '1' COMMENT '任务状态 1:待处理 2:处理中 3:处理完成 4:不处理',
     `is_delete`    tinyint DEFAULT '0' COMMENT '是否逻辑删除 0:否 1:是',
     `created_time` datetime(3) DEFAULT CURRENT_TIMESTAMP (3) COMMENT '任务记录创建时间',

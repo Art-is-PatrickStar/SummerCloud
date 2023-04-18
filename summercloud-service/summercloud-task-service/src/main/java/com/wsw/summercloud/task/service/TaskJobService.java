@@ -2,8 +2,8 @@ package com.wsw.summercloud.task.service;
 
 import com.wsw.summercloud.api.basic.PageInfo;
 import com.wsw.summercloud.api.dto.TaskJobQueryDto;
+import com.wsw.summercloud.api.dto.TaskJobRequestDto;
 import com.wsw.summercloud.api.dto.TaskJobResponseDto;
-import com.wsw.summercloud.api.msg.ResourceMsg;
 
 import java.util.List;
 
@@ -16,10 +16,10 @@ public interface TaskJobService {
     /**
      * 批量创建任务
      *
-     * @param resourceMsgs
+     * @param requestDtos
      * @return void
      */
-    void createTasks(List<ResourceMsg> resourceMsgs);
+    void createTasks(List<TaskJobRequestDto> requestDtos);
 
     /**
      * 分页查询任务

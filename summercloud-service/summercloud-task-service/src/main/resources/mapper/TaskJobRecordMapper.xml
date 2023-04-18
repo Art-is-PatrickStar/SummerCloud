@@ -4,7 +4,6 @@
     <resultMap id="BaseResultMap" type="com.wsw.summercloud.task.entities.TaskJobRecordEntity">
         <id column="record_id" jdbcType="BIGINT" property="recordId"/>
         <result column="job_id" jdbcType="BIGINT" property="jobId"/>
-        <result column="resource_id" jdbcType="BIGINT" property="resourceId"/>
         <result column="job_status" jdbcType="INTEGER" property="jobStatus"/>
         <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
         <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
@@ -13,7 +12,6 @@
     <sql id="Base_Column_List">
         record_id,
         job_id,
-        resource_id,
         job_status,
         is_delete,
         created_time,
@@ -21,10 +19,10 @@
     </sql>
 
     <insert id="insertTaskJobRecords" parameterType="java.util.List">
-        insert into task_job_record(record_id, job_id, resource_id, job_status, is_delete, created_time, updated_time)
+        insert into task_job_record(record_id, job_id, job_status, is_delete, created_time, updated_time)
         values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.recordId}, #{item.jobId}, #{item.resourceId}, #{item.jobStatus}, 0, NOW(), NOW())
+            (#{item.recordId}, #{item.jobId}, #{item.jobStatus}, 0, NOW(), NOW())
         </foreach>
     </insert>
 
@@ -38,9 +36,6 @@
             </if>
             <if test="query.jobId != null">
                 and job_id = #{query.jobId,jdbcType=BIGINT}
-            </if>
-            <if test="query.resourceId != null">
-                and resource_id = #{query.resourceId,jdbcType=BIGINT}
             </if>
             <if test="query.jobStatus != null">
                 and job_status = #{query.jobStatus,jdbcType=INTEGER}

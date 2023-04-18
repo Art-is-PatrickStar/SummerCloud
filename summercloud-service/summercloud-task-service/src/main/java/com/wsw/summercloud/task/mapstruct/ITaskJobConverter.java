@@ -3,7 +3,6 @@ package com.wsw.summercloud.task.mapstruct;
 import com.wsw.summercloud.api.dto.TaskJobRecordRequestDto;
 import com.wsw.summercloud.api.dto.TaskJobRequestDto;
 import com.wsw.summercloud.api.dto.TaskJobResponseDto;
-import com.wsw.summercloud.api.msg.ResourceMsg;
 import com.wsw.summercloud.task.entities.TaskJobEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,22 +20,16 @@ import java.util.List;
 public interface ITaskJobConverter {
     ITaskJobConverter INSTANCE = Mappers.getMapper(ITaskJobConverter.class);
 
-    TaskJobEntity taskJobRequestDtoToTaskJobEntity(TaskJobRequestDto requestDto);
-
-    List<TaskJobEntity> taskJobRequestDtoToTaskJobEntity(List<TaskJobRequestDto> requestDtos);
-
     @Mappings({
-            @Mapping(target = "resourceId", source = "resourceId"),
-            @Mapping(target = "jobId", source = "resourceId"),
-            @Mapping(target = "jobStatus", constant = "1")
+            @Mapping(target = "jobId", source = "resourceId")
     })
-    TaskJobEntity resourceMsgToTaskJobEntity(ResourceMsg resourceMsg);
+    TaskJobEntity requestDtoToEntity(TaskJobRequestDto requestDto);
 
-    List<TaskJobEntity> resourceMsgToTaskJobEntity(List<ResourceMsg> resourceMsgs);
+    List<TaskJobEntity> requestDtoToEntity(List<TaskJobRequestDto> requestDtos);
 
-    TaskJobResponseDto taskJobEntityToTaskJobResponseDto(TaskJobEntity entity);
+    TaskJobResponseDto entityToResponseDto(TaskJobEntity entity);
 
-    List<TaskJobResponseDto> taskJobEntityToTaskJobResponseDto(List<TaskJobEntity> entities);
+    List<TaskJobResponseDto> entityToResponseDto(List<TaskJobEntity> entities);
 
     @Mappings({
             @Mapping(target = "recordId", source = "jobId")

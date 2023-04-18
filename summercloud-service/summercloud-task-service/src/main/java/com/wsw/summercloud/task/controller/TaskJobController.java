@@ -3,8 +3,8 @@ package com.wsw.summercloud.task.controller;
 import com.wsw.summercloud.api.basic.PageInfo;
 import com.wsw.summercloud.api.basic.Result;
 import com.wsw.summercloud.api.dto.TaskJobQueryDto;
+import com.wsw.summercloud.api.dto.TaskJobRequestDto;
 import com.wsw.summercloud.api.dto.TaskJobResponseDto;
-import com.wsw.summercloud.api.msg.ResourceMsg;
 import com.wsw.summercloud.task.service.TaskJobService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,21 +30,21 @@ public class TaskJobController {
     private TaskJobService taskJobService;
 
     @GetMapping("/hello")
-    public Result<String> sayHello() {
+    public String sayHello() {
         String msgFromTask = "hello from task service.";
         log.info(msgFromTask);
-        return Result.success(msgFromTask);
+        return msgFromTask;
     }
 
     @ApiOperation("批量增加任务")
     @PostMapping("/createTasks")
-    public Result<Void> createTasks(@RequestBody List<ResourceMsg> resourceMsgs) {
+    public Result<Void> createTasks(@RequestBody List<TaskJobRequestDto> requestDtos) {
         Result<Void> result = Result.success();
-        taskJobService.createTasks(resourceMsgs);
+        taskJobService.createTasks(requestDtos);
         return result;
     }
 
-    @ApiOperation("查询任务")
+    @ApiOperation("分页查询任务")
     @PostMapping("/selectTasks")
     public Result<PageInfo<TaskJobResponseDto>> selectTask(@RequestBody TaskJobQueryDto queryDto) {
         Result<PageInfo<TaskJobResponseDto>> result = Result.success();
