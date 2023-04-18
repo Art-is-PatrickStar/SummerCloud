@@ -31,17 +31,17 @@ public class ArchiveNodeController {
     private ArchiveNodeService archiveNodeService;
 
     @GetMapping("/hello")
-    public Result<String> sayHello() {
+    public String sayHello() {
         String msgFromArchive = "hello from archive service.";
         log.info(msgFromArchive);
-        return Result.success(msgFromArchive);
+        return msgFromArchive;
     }
 
     @GetMapping("/getHelloFromTaskService")
-    public Result<String> getHelloFromTaskService() {
+    public String getHelloFromTaskService() {
         String msgFromTask = taskClient.sayHello();
         log.info(msgFromTask);
-        return Result.success(msgFromTask);
+        return msgFromTask;
     }
 
     @ApiOperation("获取所有归档节点")

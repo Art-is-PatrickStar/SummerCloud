@@ -1,6 +1,5 @@
 package com.wsw.summercloud.archive.controller;
 
-import com.wsw.summercloud.api.basic.PageInfo;
 import com.wsw.summercloud.api.basic.Result;
 import com.wsw.summercloud.api.dto.ResourceInfoQueryDto;
 import com.wsw.summercloud.api.dto.ResourceInfoResponseDto;
@@ -39,7 +38,7 @@ public class ResourceInfoController {
         return result;
     }
 
-    @ApiOperation("查询资源")
+    @ApiOperation("分页查询资源")
     @PostMapping("/selectResourceInfos")
     public Result<Page<ResourceInfoResponseDto>> selectResourceInfos(@RequestBody ResourceInfoQueryDto queryDto) {
         Result<Page<ResourceInfoResponseDto>> result = Result.success();

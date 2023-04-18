@@ -1,6 +1,5 @@
 package com.wsw.summercloud.archive.service;
 
-import com.wsw.summercloud.api.basic.PageInfo;
 import com.wsw.summercloud.api.dto.ResourceInfoQueryDto;
 import com.wsw.summercloud.api.dto.ResourceInfoResponseDto;
 import com.wsw.summercloud.api.msg.ResourceMsg;

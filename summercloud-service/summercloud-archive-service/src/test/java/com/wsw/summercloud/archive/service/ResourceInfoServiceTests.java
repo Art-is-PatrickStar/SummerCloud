@@ -39,9 +39,12 @@ public class ResourceInfoServiceTests {
     @Test
     void testUpdate() {
         List<ResourceMsg> resourceMsgs = new ArrayList<>();
-        ResourceMsg resourceMsg = new ResourceMsg();
-        resourceMsg.setResourceId(1L);
-        resourceMsgs.add(resourceMsg);
+        ResourceMsg resourceMsg1 = new ResourceMsg();
+        resourceMsg1.setResourceId(3L);
+        resourceMsgs.add(resourceMsg1);
+        ResourceMsg resourceMsg2 = new ResourceMsg();
+        resourceMsg2.setResourceId(4L);
+        resourceMsgs.add(resourceMsg2);
         resourceInfoService.updateResourceInfoArchiveStatus(resourceMsgs);
     }
 }
