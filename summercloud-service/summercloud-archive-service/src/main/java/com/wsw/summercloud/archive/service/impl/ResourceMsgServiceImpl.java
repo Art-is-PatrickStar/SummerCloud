@@ -1,8 +1,10 @@
 package com.wsw.summercloud.archive.service.impl;
 
 import com.wsw.summercloud.api.dto.ArchiveNodeResponseDto;
+import com.wsw.summercloud.api.dto.TaskJobRequestDto;
 import com.wsw.summercloud.api.msg.ResourceMsg;
 import com.wsw.summercloud.archive.client.TaskClient;
+import com.wsw.summercloud.archive.mapstruct.IResourceInfoConverter;
 import com.wsw.summercloud.archive.service.ArchiveNodeService;
 import com.wsw.summercloud.archive.service.ResourceInfoService;
 import com.wsw.summercloud.archive.service.ResourceMsgService;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 /**
  * @Description:
@@ -47,22 +50,25 @@ public class ResourceMsgServiceImpl implements ResourceMsgService {
 
     private void doArchive(List<ResourceMsg> resourceMsgs) {
         try {
-            taskClient.createTask(resourceMsgs);
+            Map<Long, List<TaskJobRequestDto>> archivedResource = getArchivedResource(resourceMsgs);
+            archivedResource.values().forEach(taskClient::createTask);
         } catch (Exception e) {
             throw new RuntimeException("归档创建任务失败: " + e);
         }
         resourceInfoService.updateResourceInfoArchiveStatus(resourceMsgs);
     }
 
-    private Map<Long, List<ResourceMsg>> getArchivedResource(List<ResourceMsg> resourceMsgs) {
-        Map<Long, List<ResourceMsg>> archivedResourcesMap = new HashMap<>();
-        List<ArchiveNodeResponseDto> archiveNodes = archiveNodeService.getAllArchiveNodes();
+    private Map<Long, List<TaskJobRequestDto>> getArchivedResource(List<ResourceMsg> resourceMsgs) {
+        Map<Long, List<TaskJobRequestDto>> archivedResourcesMap = new HashMap<>();
+        List<TaskJobRequestDto> requestDtos = IResourceInfoConverter.INSTANCE.resourceMsgToTaskJobRequestDto(resourceMsgs);
+        List<ArchiveNodeResponseDto> archiveNodes = archiveNodeService.getAllArchiveNodes().stream().filter(t -> t.getEnable() == 1).collect(Collectors.toList());
         for (ArchiveNodeResponseDto archiveNode : archiveNodes) {
-            List<ResourceMsg> archivedResources = new ArrayList<>();
+            List<TaskJobRequestDto> archivedResources = new ArrayList<>();
             String archiveRule = archiveNode.getArchiveRule();
-            for (ResourceMsg resourceMsg : resourceMsgs) {
+            for (TaskJobRequestDto requestDto : requestDtos) {
                 //TODO: 根据归档规则获取命中的资源
-                archivedResources.add(resourceMsg);
+                requestDto.setArchiveId(archiveNode.getArchiveId());
+                archivedResources.add(requestDto);
             }
             archivedResourcesMap.put(archiveNode.getArchiveId(), archivedResources);
         }

@@ -1,8 +1,6 @@
 package com.wsw.summercloud.task.entities;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -42,8 +40,10 @@ public class TaskJobEntity {
     private Integer isDelete;
 
     @ApiModelProperty(value = "任务创建时间")
+    @TableField(fill = FieldFill.INSERT)
     private Date createdTime;
 
     @ApiModelProperty(value = "任务修改时间")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updatedTime;
 }

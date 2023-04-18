@@ -36,7 +36,7 @@ public class ResourceInfoServiceImpl implements ResourceInfoService {
 
     @Override
     public void saveOrUpdateResourceInfos(List<ResourceMsg> resourceMsgs) {
-        List<ResourceInfoEntity> resourceInfoEntities = IResourceInfoConverter.INSTANCE.resourceMsgToResourceInfoEntity(resourceMsgs);
+        List<ResourceInfoEntity> resourceInfoEntities = IResourceInfoConverter.INSTANCE.resourceMsgToEntity(resourceMsgs);
         resourceInfoRepository.saveAll(resourceInfoEntities);
     }
 
@@ -92,6 +92,6 @@ public class ResourceInfoServiceImpl implements ResourceInfoService {
         //查询
         //page中 content为查询结果 totalElements为总条数 totalPages为总页数 number为当前页码 size为每页条数
         Page<ResourceInfoEntity> resourceInfoEntities = resourceInfoRepository.findAll(specification, pageRequest);
-        return resourceInfoEntities.map(IResourceInfoConverter.INSTANCE::resourceInfoEntityToResourceInfoResponseDto);
+        return resourceInfoEntities.map(IResourceInfoConverter.INSTANCE::entityToResponseDto);
     }
 }

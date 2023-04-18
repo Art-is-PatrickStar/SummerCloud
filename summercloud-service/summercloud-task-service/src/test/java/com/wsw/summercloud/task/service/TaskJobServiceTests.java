@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,11 +29,11 @@ public class TaskJobServiceTests {
         List<TaskJobRequestDto> requestDtos = new ArrayList<>();
         TaskJobRequestDto requestDto1 = new TaskJobRequestDto();
         requestDto1.setResourceId(1L);
-        requestDto1.setArchiveId(2L);
+        requestDto1.setArchiveId(1L);
         requestDtos.add(requestDto1);
         TaskJobRequestDto requestDto2 = new TaskJobRequestDto();
         requestDto2.setResourceId(2L);
-        requestDto2.setArchiveId(2L);
+        requestDto2.setArchiveId(1L);
         requestDtos.add(requestDto2);
         taskJobService.createTasks(requestDtos);
     }

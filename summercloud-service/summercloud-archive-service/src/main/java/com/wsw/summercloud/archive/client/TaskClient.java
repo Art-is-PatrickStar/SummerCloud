@@ -1,6 +1,6 @@
 package com.wsw.summercloud.archive.client;
 
-import com.wsw.summercloud.api.msg.ResourceMsg;
+import com.wsw.summercloud.api.dto.TaskJobRequestDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -24,7 +24,7 @@ public class TaskClient {
         return archiveRestTemplate.getForObject(taskServiceUrl + "/task/hello", String.class);
     }
 
-    public void createTask(List<ResourceMsg> resourceMsgs) {
-        archiveRestTemplate.postForObject(taskServiceUrl + "/task/createTask", resourceMsgs, String.class);
+    public void createTask(List<TaskJobRequestDto> requestDtos) {
+        archiveRestTemplate.postForObject(taskServiceUrl + "/task/createTasks", requestDtos, String.class);
     }
 }

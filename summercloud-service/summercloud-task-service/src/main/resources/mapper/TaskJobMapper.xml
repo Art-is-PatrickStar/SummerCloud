@@ -24,10 +24,10 @@
     </sql>
 
     <insert id="insertTaskJobs" parameterType="java.util.List">
-        insert into task_job(job_id, resource_id, archive_id, created_time)
+        insert into task_job(job_id, resource_id, archive_id, job_status, is_lock, is_delete, created_time, updated_time)
         values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.jobId}, #{item.resourceId}, #{item.archiveId}, NOW())
+            (#{item.jobId}, #{item.resourceId}, #{item.archiveId}, #{item.jobStatus}, #{item.isLock}, #{item.isDelete}, #{item.createdTime}, #{item.updatedTime})
         </foreach>
     </insert>
 

@@ -1,6 +1,7 @@
 package com.wsw.summercloud.archive.mapstruct;
 
 import com.wsw.summercloud.api.dto.ResourceInfoResponseDto;
+import com.wsw.summercloud.api.dto.TaskJobRequestDto;
 import com.wsw.summercloud.api.msg.ResourceMsg;
 import com.wsw.summercloud.archive.entities.ResourceInfoEntity;
 import org.mapstruct.Mapper;
@@ -23,11 +24,20 @@ public interface IResourceInfoConverter {
             @Mapping(target = "enableType", source = "enableType", defaultValue = "1"),
             @Mapping(target = "archiveStatus", constant = "0")
     })
-    ResourceInfoEntity resourceMsgToResourceInfoEntity(ResourceMsg resourceMsg);
+    ResourceInfoEntity resourceMsgToEntity(ResourceMsg resourceMsg);
 
-    List<ResourceInfoEntity> resourceMsgToResourceInfoEntity(List<ResourceMsg> resourceMsgs);
+    List<ResourceInfoEntity> resourceMsgToEntity(List<ResourceMsg> resourceMsgs);
 
-    ResourceInfoResponseDto resourceInfoEntityToResourceInfoResponseDto(ResourceInfoEntity entity);
+    ResourceInfoResponseDto entityToResponseDto(ResourceInfoEntity entity);
 
-    List<ResourceInfoResponseDto> resourceInfoEntityToResourceInfoResponseDto(List<ResourceInfoEntity> entities);
+    List<ResourceInfoResponseDto> entityToResponseDto(List<ResourceInfoEntity> entities);
+
+    @Mappings({
+            @Mapping(target = "jobStatus", constant = "1"),
+            @Mapping(target = "isLock", constant = "0"),
+            @Mapping(target = "isDelete", constant = "0")
+    })
+    TaskJobRequestDto resourceMsgToTaskJobRequestDto(ResourceMsg resourceMsg);
+
+    List<TaskJobRequestDto> resourceMsgToTaskJobRequestDto(List<ResourceMsg> resourceMsgs);
 }

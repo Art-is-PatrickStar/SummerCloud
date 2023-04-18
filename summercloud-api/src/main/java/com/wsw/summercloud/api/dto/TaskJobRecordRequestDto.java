@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @Description:
@@ -28,10 +27,4 @@ public class TaskJobRecordRequestDto implements Serializable {
 
     @ApiModelProperty(value = "是否逻辑删除 0:否 1:是")
     private Integer isDelete;
-
-    @ApiModelProperty(value = "任务记录创建时间")
-    private Date createdTime;
-
-    @ApiModelProperty(value = "任务记录修改时间")
-    private Date updatedTime;
 }

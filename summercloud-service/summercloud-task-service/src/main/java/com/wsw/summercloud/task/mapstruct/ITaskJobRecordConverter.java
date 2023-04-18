@@ -17,11 +17,11 @@ import java.util.List;
 public interface ITaskJobRecordConverter {
     ITaskJobRecordConverter INSTANCE = Mappers.getMapper(ITaskJobRecordConverter.class);
 
-    TaskJobRecordEntity taskJobRecordRequestDtoToTaskJobRecordEntity(TaskJobRecordRequestDto requestDto);
+    TaskJobRecordEntity requestDtoToEntity(TaskJobRecordRequestDto requestDto);
 
-    List<TaskJobRecordEntity> taskJobRecordRequestDtoToTaskJobRecordEntity(List<TaskJobRecordRequestDto> requestDtos);
+    List<TaskJobRecordEntity> requestDtoToEntity(List<TaskJobRecordRequestDto> requestDtos);
 
-    TaskJobRecordResponseDto taskJobRecordEntityToTaskJobRecordResponseDto(TaskJobRecordEntity entity);
+    TaskJobRecordResponseDto entityToResponseDto(TaskJobRecordEntity entity);
 
-    List<TaskJobRecordResponseDto> taskJobRecordEntityToTaskJobRecordResponseDto(List<TaskJobRecordEntity> entities);
+    List<TaskJobRecordResponseDto> entityToResponseDto(List<TaskJobRecordEntity> entities);
 }

@@ -21,7 +21,10 @@ public interface ITaskJobConverter {
     ITaskJobConverter INSTANCE = Mappers.getMapper(ITaskJobConverter.class);
 
     @Mappings({
-            @Mapping(target = "jobId", source = "resourceId")
+            @Mapping(target = "jobId", source = "resourceId"),
+            @Mapping(target = "jobStatus", source = "jobStatus", defaultValue = "1"),
+            @Mapping(target = "isLock", source = "isLock", defaultValue = "0"),
+            @Mapping(target = "isDelete", source = "isDelete", defaultValue = "0")
     })
     TaskJobEntity requestDtoToEntity(TaskJobRequestDto requestDto);
 

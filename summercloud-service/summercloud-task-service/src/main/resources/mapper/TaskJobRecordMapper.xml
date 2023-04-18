@@ -22,7 +22,7 @@
         insert into task_job_record(record_id, job_id, job_status, is_delete, created_time, updated_time)
         values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.recordId}, #{item.jobId}, #{item.jobStatus}, 0, NOW(), NOW())
+            (#{item.recordId}, #{item.jobId}, #{item.jobStatus}, #{item.isDelete}, #{item.createdTime}, #{item.updatedTime})
         </foreach>
     </insert>
 
