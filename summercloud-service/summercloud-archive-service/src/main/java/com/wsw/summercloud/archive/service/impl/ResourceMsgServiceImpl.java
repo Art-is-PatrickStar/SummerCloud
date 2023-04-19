@@ -1,6 +1,7 @@
 package com.wsw.summercloud.archive.service.impl;
 
 import com.wsw.summercloud.api.dto.ArchiveNodeResponseDto;
+import com.wsw.summercloud.api.dto.ResourceInfoRequestDto;
 import com.wsw.summercloud.api.dto.TaskJobRequestDto;
 import com.wsw.summercloud.api.msg.ResourceMsg;
 import com.wsw.summercloud.archive.client.TaskClient;
@@ -39,28 +40,31 @@ public class ResourceMsgServiceImpl implements ResourceMsgService {
 
     @Override
     public void realTimeResourceHandle(List<ResourceMsg> resourceMsgs) {
-        resourceInfoService.saveOrUpdateResourceInfos(resourceMsgs);
-        executorService.execute(() -> doArchive(resourceMsgs));
+        List<ResourceInfoRequestDto> resourceInfoRequestDtos = IResourceInfoConverter.INSTANCE.resourceMsgToRequestDto(resourceMsgs);
+        resourceInfoService.saveOrUpdateResourceInfos(resourceInfoRequestDtos);
+        executorService.execute(() -> doArchive(resourceInfoRequestDtos));
     }
 
     @Override
     public void historyResourceHandle(List<ResourceMsg> resourceMsgs) {
-        executorService.execute(() -> doArchive(resourceMsgs));
+        List<ResourceInfoRequestDto> resourceInfoRequestDtos = IResourceInfoConverter.INSTANCE.resourceMsgToRequestDto(resourceMsgs);
+        executorService.execute(() -> doArchive(resourceInfoRequestDtos));
     }
 
-    private void doArchive(List<ResourceMsg> resourceMsgs) {
+    private void doArchive(List<ResourceInfoRequestDto> resourceInfoRequestDtos) {
         try {
-            Map<Long, List<TaskJobRequestDto>> archivedResource = getArchivedResource(resourceMsgs);
+            Map<Long, List<TaskJobRequestDto>> archivedResource = getArchivedResource(resourceInfoRequestDtos);
             archivedResource.values().forEach(taskClient::createTask);
         } catch (Exception e) {
             throw new RuntimeException("归档创建任务失败: " + e);
         }
-        resourceInfoService.updateResourceInfoArchiveStatus(resourceMsgs);
+        List<Long> resourceIds = resourceInfoRequestDtos.stream().map(ResourceInfoRequestDto::getResourceId).collect(Collectors.toList());
+        resourceInfoService.updateResourceInfoArchiveStatus(resourceIds);
     }
 
-    private Map<Long, List<TaskJobRequestDto>> getArchivedResource(List<ResourceMsg> resourceMsgs) {
+    private Map<Long, List<TaskJobRequestDto>> getArchivedResource(List<ResourceInfoRequestDto> resourceInfoRequestDtos) {
         Map<Long, List<TaskJobRequestDto>> archivedResourcesMap = new HashMap<>();
-        List<TaskJobRequestDto> requestDtos = IResourceInfoConverter.INSTANCE.resourceMsgToTaskJobRequestDto(resourceMsgs);
+        List<TaskJobRequestDto> requestDtos = IResourceInfoConverter.INSTANCE.requestDtoToTaskJobRequestDto(resourceInfoRequestDtos);
         List<ArchiveNodeResponseDto> archiveNodes = archiveNodeService.getAllArchiveNodes().stream().filter(t -> t.getEnable() == 1).collect(Collectors.toList());
         for (ArchiveNodeResponseDto archiveNode : archiveNodes) {
             List<TaskJobRequestDto> archivedResources = new ArrayList<>();

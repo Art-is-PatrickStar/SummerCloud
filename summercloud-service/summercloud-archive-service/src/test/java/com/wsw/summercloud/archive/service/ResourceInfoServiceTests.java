@@ -1,7 +1,7 @@
 package com.wsw.summercloud.archive.service;
 
 import com.alibaba.fastjson.JSON;
-import com.wsw.summercloud.api.msg.ResourceMsg;
+import com.wsw.summercloud.api.dto.ResourceInfoRequestDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -23,28 +23,29 @@ public class ResourceInfoServiceTests {
 
     @Test
     void testInsert() {
-        List<ResourceMsg> resourceMsgs = new ArrayList<>();
-        ResourceMsg resourceMsg = new ResourceMsg();
-        resourceMsg.setResourceId(2L);
+        List<ResourceInfoRequestDto> requestDtos = new ArrayList<>();
+        ResourceInfoRequestDto requestDto1 = new ResourceInfoRequestDto();
         Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put("title", "wswtest2");
-        dataMap.put("md5", "12345678910");
+        dataMap.put("title", "wswtest1");
+        dataMap.put("md5", "1234567891");
         dataMap.put("size", 101);
-        resourceMsg.setData(JSON.toJSONString(dataMap));
-        resourceMsg.setEnableType(1);
-        resourceMsgs.add(resourceMsg);
-        resourceInfoService.saveOrUpdateResourceInfos(resourceMsgs);
+        requestDto1.setData(JSON.toJSONString(dataMap));
+        requestDtos.add(requestDto1);
+        ResourceInfoRequestDto requestDto2 = new ResourceInfoRequestDto();
+        Map<String, Object> dataMap2 = new HashMap<>();
+        dataMap2.put("title", "wswtest2");
+        dataMap2.put("md5", "1234567892");
+        dataMap2.put("size", 102);
+        requestDto2.setData(JSON.toJSONString(dataMap2));
+        requestDtos.add(requestDto2);
+        resourceInfoService.saveOrUpdateResourceInfos(requestDtos);
     }
 
     @Test
     void testUpdate() {
-        List<ResourceMsg> resourceMsgs = new ArrayList<>();
-        ResourceMsg resourceMsg1 = new ResourceMsg();
-        resourceMsg1.setResourceId(3L);
-        resourceMsgs.add(resourceMsg1);
-        ResourceMsg resourceMsg2 = new ResourceMsg();
-        resourceMsg2.setResourceId(4L);
-        resourceMsgs.add(resourceMsg2);
-        resourceInfoService.updateResourceInfoArchiveStatus(resourceMsgs);
+        List<Long> resourceIds = new ArrayList<>();
+        resourceIds.add(1648606679252160512L);
+        resourceIds.add(1648606679252160513L);
+        resourceInfoService.updateResourceInfoArchiveStatus(resourceIds);
     }
 }

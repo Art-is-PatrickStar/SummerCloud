@@ -1,5 +1,6 @@
 package com.wsw.summercloud.archive.mapstruct;
 
+import com.wsw.summercloud.api.dto.ResourceInfoRequestDto;
 import com.wsw.summercloud.api.dto.ResourceInfoResponseDto;
 import com.wsw.summercloud.api.dto.TaskJobRequestDto;
 import com.wsw.summercloud.api.msg.ResourceMsg;
@@ -21,23 +22,32 @@ public interface IResourceInfoConverter {
     IResourceInfoConverter INSTANCE = Mappers.getMapper(IResourceInfoConverter.class);
 
     @Mappings({
-            @Mapping(target = "enableType", source = "enableType", defaultValue = "1"),
-            @Mapping(target = "archiveStatus", constant = "0")
+            @Mapping(target = "resourceId", source = "resourceId", defaultExpression = "java(cn.hutool.core.util.IdUtil.getSnowflake().nextId())"),
+            @Mapping(target = "enableType", source = "enableType", defaultValue = "1")
     })
-    ResourceInfoEntity resourceMsgToEntity(ResourceMsg resourceMsg);
+    ResourceInfoRequestDto resourceMsgToRequestDto(ResourceMsg resourceMsg);
 
-    List<ResourceInfoEntity> resourceMsgToEntity(List<ResourceMsg> resourceMsgs);
+    List<ResourceInfoRequestDto> resourceMsgToRequestDto(List<ResourceMsg> resourceMsgs);
 
     ResourceInfoResponseDto entityToResponseDto(ResourceInfoEntity entity);
 
     List<ResourceInfoResponseDto> entityToResponseDto(List<ResourceInfoEntity> entities);
 
     @Mappings({
+            @Mapping(target = "resourceId", source = "resourceId", defaultExpression = "java(cn.hutool.core.util.IdUtil.getSnowflake().nextId())"),
+            @Mapping(target = "enableType", source = "enableType", defaultValue = "1"),
+            @Mapping(target = "archiveStatus", constant = "0")
+    })
+    ResourceInfoEntity requestDtoToEntity(ResourceInfoRequestDto requestDto);
+
+    List<ResourceInfoEntity> requestDtoToEntity(List<ResourceInfoRequestDto> requestDtos);
+
+    @Mappings({
             @Mapping(target = "jobStatus", constant = "1"),
             @Mapping(target = "isLock", constant = "0"),
             @Mapping(target = "isDelete", constant = "0")
     })
-    TaskJobRequestDto resourceMsgToTaskJobRequestDto(ResourceMsg resourceMsg);
+    TaskJobRequestDto requestDtoToTaskJobRequestDto(ResourceInfoRequestDto requestDto);
 
-    List<TaskJobRequestDto> resourceMsgToTaskJobRequestDto(List<ResourceMsg> resourceMsgs);
+    List<TaskJobRequestDto> requestDtoToTaskJobRequestDto(List<ResourceInfoRequestDto> requestDtos);
 }

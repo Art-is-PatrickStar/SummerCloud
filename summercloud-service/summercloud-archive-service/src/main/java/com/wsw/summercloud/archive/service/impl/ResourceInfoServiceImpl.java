@@ -1,8 +1,8 @@
 package com.wsw.summercloud.archive.service.impl;
 
 import com.wsw.summercloud.api.dto.ResourceInfoQueryDto;
+import com.wsw.summercloud.api.dto.ResourceInfoRequestDto;
 import com.wsw.summercloud.api.dto.ResourceInfoResponseDto;
-import com.wsw.summercloud.api.msg.ResourceMsg;
 import com.wsw.summercloud.archive.entities.ResourceInfoEntity;
 import com.wsw.summercloud.archive.mapstruct.IResourceInfoConverter;
 import com.wsw.summercloud.archive.repository.ResourceInfoRepository;
@@ -21,7 +21,6 @@ import javax.persistence.criteria.Predicate;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @Description:
@@ -35,14 +34,13 @@ public class ResourceInfoServiceImpl implements ResourceInfoService {
     private ResourceInfoRepository resourceInfoRepository;
 
     @Override
-    public void saveOrUpdateResourceInfos(List<ResourceMsg> resourceMsgs) {
-        List<ResourceInfoEntity> resourceInfoEntities = IResourceInfoConverter.INSTANCE.resourceMsgToEntity(resourceMsgs);
+    public void saveOrUpdateResourceInfos(List<ResourceInfoRequestDto> requestDtos) {
+        List<ResourceInfoEntity> resourceInfoEntities = IResourceInfoConverter.INSTANCE.requestDtoToEntity(requestDtos);
         resourceInfoRepository.saveAll(resourceInfoEntities);
     }
 
     @Override
-    public void updateResourceInfoArchiveStatus(List<ResourceMsg> resourceMsgs) {
-        List<Long> resourceIds = resourceMsgs.stream().map(ResourceMsg::getResourceId).collect(Collectors.toList());
+    public void updateResourceInfoArchiveStatus(List<Long> resourceIds) {
         resourceInfoRepository.updateResourceInfoArchiveStatus(resourceIds);
     }
 

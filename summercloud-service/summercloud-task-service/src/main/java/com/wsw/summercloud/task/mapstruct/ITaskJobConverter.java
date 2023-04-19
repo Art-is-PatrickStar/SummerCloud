@@ -21,7 +21,7 @@ public interface ITaskJobConverter {
     ITaskJobConverter INSTANCE = Mappers.getMapper(ITaskJobConverter.class);
 
     @Mappings({
-            @Mapping(target = "jobId", source = "resourceId"),
+            @Mapping(target = "jobId", source = "jobId", defaultExpression = "java(cn.hutool.core.util.IdUtil.getSnowflake().nextId())"),
             @Mapping(target = "jobStatus", source = "jobStatus", defaultValue = "1"),
             @Mapping(target = "isLock", source = "isLock", defaultValue = "0"),
             @Mapping(target = "isDelete", source = "isDelete", defaultValue = "0")
@@ -35,7 +35,7 @@ public interface ITaskJobConverter {
     List<TaskJobResponseDto> entityToResponseDto(List<TaskJobEntity> entities);
 
     @Mappings({
-            @Mapping(target = "recordId", source = "jobId")
+            @Mapping(target = "recordId", expression = "java(cn.hutool.core.util.IdUtil.getSnowflake().nextId())")
     })
     TaskJobRecordRequestDto taskJobEntityToTaskJobRecordrequestDto(TaskJobEntity entity);
 

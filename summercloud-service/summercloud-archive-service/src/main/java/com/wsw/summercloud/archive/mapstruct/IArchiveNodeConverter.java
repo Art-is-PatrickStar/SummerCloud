@@ -24,6 +24,7 @@ public interface IArchiveNodeConverter {
     List<ArchiveNodeResponseDto> entityToResponseDto(List<ArchiveNodeEntity> entities);
 
     @Mappings({
+            @Mapping(target = "archiveId", source = "archiveId", defaultExpression = "java(cn.hutool.core.util.IdUtil.getSnowflake().nextId())"),
             @Mapping(target = "enable", source = "enable", defaultValue = "0"),
             @Mapping(target = "isDelete", source = "isDelete", defaultValue = "0")
     })

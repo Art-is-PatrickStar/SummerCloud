@@ -1,8 +1,8 @@
 package com.wsw.summercloud.archive.service;
 
 import com.wsw.summercloud.api.dto.ResourceInfoQueryDto;
+import com.wsw.summercloud.api.dto.ResourceInfoRequestDto;
 import com.wsw.summercloud.api.dto.ResourceInfoResponseDto;
-import com.wsw.summercloud.api.msg.ResourceMsg;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -16,18 +16,18 @@ public interface ResourceInfoService {
     /**
      * 保存或更新资源信息
      *
-     * @param resourceMsgs
+     * @param requestDtos
      * @return void
      */
-    void saveOrUpdateResourceInfos(List<ResourceMsg> resourceMsgs);
+    void saveOrUpdateResourceInfos(List<ResourceInfoRequestDto> requestDtos);
 
     /**
      * 更新资源信息归档状态
      *
-     * @param resourceMsgs
+     * @param resourceIds
      * @return void
      */
-    void updateResourceInfoArchiveStatus(List<ResourceMsg> resourceMsgs);
+    void updateResourceInfoArchiveStatus(List<Long> resourceIds);
 
     /**
      * 分页查询资源信息
