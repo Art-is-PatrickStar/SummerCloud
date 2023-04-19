@@ -1,9 +1,10 @@
-package com.wsw.summercloud.archive.rabbit;
+package com.wsw.summercloud.archive.rabbit.consumer;
 
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import com.wsw.summercloud.api.msg.ResourceMsg;
 import com.wsw.summercloud.archive.config.ArchiveRabbitProperties;
+import com.wsw.summercloud.archive.rabbit.convert.ResourceMsgConvert;
 import com.wsw.summercloud.archive.service.ResourceMsgService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
@@ -27,24 +28,25 @@ public class ResourceInfoRealtimeQueue {
     private ArchiveRabbitProperties archiveRabbitProperties;
     @Resource
     private ResourceMsgService resourceMsgService;
+    @Resource
+    private ObjectMapper objectMapper;
 
     @RabbitListener(queues = "#{archiveRabbitProperties.getRealtimeQueue()}", containerFactory = "consumerBatchContainerFactory")
     public void realTimeMessage(List<Message> messages, Channel channel) throws Exception {
         List<String> messageBodys = new ArrayList<>();
         try {
             messageBodys = messages.stream().map(e -> new String(e.getBody())).collect(Collectors.toList());
-            List<ResourceMsg> resourceMsgs = messageBodys.stream().map(e -> JSON.parseObject(e, ResourceMsg.class)).collect(Collectors.toList());
-            List<Long> resourceIds = resourceMsgs.stream().map(ResourceMsg::getResourceId).collect(Collectors.toList());
+            List<ResourceMsg> resourceMsgs = ResourceMsgConvert.convert(messageBodys);
             resourceMsgService.realTimeResourceHandle(resourceMsgs);
             for (Message message : messages) {
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), true);
             }
-            log.info("实时资源队列处理资源信息成功, resourceIds: " + resourceIds);
+            log.info("实时资源队列处理资源信息成功, messageBodys: " + objectMapper.writeValueAsString(messageBodys));
         } catch (Exception e) {
             for (Message message : messages) {
                 channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
             }
-            log.error("实时资源队列处理资源信息失败: " + e.getMessage() + ", messageBodys: " + messageBodys);
+            log.error("实时资源队列处理资源信息失败: " + e + ", messageBodys: " + objectMapper.writeValueAsString(messageBodys));
         }
     }
 
@@ -53,18 +55,18 @@ public class ResourceInfoRealtimeQueue {
         List<String> messageBodys = new ArrayList<>();
         try {
             messageBodys = messages.stream().map(e -> new String(e.getBody())).collect(Collectors.toList());
-            List<ResourceMsg> resourceMsgs = messageBodys.stream().map(e -> JSON.parseObject(e, ResourceMsg.class)).collect(Collectors.toList());
+            List<ResourceMsg> resourceMsgs = ResourceMsgConvert.convert(messageBodys);
             //死信队列补偿处理
             //resourceMsgService.realTimeResourceHandle(resourceMsgs);
             for (Message message : messages) {
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), true);
             }
-            log.info("实时资源死信队列处理资源信息成功, messageBodys: " + messageBodys);
+            log.info("实时资源死信队列处理资源信息成功, messageBodys: " + objectMapper.writeValueAsString(messageBodys));
         } catch (Exception e) {
             for (Message message : messages) {
                 channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
             }
-            log.error("实时资源死信队列处理资源信息失败: " + e.getMessage() + ", messageBodys: " + messageBodys);
+            log.error("实时资源死信队列处理资源信息失败: " + e + ", messageBodys: " + objectMapper.writeValueAsString(messageBodys));
         }
     }
 }

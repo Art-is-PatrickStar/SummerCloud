@@ -1,9 +1,10 @@
-package com.wsw.summercloud.archive.rabbit;
+package com.wsw.summercloud.archive.rabbit.consumer;
 
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import com.wsw.summercloud.api.msg.ResourceMsg;
 import com.wsw.summercloud.archive.config.ArchiveRabbitProperties;
+import com.wsw.summercloud.archive.rabbit.convert.ResourceMsgConvert;
 import com.wsw.summercloud.archive.service.ResourceMsgService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
@@ -27,24 +28,25 @@ public class ResourceInfoHistoryQueue {
     private ArchiveRabbitProperties archiveRabbitProperties;
     @Resource
     private ResourceMsgService resourceMsgService;
+    @Resource
+    private ObjectMapper objectMapper;
 
     @RabbitListener(queues = "#{archiveRabbitProperties.getHistoryQueue()}")
     public void historyMessage(List<Message> messages, Channel channel) throws Exception {
         List<String> messageBodys = new ArrayList<>();
         try {
             messageBodys = messages.stream().map(e -> new String(e.getBody())).collect(Collectors.toList());
-            List<ResourceMsg> resourceMsgs = messageBodys.stream().map(e -> JSON.parseObject(e, ResourceMsg.class)).collect(Collectors.toList());
-            log.info("历史资源队列接收到资源信息: " + resourceMsgs);
+            List<ResourceMsg> resourceMsgs = ResourceMsgConvert.convert(messageBodys);
             resourceMsgService.historyResourceHandle(resourceMsgs);
             for (Message message : messages) {
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), true);
             }
-            log.info("历史资源队列处理资源信息成功");
+            log.info("历史资源队列处理资源信息成功, messageBodys: " + objectMapper.writeValueAsString(messageBodys));
         } catch (Exception e) {
             for (Message message : messages) {
                 channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
             }
-            log.error("历史资源队列处理资源信息失败: " + e.getMessage() + ", messageBodys: " + messageBodys);
+            log.error("历史资源队列处理资源信息失败: " + e + ", messageBodys: " + objectMapper.writeValueAsString(messageBodys));
         }
     }
 }

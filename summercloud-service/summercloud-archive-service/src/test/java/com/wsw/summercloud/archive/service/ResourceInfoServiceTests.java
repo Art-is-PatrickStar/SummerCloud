@@ -1,6 +1,7 @@
 package com.wsw.summercloud.archive.service;
 
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wsw.summercloud.api.dto.ResourceInfoRequestDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,24 +20,26 @@ import java.util.Map;
 @SpringBootTest
 public class ResourceInfoServiceTests {
     @Resource
+    private ObjectMapper objectMapper;
+    @Resource
     private ResourceInfoService resourceInfoService;
 
     @Test
-    void testInsert() {
+    void testInsert() throws JsonProcessingException {
         List<ResourceInfoRequestDto> requestDtos = new ArrayList<>();
         ResourceInfoRequestDto requestDto1 = new ResourceInfoRequestDto();
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("title", "wswtest1");
         dataMap.put("md5", "1234567891");
         dataMap.put("size", 101);
-        requestDto1.setData(JSON.toJSONString(dataMap));
+        requestDto1.setData(objectMapper.writeValueAsString(dataMap));
         requestDtos.add(requestDto1);
         ResourceInfoRequestDto requestDto2 = new ResourceInfoRequestDto();
         Map<String, Object> dataMap2 = new HashMap<>();
         dataMap2.put("title", "wswtest2");
         dataMap2.put("md5", "1234567892");
         dataMap2.put("size", 102);
-        requestDto2.setData(JSON.toJSONString(dataMap2));
+        requestDto2.setData(objectMapper.writeValueAsString(dataMap2));
         requestDtos.add(requestDto2);
         resourceInfoService.saveOrUpdateResourceInfos(requestDtos);
     }

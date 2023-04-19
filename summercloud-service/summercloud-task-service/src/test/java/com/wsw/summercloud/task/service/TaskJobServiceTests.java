@@ -1,7 +1,8 @@
 package com.wsw.summercloud.task.service;
 
 import cn.hutool.core.date.DateUtil;
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wsw.summercloud.api.basic.PageInfo;
 import com.wsw.summercloud.api.dto.TaskJobQueryDto;
 import com.wsw.summercloud.api.dto.TaskJobRequestDto;
@@ -21,6 +22,8 @@ import java.util.List;
 @SpringBootTest
 public class TaskJobServiceTests {
     @Autowired
+    private ObjectMapper objectMapper;
+    @Autowired
     private TaskJobService taskJobService;
 
     @Test
@@ -38,13 +41,13 @@ public class TaskJobServiceTests {
     }
 
     @Test
-    void testQuery() {
+    void testQuery() throws JsonProcessingException {
         TaskJobQueryDto queryDto = new TaskJobQueryDto();
         queryDto.setCurrentPage(1);
         queryDto.setPageSize(10);
-        queryDto.setCreatedTimeBegin(DateUtil.parseDate("2023-04-01 00:00:00"));
-        queryDto.setCreatedTimeEnd(DateUtil.parseDate("2023-04-10 00:00:00"));
+        //queryDto.setCreatedTimeBegin(DateUtil.parseDate("2023-04-01 00:00:00"));
+        //queryDto.setCreatedTimeEnd(DateUtil.parseDate("2023-04-10 00:00:00"));
         PageInfo<TaskJobResponseDto> taskJobResponseDtoPageInfo = taskJobService.selectTaskJobs(queryDto);
-        System.out.println(JSON.toJSONString(taskJobResponseDtoPageInfo));
+        System.out.println(objectMapper.writeValueAsString(taskJobResponseDtoPageInfo));
     }
 }

@@ -1,10 +1,8 @@
 package com.wsw.summercloud.task.aop;
 
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONPath;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wsw.summercloud.common.annotation.OpLog;
 import com.wsw.summercloud.common.enums.ModuleTypeEnum;
 import com.wsw.summercloud.common.enums.OperationTypeEnum;
@@ -19,6 +17,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.lang.reflect.Method;
 
 /**
@@ -30,6 +29,9 @@ import java.lang.reflect.Method;
 @Aspect
 @Component
 public class OpLogAspect {
+    @Resource
+    private ObjectMapper objectMapper;
+
     @Pointcut("@annotation(com.wsw.summercloud.common.annotation.OpLog)")
     private void logPointCut() {
     }
@@ -81,7 +83,7 @@ public class OpLogAspect {
             Object paramValue = getParamValue(pjp, opLog);
             opLogDTO.setModuleId(String.valueOf(paramValue));
             if (StrUtil.isNotBlank(opLogDTO.getOperateContent())) {
-                log.info("操作日志写入成功! " + JSON.toJSONString(opLogDTO));
+                log.info("操作日志写入成功! " + objectMapper.writeValueAsString(opLogDTO));
             }
         } catch (Throwable ex) {
             log.error("操作日志写入失败! " + ex);
@@ -97,8 +99,8 @@ public class OpLogAspect {
             Object[] args = pjp.getArgs();
             if (args.length > 0) {
                 Object arg = args[0];
-                String params = JSONObject.toJSONString(arg);
-                String idString = JSONPath.read(params, opLog.typeId()).toString();
+                String params = objectMapper.writeValueAsString(arg);
+                String idString = objectMapper.readTree(params).get(opLog.typeId()).asText();
                 Long id = Long.valueOf(idString);
                 Class<IService> iServiceClass = opLog.serviceClass();
                 IService iService = SpringUtils.getBean(iServiceClass);
@@ -115,8 +117,8 @@ public class OpLogAspect {
             Object[] args = pjp.getArgs();
             if (args.length > 0) {
                 Object arg = args[0];
-                String params = JSONObject.toJSONString(arg);
-                return JSONPath.read(params, opLog.moduleId());
+                String params = objectMapper.writeValueAsString(arg);
+                return objectMapper.readTree(params).get(opLog.moduleId()).asText();
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
