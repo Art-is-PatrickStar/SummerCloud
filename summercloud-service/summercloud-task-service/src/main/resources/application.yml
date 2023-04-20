@@ -73,7 +73,7 @@ xxl:
       address:
       ip:
       port: 9999
-      logpath: /data/applogs/xxl-job/jobhandler
+      logpath: ./logs/task-service/xxl-job/jobhandler
       logretentiondays: 7
 
 management:

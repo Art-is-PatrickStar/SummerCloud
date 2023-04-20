@@ -3,6 +3,7 @@ package com.wsw.summercloud.archive.service;
 import com.wsw.summercloud.api.dto.ResourceInfoQueryDto;
 import com.wsw.summercloud.api.dto.ResourceInfoRequestDto;
 import com.wsw.summercloud.api.dto.ResourceInfoResponseDto;
+import com.wsw.summercloud.archive.entities.ResourceInfoEntity;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -36,4 +37,6 @@ public interface ResourceInfoService {
      * @return PageInfo<ResourceInfoResponseDto>
      */
     Page<ResourceInfoResponseDto> selectResourceInfos(ResourceInfoQueryDto queryDto);
+
+    List<ResourceInfoEntity> getNotArchivedResources();
 }

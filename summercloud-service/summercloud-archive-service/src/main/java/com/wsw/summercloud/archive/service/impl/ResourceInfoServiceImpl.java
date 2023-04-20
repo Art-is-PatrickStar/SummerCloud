@@ -1,5 +1,6 @@
 package com.wsw.summercloud.archive.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import com.wsw.summercloud.api.dto.ResourceInfoQueryDto;
 import com.wsw.summercloud.api.dto.ResourceInfoRequestDto;
 import com.wsw.summercloud.api.dto.ResourceInfoResponseDto;
@@ -91,5 +92,11 @@ public class ResourceInfoServiceImpl implements ResourceInfoService {
         //page中 content为查询结果 totalElements为总条数 totalPages为总页数 number为当前页码 size为每页条数
         Page<ResourceInfoEntity> resourceInfoEntities = resourceInfoRepository.findAll(specification, pageRequest);
         return resourceInfoEntities.map(IResourceInfoConverter.INSTANCE::entityToResponseDto);
+    }
+
+    @Override
+    public List<ResourceInfoEntity> getNotArchivedResources() {
+        Date createdTime = DateUtil.beginOfHour(new Date());
+        return resourceInfoRepository.getNotArchivedResources(createdTime);
     }
 }

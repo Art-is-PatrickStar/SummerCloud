@@ -76,5 +76,5 @@ xxl:
       address:
       ip:
       port: 9998
-      logpath: /data/applogs/xxl-job/jobhandler
+      logpath: ./logs/archive-service/xxl-job/jobhandler
       logretentiondays: 7

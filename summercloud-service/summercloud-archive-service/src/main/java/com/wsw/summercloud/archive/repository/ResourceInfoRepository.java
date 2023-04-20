@@ -1,5 +1,6 @@
 package com.wsw.summercloud.archive.repository;
 
+import com.wsw.summercloud.api.dto.ResourceInfoResponseDto;
 import com.wsw.summercloud.archive.entities.ResourceInfoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -9,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,4 +24,7 @@ public interface ResourceInfoRepository extends JpaRepository<ResourceInfoEntity
     @Transactional
     @Query(value = "update ResourceInfoEntity set archiveStatus = 1 where resourceId in (:resourceIds)")
     void updateResourceInfoArchiveStatus(@Param("resourceIds") List<Long> resourceIds);
+
+    @Query("from ResourceInfoEntity where enableType = 1 and archiveStatus = 0 and createdTime <= :createdTime")
+    List<ResourceInfoEntity> getNotArchivedResources(@Param("createdTime") Date createdTime);
 }
