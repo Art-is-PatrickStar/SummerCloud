@@ -4,20 +4,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>summercloud-service</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
-    <description>summercloud service.</description>
+    <version>0.0.3-SNAPSHOT</version>
+    <description>summercloud services.</description>
 
     <packaging>pom</packaging>
 
     <parent>
         <groupId>com.wsw</groupId>
         <artifactId>SummerCloud</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.3-SNAPSHOT</version>
     </parent>
 
     <modules>
         <module>summercloud-archive-service</module>
         <module>summercloud-task-service</module>
+        <module>summercloud-user-service</module>
     </modules>
 
 </project>

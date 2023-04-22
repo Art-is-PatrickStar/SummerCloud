@@ -7,9 +7,7 @@ CREATE TABLE `resource_info`
     `created_time`   datetime(3) DEFAULT CURRENT_TIMESTAMP (3) COMMENT '资源入库时间',
     `updated_time`   datetime(3) DEFAULT CURRENT_TIMESTAMP (3) ON UPDATE CURRENT_TIMESTAMP (3) COMMENT '资源修改时间',
     PRIMARY KEY (`resource_id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 CREATE TABLE `archive_node`
 (
@@ -20,9 +18,19 @@ CREATE TABLE `archive_node`
     `created_time` datetime(3) DEFAULT CURRENT_TIMESTAMP (3) COMMENT '归档节点创建时间',
     `updated_time` datetime(3) DEFAULT CURRENT_TIMESTAMP (3) ON UPDATE CURRENT_TIMESTAMP (3) COMMENT '归档节点修改时间',
     PRIMARY KEY (`archive_id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+CREATE TABLE `user_info`
+(
+    `id`           bigint NOT NULL AUTO_INCREMENT COMMENT '用户id',
+    `username`     varchar(50)  DEFAULT '' COMMENT '用户名',
+    `password`     varchar(200) DEFAULT '' COMMENT '密码',
+    `email`        varchar(50)  DEFAULT '' COMMENT '邮箱',
+    `is_delete`    int          DEFAULT '0' COMMENT '是否逻辑删除 0:否 1:是',
+    `created_time` datetime(3) DEFAULT CURRENT_TIMESTAMP (3) COMMENT '用户信息创建时间',
+    `updated_time` datetime(3) DEFAULT CURRENT_TIMESTAMP (3) ON UPDATE CURRENT_TIMESTAMP (3) COMMENT '用户信息修改时间',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `task_job_20230401`
 (
@@ -35,9 +43,7 @@ CREATE TABLE `task_job_20230401`
     `created_time` datetime(3) DEFAULT CURRENT_TIMESTAMP (3) COMMENT '任务创建时间',
     `updated_time` datetime(3) DEFAULT CURRENT_TIMESTAMP (3) ON UPDATE CURRENT_TIMESTAMP (3) COMMENT '任务修改时间',
     PRIMARY KEY (`job_id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 CREATE TABLE `task_job_20230501`
 (
@@ -50,9 +56,7 @@ CREATE TABLE `task_job_20230501`
     `created_time` datetime(3) DEFAULT CURRENT_TIMESTAMP (3) COMMENT '任务创建时间',
     `updated_time` datetime(3) DEFAULT CURRENT_TIMESTAMP (3) ON UPDATE CURRENT_TIMESTAMP (3) COMMENT '任务修改时间',
     PRIMARY KEY (`job_id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 CREATE TABLE `task_job_record_20230401`
 (
@@ -63,9 +67,7 @@ CREATE TABLE `task_job_record_20230401`
     `created_time` datetime(3) DEFAULT CURRENT_TIMESTAMP (3) COMMENT '任务记录创建时间',
     `updated_time` datetime(3) DEFAULT CURRENT_TIMESTAMP (3) ON UPDATE CURRENT_TIMESTAMP (3) COMMENT '任务记录修改时间',
     PRIMARY KEY (`record_id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 CREATE TABLE `task_job_record_20230501`
 (
@@ -76,6 +78,4 @@ CREATE TABLE `task_job_record_20230501`
     `created_time` datetime(3) DEFAULT CURRENT_TIMESTAMP (3) COMMENT '任务记录创建时间',
     `updated_time` datetime(3) DEFAULT CURRENT_TIMESTAMP (3) ON UPDATE CURRENT_TIMESTAMP (3) COMMENT '任务记录修改时间',
     PRIMARY KEY (`record_id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
