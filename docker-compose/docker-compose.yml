@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   archive-service:
-    image: summer15/archive-service:0.0.1
+    image: summer15/archive-service:0.0.3
     container_name: archive-service
     restart: always
     ports:
@@ -10,10 +10,16 @@ services:
       TASK_SERVICE_ENDPOINT: http://192.168.223.100:8092
 
   task-service:
-    image: summer15/task-service:0.0.1
+    image: summer15/task-service:0.0.3
     container_name: task-service
     restart: always
     ports:
       - '8092:8092'
 
+  user-service:
+    image: summer15/task-service:0.0.3
+    container_name: user-service
+    restart: always
+    ports:
+      - '8093:8093'
 
