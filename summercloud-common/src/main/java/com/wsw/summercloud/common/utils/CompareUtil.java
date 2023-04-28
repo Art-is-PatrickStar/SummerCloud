@@ -14,7 +14,7 @@ import java.util.Objects;
  * @Author: wangsongwen
  * @Date: 2023/4/9 16:53
  */
-public class CompareUtils {
+public class CompareUtil {
     /**
      * 比较两个实体属性值，返回字段的差异信息
      *

@@ -7,8 +7,8 @@ import com.wsw.summercloud.common.annotation.OpLog;
 import com.wsw.summercloud.common.enums.ModuleTypeEnum;
 import com.wsw.summercloud.common.enums.OperationTypeEnum;
 import com.wsw.summercloud.common.log.OpLogDTO;
-import com.wsw.summercloud.common.utils.CompareUtils;
-import com.wsw.summercloud.common.utils.SpringUtils;
+import com.wsw.summercloud.common.utils.CompareUtil;
+import com.wsw.summercloud.common.utils.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -69,7 +69,7 @@ public class OpLogAspect {
             opLogDTO.setModuleType(opLog.type().getDes());
             if (opLog.opType() == OperationTypeEnum.UPDATE) {
                 //过滤忽略字段，比较实体的变化字段
-                String operateContent = CompareUtils.compareFields(oldValue, newValue, opLog.ignoreFields());
+                String operateContent = CompareUtil.compareFields(oldValue, newValue, opLog.ignoreFields());
                 //任务池消息通知配置日志处理
                 if (opLog.type().getCode().equals(ModuleTypeEnum.RESOURCE.getCode()) && StrUtil.isNotBlank(operateContent)) {
                     //特殊处理
@@ -103,7 +103,7 @@ public class OpLogAspect {
                 String idString = objectMapper.readTree(params).get(opLog.typeId()).asText();
                 Long id = Long.valueOf(idString);
                 Class<IService> iServiceClass = opLog.serviceClass();
-                IService iService = SpringUtils.getBean(iServiceClass);
+                IService iService = SpringUtil.getBean(iServiceClass);
                 return iService.getById(id);
             }
         } catch (Exception e) {

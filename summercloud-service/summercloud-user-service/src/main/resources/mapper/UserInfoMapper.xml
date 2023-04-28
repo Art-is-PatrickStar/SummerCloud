@@ -21,4 +21,21 @@
         updated_time
     </sql>
 
+    <select id="getUserByNameOrEmailAndPassword" parameterType="com.wsw.summercloud.api.dto.UserLoginRequestDto"
+            resultType="com.wsw.summercloud.user.entities.UserInfoEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info
+        <where>
+            <if test="request.username != null and request.username != ''">
+                and username = #{request.username}
+            </if>
+            <if test="request.email != null and request.email != ''">
+                or email = #{request.email}
+            </if>
+            <if test="request.password != null and request.password != ''">
+                and password = #{request.password}
+            </if>
+        </where>
+    </select>
 </mapper>

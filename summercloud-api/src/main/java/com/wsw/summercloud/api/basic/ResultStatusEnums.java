@@ -15,19 +15,24 @@ public enum ResultStatusEnums {
     SYSTEM_EXCEPTION(405, "系统异常", 0),
 
     //参数校验级
-    PARAMS_EXCEPTION(5000, "参数校验异常", 0),
+    PARAMS_EXCEPTION(5000, "参数异常", 0),
 
     //业务级
     MICRO_SERVICE_EXCEPTION(6000, "微服务异常", 1),
     SQL_ERROR_EXCEPTION(6001, "SQL语法异常", 0),
     CLICK_FREQUENT(6002, "请勿频繁点击", 0),
-    TOKEN_INVALID(6003, "token已过期", 0),
-    OP_LOG_SAVE_FAILD(6004, "操作日志插入失败", 0),
-    TASK_RECORD_INSERT_FAILD(6005, "新增任务记录失败", 0),
-    USER_NOT_FOUND(6006, "用户不存在", 0),
-    USER_INFORMATION_ERROR(6007, "用户名或密码错误", 0),
-    USER_IS_EXIST(6008, "用户名已存在", 0),
-    REDIS_LOCK_GET_FAILD(6009, "分布式锁获取失败", 0),
+    TOKEN_IS_NULL(6003, "token不能为空", 0),
+    TOKEN_IS_INVALID(6004, "token无效", 0),
+    OP_LOG_SAVE_FAILD(6005, "操作日志插入失败", 0),
+    TASK_RECORD_INSERT_FAILD(6006, "新增任务记录失败", 0),
+    USER_NOT_FOUND(6007, "用户不存在", 0),
+    USER_INFORMATION_ERROR(6008, "用户名或密码错误", 0),
+    USER_IS_EXIST(6009, "用户名已存在", 0),
+    REDIS_LOCK_GET_FAILD(60010, "分布式锁获取失败", 0),
+    USERNAME_OR_EMAIL_CAN_NOT_NULL(60011, "用户名或邮箱不能为空", 0),
+    PASSWORD_CAN_NOT_NULL(60012, "密码不能为空", 0),
+    USERNAME_IS_EXIST(60013, "用户名已存在", 0),
+    EMAIL_IS_EXIST(60014, "邮箱已存在", 0),
     ;
 
     private final Integer status;

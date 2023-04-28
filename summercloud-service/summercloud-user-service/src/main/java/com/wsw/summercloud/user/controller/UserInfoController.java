@@ -2,13 +2,14 @@ package com.wsw.summercloud.user.controller;
 
 import com.wsw.summercloud.api.basic.Result;
 import com.wsw.summercloud.api.dto.UserInfoResponseDto;
+import com.wsw.summercloud.api.dto.UserLoginRequestDto;
+import com.wsw.summercloud.api.dto.UserLoginResponseDto;
+import com.wsw.summercloud.api.dto.UserSignUpRequestDto;
 import com.wsw.summercloud.user.service.UserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -34,5 +35,20 @@ public class UserInfoController {
         Result<List<UserInfoResponseDto>> result = Result.success();
         result.value(userInfoService.getAllUsers());
         return result;
+    }
+
+    @ApiOperation("用户登录")
+    @PostMapping("/login")
+    public Result<UserLoginResponseDto> login(@RequestBody UserLoginRequestDto loginRequestDto) {
+        Result<UserLoginResponseDto> result = Result.success();
+        result.value(userInfoService.login(loginRequestDto));
+        return result;
+    }
+
+    @ApiOperation("用户注册")
+    @PostMapping("/signup")
+    public Result<Void> signup(@RequestBody UserSignUpRequestDto signUpRequestDto) {
+        userInfoService.signup(signUpRequestDto);
+        return Result.success();
     }
 }

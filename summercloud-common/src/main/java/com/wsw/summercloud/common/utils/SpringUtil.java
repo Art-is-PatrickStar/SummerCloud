@@ -13,10 +13,10 @@ import java.util.Map;
  * @Date: 2023/4/9 17:04
  */
 @Component
-public class SpringUtils implements ApplicationContextAware {
+public class SpringUtil implements ApplicationContextAware {
     protected static ApplicationContext CONTEXT;
 
-    public SpringUtils() {
+    public SpringUtil() {
     }
 
     @Override

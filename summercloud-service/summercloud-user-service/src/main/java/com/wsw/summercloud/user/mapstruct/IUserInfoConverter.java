@@ -1,6 +1,8 @@
 package com.wsw.summercloud.user.mapstruct;
 
 import com.wsw.summercloud.api.dto.UserInfoResponseDto;
+import com.wsw.summercloud.api.dto.UserLoginResponseDto;
+import com.wsw.summercloud.api.dto.UserSignUpRequestDto;
 import com.wsw.summercloud.user.entities.UserInfoEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -19,4 +21,12 @@ public interface IUserInfoConverter {
     UserInfoResponseDto entityToResponseDto(UserInfoEntity entity);
 
     List<UserInfoResponseDto> entityToResponseDto(List<UserInfoEntity> entities);
+
+    UserLoginResponseDto entityToLoginResponseDto(UserInfoEntity entity);
+
+    List<UserLoginResponseDto> entityToLoginResponseDto(List<UserInfoEntity> entities);
+
+    UserInfoEntity signUpRequestDtoToEntity(UserSignUpRequestDto signUpRequestDto);
+
+    List<UserInfoEntity> signUpRequestDtoToEntity(List<UserSignUpRequestDto> signUpRequestDtos);
 }
