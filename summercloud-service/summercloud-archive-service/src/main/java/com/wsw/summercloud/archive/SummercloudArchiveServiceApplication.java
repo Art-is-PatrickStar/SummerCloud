@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 
 @EnableOpenApi
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.wsw.summercloud"})
 public class SummercloudArchiveServiceApplication {
 
     public static void main(String[] args) {

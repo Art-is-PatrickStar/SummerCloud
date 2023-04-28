@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: task-deployment
+  name: user-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: task-service
+      app: user-service
   template:
     metadata:
       labels:
-        app: task-service
+        app: user-service
     spec:
       containers:
-        - image: summer15/task-service:0.0.3
-          name: task-container
+        - image: summer15/user-service:0.0.3
+          name: user-container
           imagePullPolicy: Always

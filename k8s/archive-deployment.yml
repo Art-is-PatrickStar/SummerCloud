@@ -13,7 +13,7 @@ spec:
         app: archive-service
     spec:
       containers:
-        - image: summer15/archive-service:0.0.2
+        - image: summer15/archive-service:0.0.3
           name: archive-container
           imagePullPolicy: Always
           env:

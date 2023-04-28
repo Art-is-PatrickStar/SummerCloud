@@ -80,3 +80,7 @@ management:
   health:
     db:
       enabled: false
+
+jwt:
+  secret:
+    key: summercloud
