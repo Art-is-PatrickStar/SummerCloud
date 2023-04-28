@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
  * @Date: 2023/4/23 0:05
  */
 @Configuration
-//不用单独为每个mapper接口添加@Mapper注解
 @MapperScan("com.wsw.summercloud.user.mapper")
 public class MybatisPlusConfig {
     /**
