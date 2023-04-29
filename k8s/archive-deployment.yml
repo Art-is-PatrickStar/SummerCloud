@@ -3,14 +3,18 @@ kind: Deployment
 metadata:
   name: archive-deployment
 spec:
-  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: archive-service
+      app: archive
   template:
     metadata:
       labels:
-        app: archive-service
+        app: archive
     spec:
       containers:
         - image: summer15/archive-service:1.0.0
@@ -19,3 +23,15 @@ spec:
           env:
             - name: TASK_SERVICE_ENDPOINT
               value: http://task-service:8092
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8091
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8091
+            initialDelaySeconds: 60
+            periodSeconds: 10

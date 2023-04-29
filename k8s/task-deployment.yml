@@ -3,16 +3,32 @@ kind: Deployment
 metadata:
   name: task-deployment
 spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
   replicas: 2
   selector:
     matchLabels:
-      app: task-service
+      app: task
   template:
     metadata:
       labels:
-        app: task-service
+        app: task
     spec:
       containers:
         - image: summer15/task-service:1.0.0
           name: task-container
           imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8092
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8092
+            initialDelaySeconds: 60
+            periodSeconds: 10
