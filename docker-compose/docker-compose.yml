@@ -17,7 +17,7 @@ services:
       - '8092:8092'
 
   user-service:
-    image: summer15/task-service:1.0.0
+    image: summer15/user-service:1.0.0
     container_name: user-service
     restart: always
     ports:
