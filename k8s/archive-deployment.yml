@@ -13,9 +13,9 @@ spec:
         app: archive-service
     spec:
       containers:
-        - image: summer15/archive-service:0.0.3
+        - image: summer15/archive-service:1.0.0
           name: archive-container
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           env:
             - name: TASK_SERVICE_ENDPOINT
               value: http://task-service:8092

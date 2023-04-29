@@ -29,6 +29,13 @@ public class UserInfoController {
     @Resource
     private UserInfoService userInfoService;
 
+    @GetMapping("/health")
+    public String health() {
+        String msgFromUser = "ok from user service.";
+        log.info(msgFromUser);
+        return msgFromUser;
+    }
+
     @ApiOperation("获取所有用户信息")
     @GetMapping("/getAllUsers")
     public Result<List<UserInfoResponseDto>> getAllUsers() {

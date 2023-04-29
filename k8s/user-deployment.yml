@@ -13,6 +13,6 @@ spec:
         app: user-service
     spec:
       containers:
-        - image: summer15/user-service:0.0.3
+        - image: summer15/user-service:1.0.0
           name: user-container
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent

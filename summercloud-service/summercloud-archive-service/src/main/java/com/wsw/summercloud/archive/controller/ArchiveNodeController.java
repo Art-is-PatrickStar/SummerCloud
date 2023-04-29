@@ -30,16 +30,16 @@ public class ArchiveNodeController {
     @Resource
     private ArchiveNodeService archiveNodeService;
 
-    @GetMapping("/hello")
-    public String sayHello() {
-        String msgFromArchive = "hello from archive service.";
+    @GetMapping("/health")
+    public String health() {
+        String msgFromArchive = "ok from archive service.";
         log.info(msgFromArchive);
         return msgFromArchive;
     }
 
-    @GetMapping("/getHelloFromTaskService")
-    public String getHelloFromTaskService() {
-        String msgFromTask = taskClient.sayHello();
+    @GetMapping("/getHealthFromTaskService")
+    public String getHealthFromTaskService() {
+        String msgFromTask = taskClient.health();
         log.info(msgFromTask);
         return msgFromTask;
     }

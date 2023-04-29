@@ -3,7 +3,7 @@ FROM openjdk:8-jre-alpine
 # 将本地文件挂载到容器
 VOLUME /tmp
 # 拷贝文件到容器
-ADD target/summercloud-archive-service-0.0.3-SNAPSHOT.jar /usr/share/archive-service.jar
+ADD target/summercloud-archive-service-1.0.0-SNAPSHOT.jar /usr/share/archive-service.jar
 ENV JAVA_OPTS=""
 # 声明要暴露的端口
 EXPOSE 8091

@@ -84,3 +84,8 @@ management:
 jwt:
   secret:
     key: summercloud
+
+#不需要鉴权的url
+not:
+  authentication:
+    urls: /swagger-ui/**,/swagger-resources/**,/v2/**,/task/health,/task/hello,/task/createTasks

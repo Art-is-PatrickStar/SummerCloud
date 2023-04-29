@@ -29,9 +29,9 @@ public class TaskJobController {
     @Resource
     private TaskJobService taskJobService;
 
-    @GetMapping("/hello")
-    public String sayHello() {
-        String msgFromTask = "hello from task service.";
+    @GetMapping("/health")
+    public String health() {
+        String msgFromTask = "ok from task service.";
         log.info(msgFromTask);
         return msgFromTask;
     }

@@ -20,8 +20,8 @@ public class TaskClient {
     @Resource
     private RestTemplate archiveRestTemplate;
 
-    public String sayHello() {
-        return archiveRestTemplate.getForObject(taskServiceUrl + "/task/hello", String.class);
+    public String health() {
+        return archiveRestTemplate.getForObject(taskServiceUrl + "/task/health", String.class);
     }
 
     public void createTask(List<TaskJobRequestDto> requestDtos) {
