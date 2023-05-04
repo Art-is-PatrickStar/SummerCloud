@@ -20,15 +20,3 @@ spec:
         - image: summer15/task-service:1.0.0
           name: task-container
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8092
-            initialDelaySeconds: 60
-            periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8092
-            initialDelaySeconds: 60
-            periodSeconds: 10

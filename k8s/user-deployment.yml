@@ -20,15 +20,3 @@ spec:
         - image: summer15/user-service:1.0.0
           name: user-container
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8093
-            initialDelaySeconds: 60
-            periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8093
-            initialDelaySeconds: 60
-            periodSeconds: 10

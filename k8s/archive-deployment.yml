@@ -23,15 +23,3 @@ spec:
           env:
             - name: TASK_SERVICE_ENDPOINT
               value: http://task-service:8092
-          livenessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8091
-            initialDelaySeconds: 60
-            periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8091
-            initialDelaySeconds: 60
-            periodSeconds: 10

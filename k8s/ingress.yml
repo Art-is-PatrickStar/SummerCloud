@@ -1,0 +1,46 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: summercloud-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: my-ingress-controller
+  rules:
+    - http:
+        paths:
+          - path: /archive
+            pathType: Prefix
+            backend:
+              service:
+                name: archive-service
+                port:
+                  number: 8091
+          - path: /resource
+            pathType: Prefix
+            backend:
+              service:
+                name: archive-service
+                port:
+                  number: 8091
+          - path: /task
+            pathType: Prefix
+            backend:
+              service:
+                name: task-service
+                port:
+                  number: 8092
+          - path: /taskRecord
+            pathType: Prefix
+            backend:
+              service:
+                name: task-service
+                port:
+                  number: 8092
+          - path: /user
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service
+                port:
+                  number: 8093
