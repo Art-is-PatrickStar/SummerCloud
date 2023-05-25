@@ -1,6 +1,6 @@
 package com.wsw.summercloud.common.exception;
 
-import com.wsw.summercloud.api.basic.ResultStatusEnums;
+import com.wsw.summercloud.api.basic.ResultStatus;
 
 import java.io.Serializable;
 
@@ -13,35 +13,35 @@ public class BusinessException extends RuntimeException implements Serializable 
     private static final long serialVersionUID = 6094159908069439356L;
 
     private final String message;
-    private final ResultStatusEnums resultStatusEnums;
+    private final ResultStatus resultStatus;
 
     public BusinessException() {
-        this(ResultStatusEnums.SYSTEM_EXCEPTION);
+        this(ResultStatus.SYSTEM_EXCEPTION);
     }
 
-    public BusinessException(ResultStatusEnums resultStatusEnums) {
-        this(resultStatusEnums, resultStatusEnums.getMsg());
+    public BusinessException(ResultStatus resultStatus) {
+        this(resultStatus, resultStatus.getMsg());
     }
 
-    public BusinessException(ResultStatusEnums resultStatusEnums, String message) {
-        this(resultStatusEnums, message, null);
+    public BusinessException(ResultStatus resultStatus, String message) {
+        this(resultStatus, message, null);
     }
 
-    public BusinessException(ResultStatusEnums resultStatusEnums, Throwable cause) {
-        this(resultStatusEnums, resultStatusEnums.getMsg(), cause);
+    public BusinessException(ResultStatus resultStatus, Throwable cause) {
+        this(resultStatus, resultStatus.getMsg(), cause);
     }
 
-    public BusinessException(ResultStatusEnums resultStatusEnums, String message, Throwable cause) {
+    public BusinessException(ResultStatus resultStatus, String message, Throwable cause) {
         super(message, cause);
         this.message = message;
-        this.resultStatusEnums = resultStatusEnums;
+        this.resultStatus = resultStatus;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public ResultStatusEnums getResultStatusEnums() {
-        return resultStatusEnums;
+    public ResultStatus getResultStatusEnums() {
+        return resultStatus;
     }
 }

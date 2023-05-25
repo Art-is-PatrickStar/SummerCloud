@@ -1,7 +1,7 @@
 package com.wsw.summercloud.user.handler;
 
 import com.wsw.summercloud.api.basic.Result;
-import com.wsw.summercloud.api.basic.ResultStatusEnums;
+import com.wsw.summercloud.api.basic.ResultStatus;
 import com.wsw.summercloud.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = BadSqlGrammarException.class)
     public Result<String> badSqlGrammarHandler(BadSqlGrammarException e) {
         log.error("全局异常 - badSqlGrammarHandler: ", e);
-        return Result.fail(ResultStatusEnums.SQL_ERROR_EXCEPTION, ResultStatusEnums.SQL_ERROR_EXCEPTION.getMsg() + e.getMessage());
+        return Result.fail(ResultStatus.SQL_ERROR_EXCEPTION, ResultStatus.SQL_ERROR_EXCEPTION.getMsg() + e.getMessage());
     }
 
     /**
@@ -47,6 +47,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public Result<String> exceptionHandler(Exception e) {
         log.error("全局异常 - exceptionHandler: ", e);
-        return Result.fail(ResultStatusEnums.SYSTEM_EXCEPTION, ResultStatusEnums.SYSTEM_EXCEPTION.getMsg() + ": " + e.getMessage());
+        return Result.fail(ResultStatus.SYSTEM_EXCEPTION, ResultStatus.SYSTEM_EXCEPTION.getMsg() + ": " + e.getMessage());
     }
 }

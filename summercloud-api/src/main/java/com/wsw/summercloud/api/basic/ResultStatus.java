@@ -5,7 +5,7 @@ package com.wsw.summercloud.api.basic;
  * @Author: wangsongwen
  * @Date: 2023/4/1 23:50
  */
-public enum ResultStatusEnums {
+public enum ResultStatus {
     //系统级
     SUCCESS(200, "操作成功", 0),
     FAILED(500, "操作失败", 0),
@@ -13,6 +13,7 @@ public enum ResultStatusEnums {
     FORBIDDEN(403, "没有权限", 0),
     VALIDATE_FAILED(404, "请求资源不存在", 0),
     SYSTEM_EXCEPTION(405, "系统异常", 0),
+    SEND_MAIL_EXCEPTION(406, "发送邮件异常", 0),
 
     //参数校验级
     PARAMS_EXCEPTION(5000, "参数异常", 0),
@@ -39,7 +40,7 @@ public enum ResultStatusEnums {
     private final String msg;
     private final Integer alert; //alert: 1 告警 0 不告警
 
-    ResultStatusEnums(Integer status, String msg, Integer alert) {
+    ResultStatus(Integer status, String msg, Integer alert) {
         this.status = status;
         this.msg = msg;
         this.alert = alert;
@@ -57,8 +58,8 @@ public enum ResultStatusEnums {
         return alert;
     }
 
-    public static ResultStatusEnums getByStatus(Integer status) {
-        for (ResultStatusEnums result : ResultStatusEnums.values()) {
+    public static ResultStatus getByStatus(Integer status) {
+        for (ResultStatus result : ResultStatus.values()) {
             if (result.getStatus().equals(status)) {
                 return result;
             }

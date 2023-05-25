@@ -21,18 +21,18 @@ public class Result<T> implements Serializable {
     private Long timeConsume;
 
     public static <W> Result<W> fail() {
-        return fail(ResultStatusEnums.FAILED);
+        return fail(ResultStatus.FAILED);
     }
 
     public static <W> Result<W> fail(String msg) {
-        return fail(ResultStatusEnums.FAILED, msg);
+        return fail(ResultStatus.FAILED, msg);
     }
 
-    public static <W> Result<W> fail(ResultStatusEnums resultStatusEnums) {
-        return fail(resultStatusEnums, resultStatusEnums.getMsg());
+    public static <W> Result<W> fail(ResultStatus resultStatus) {
+        return fail(resultStatus, resultStatus.getMsg());
     }
 
-    public static <W> Result<W> fail(ResultStatusEnums statusEnums, String msg) {
+    public static <W> Result<W> fail(ResultStatus statusEnums, String msg) {
         return fail(statusEnums.getStatus(), msg);
     }
 
@@ -53,8 +53,8 @@ public class Result<T> implements Serializable {
     public static <T> Result<T> success(T val) {
         Result<T> ret = new Result<>();
         ret.setSuccess(true);
-        ret.setStatus(ResultStatusEnums.SUCCESS.getStatus());
-        ret.setMsg(ResultStatusEnums.SUCCESS.getMsg());
+        ret.setStatus(ResultStatus.SUCCESS.getStatus());
+        ret.setMsg(ResultStatus.SUCCESS.getMsg());
         ret.startTime = System.currentTimeMillis();
         ret.timeConsume = System.currentTimeMillis() - ret.startTime;
         ret.value(val);
@@ -67,8 +67,8 @@ public class Result<T> implements Serializable {
         }
         this.success = true;
         this.data = val;
-        this.setStatus(ResultStatusEnums.SUCCESS.getStatus());
-        this.setMsg(ResultStatusEnums.SUCCESS.getMsg());
+        this.setStatus(ResultStatus.SUCCESS.getStatus());
+        this.setMsg(ResultStatus.SUCCESS.getMsg());
         this.timeConsume = System.currentTimeMillis() - this.startTime;
         return this;
     }

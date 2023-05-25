@@ -2,7 +2,7 @@ package com.wsw.summercloud.user.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.wsw.summercloud.api.basic.ResultStatusEnums;
+import com.wsw.summercloud.api.basic.ResultStatus;
 import com.wsw.summercloud.api.dto.UserInfoResponseDto;
 import com.wsw.summercloud.api.dto.UserLoginRequestDto;
 import com.wsw.summercloud.api.dto.UserLoginResponseDto;
@@ -42,17 +42,17 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfoEnt
     @Override
     public UserLoginResponseDto login(UserLoginRequestDto loginRequestDto) {
         if (Objects.isNull(loginRequestDto)) {
-            throw new BusinessException(ResultStatusEnums.PARAMS_EXCEPTION);
+            throw new BusinessException(ResultStatus.PARAMS_EXCEPTION);
         }
         if (StrUtil.isBlank(loginRequestDto.getUsername()) && StrUtil.isBlank(loginRequestDto.getEmail())) {
-            throw new BusinessException(ResultStatusEnums.USERNAME_OR_EMAIL_CAN_NOT_NULL);
+            throw new BusinessException(ResultStatus.USERNAME_OR_EMAIL_CAN_NOT_NULL);
         }
         if (StrUtil.isBlank(loginRequestDto.getPassword())) {
-            throw new BusinessException(ResultStatusEnums.PASSWORD_CAN_NOT_NULL);
+            throw new BusinessException(ResultStatus.PASSWORD_CAN_NOT_NULL);
         }
         UserInfoEntity userInfoEntity = baseMapper.getUserByNameOrEmailAndPassword(loginRequestDto);
         if (Objects.isNull(userInfoEntity)) {
-            throw new BusinessException(ResultStatusEnums.USER_NOT_FOUND);
+            throw new BusinessException(ResultStatus.USER_NOT_FOUND);
         }
         Map<String, Object> userInfoMap = new HashMap<>();
         userInfoMap.put("userId", userInfoEntity.getId());
@@ -67,26 +67,26 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfoEnt
     @Override
     public void signup(UserSignUpRequestDto signUpRequestDto) {
         if (Objects.isNull(signUpRequestDto)) {
-            throw new BusinessException(ResultStatusEnums.PARAMS_EXCEPTION);
+            throw new BusinessException(ResultStatus.PARAMS_EXCEPTION);
         }
         if (StrUtil.isBlank(signUpRequestDto.getUsername()) && StrUtil.isBlank(signUpRequestDto.getEmail())) {
-            throw new BusinessException(ResultStatusEnums.USERNAME_OR_EMAIL_CAN_NOT_NULL);
+            throw new BusinessException(ResultStatus.USERNAME_OR_EMAIL_CAN_NOT_NULL);
         }
         if (StrUtil.isBlank(signUpRequestDto.getPassword())) {
-            throw new BusinessException(ResultStatusEnums.PASSWORD_CAN_NOT_NULL);
+            throw new BusinessException(ResultStatus.PASSWORD_CAN_NOT_NULL);
         }
         String username = signUpRequestDto.getUsername();
         String email = signUpRequestDto.getEmail();
         if (StrUtil.isNotBlank(username)) {
             UserInfoEntity userInfoEntity = lambdaQuery().eq(UserInfoEntity::getUsername, username).eq(UserInfoEntity::getIsDelete, 0).one();
             if (!Objects.isNull(userInfoEntity)) {
-                throw new BusinessException(ResultStatusEnums.USERNAME_IS_EXIST);
+                throw new BusinessException(ResultStatus.USERNAME_IS_EXIST);
             }
         }
         if (StrUtil.isNotBlank(email)) {
             UserInfoEntity userInfoEntity = lambdaQuery().eq(UserInfoEntity::getEmail, email).eq(UserInfoEntity::getIsDelete, 0).one();
             if (!Objects.isNull(userInfoEntity)) {
-                throw new BusinessException(ResultStatusEnums.EMAIL_IS_EXIST);
+                throw new BusinessException(ResultStatus.EMAIL_IS_EXIST);
             }
         }
         UserInfoEntity userInfoEntity = IUserInfoConverter.INSTANCE.signUpRequestDtoToEntity(signUpRequestDto);

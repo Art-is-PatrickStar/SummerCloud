@@ -59,6 +59,21 @@ spring:
       sql:
         show: true
 
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: 2544894086@qq.com
+    password:
+    default-encoding: UTF-8
+    properties:
+      mail:
+        debug: true
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+          auth: true
+          timeout: 25000
+
 mybatis-plus:
   mapper-locations: classpath*:mapper/*.xml
   configuration.log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -84,6 +99,13 @@ management:
 jwt:
   secret:
     key: summercloud
+
+mail:
+  open:
+    true
+  from: 2544894086@qq.com
+  to: 2544894086@qq.com
+  cc: 2544894086@qq.com
 
 #不需要鉴权的url
 not:
