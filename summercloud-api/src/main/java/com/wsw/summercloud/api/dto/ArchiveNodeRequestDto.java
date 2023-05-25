@@ -19,7 +19,7 @@ public class ArchiveNodeRequestDto implements Serializable {
     @ApiModelProperty(value = "归档id")
     private Long archiveId;
 
-    @ApiModelProperty(value = "归档队则")
+    @ApiModelProperty(value = "归档规则")
     private String archiveRule;
 
     @ApiModelProperty(value = "是否启用 1:是 0:否")

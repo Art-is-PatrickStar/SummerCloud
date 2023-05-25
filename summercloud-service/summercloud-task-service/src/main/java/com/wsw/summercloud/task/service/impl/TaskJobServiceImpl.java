@@ -9,11 +9,13 @@ import com.wsw.summercloud.api.dto.TaskJobRecordRequestDto;
 import com.wsw.summercloud.api.dto.TaskJobRequestDto;
 import com.wsw.summercloud.api.dto.TaskJobResponseDto;
 import com.wsw.summercloud.task.entities.TaskJobEntity;
+import com.wsw.summercloud.task.event.TaskCreateEvent;
 import com.wsw.summercloud.task.mapper.TaskJobMapper;
 import com.wsw.summercloud.task.mapstruct.ITaskJobConverter;
 import com.wsw.summercloud.task.service.TaskJobRecordService;
 import com.wsw.summercloud.task.service.TaskJobService;
 import groovy.util.logging.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +32,8 @@ import java.util.List;
 public class TaskJobServiceImpl extends ServiceImpl<TaskJobMapper, TaskJobEntity> implements TaskJobService {
     @Resource
     private TaskJobRecordService taskJobRecordService;
+    @Resource
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     @Transactional
@@ -38,6 +42,9 @@ public class TaskJobServiceImpl extends ServiceImpl<TaskJobMapper, TaskJobEntity
         baseMapper.insertTaskJobs(taskJobEntities);
         List<TaskJobRecordRequestDto> taskJobRecordRequestDtos = ITaskJobConverter.INSTANCE.taskJobEntityToTaskJobRecordrequestDto(taskJobEntities);
         taskJobRecordService.createTaskJobRecords(taskJobRecordRequestDtos);
+        taskJobEntities.forEach(taskJobEntity ->
+                applicationEventPublisher.publishEvent(new TaskCreateEvent(this, taskJobEntity))
+        );
     }
 
     @Override

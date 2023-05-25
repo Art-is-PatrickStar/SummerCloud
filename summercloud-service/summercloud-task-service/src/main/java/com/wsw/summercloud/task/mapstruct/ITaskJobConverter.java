@@ -1,5 +1,6 @@
 package com.wsw.summercloud.task.mapstruct;
 
+import com.wsw.summercloud.api.data.BusTaskData;
 import com.wsw.summercloud.api.dto.TaskJobRecordRequestDto;
 import com.wsw.summercloud.api.dto.TaskJobRequestDto;
 import com.wsw.summercloud.api.dto.TaskJobResponseDto;
@@ -40,4 +41,8 @@ public interface ITaskJobConverter {
     TaskJobRecordRequestDto taskJobEntityToTaskJobRecordrequestDto(TaskJobEntity entity);
 
     List<TaskJobRecordRequestDto> taskJobEntityToTaskJobRecordrequestDto(List<TaskJobEntity> entities);
+
+    BusTaskData entityToBusTaskData(TaskJobEntity entity);
+
+    List<BusTaskData> entityToBusTaskData(List<TaskJobEntity> entities);
 }
