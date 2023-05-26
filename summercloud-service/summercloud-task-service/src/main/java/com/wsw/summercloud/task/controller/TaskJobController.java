@@ -51,4 +51,12 @@ public class TaskJobController {
         result.value(taskJobService.selectTaskJobs(queryDto));
         return result;
     }
+
+    @ApiOperation("获取所有任务")
+    @GetMapping("/getAllTasks")
+    public Result<List<TaskJobResponseDto>> getAllTasks() {
+        Result<List<TaskJobResponseDto>> result = Result.success();
+        result.value(taskJobService.getAllTasks());
+        return result;
+    }
 }

@@ -46,4 +46,4 @@ jwt:
     key: summercloud
   token:
     expire:
-      time: 60
+      time: 43200

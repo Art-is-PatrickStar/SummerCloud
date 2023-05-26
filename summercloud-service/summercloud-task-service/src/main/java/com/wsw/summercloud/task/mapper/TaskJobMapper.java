@@ -18,4 +18,6 @@ public interface TaskJobMapper extends BaseMapper<TaskJobEntity> {
     void insertTaskJobs(@Param("list") List<TaskJobEntity> taskJobEntities);
 
     IPage<TaskJobEntity> selectTaskJobs(Page<?> page, @Param("query") TaskJobQueryDto queryDto);
+
+    List<TaskJobEntity> getAllTaskJobs();
 }

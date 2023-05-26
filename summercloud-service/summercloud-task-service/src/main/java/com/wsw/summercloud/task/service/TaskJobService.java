@@ -28,4 +28,11 @@ public interface TaskJobService {
      * @return PageInfo<TaskJobResponseDto>
      */
     PageInfo<TaskJobResponseDto> selectTaskJobs(TaskJobQueryDto queryDto);
+
+    /**
+     * 获取所有任务
+     *
+     * @return List<TaskJobResponseDto>
+     */
+    List<TaskJobResponseDto> getAllTasks();
 }

@@ -69,4 +69,12 @@
         </where>
         order by updated_time desc
     </select>
+
+    <select id="getAllTaskJobs" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from task_job
+        where is_delete = 0
+        order by created_time
+    </select>
 </mapper>
