@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 /**
  * @Description:
  * @Author: wangsongwen
@@ -38,6 +40,16 @@ public class GlobalExceptionHandler {
     public Result<String> badSqlGrammarHandler(BadSqlGrammarException e) {
         log.error("全局异常 - badSqlGrammarHandler: ", e);
         return Result.fail(ResultStatus.SQL_ERROR_EXCEPTION, ResultStatus.SQL_ERROR_EXCEPTION.getMsg() + e.getMessage());
+    }
+
+    /**
+     * IO异常处理
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(value = IOException.class)
+    public Result<String> ioExceptionHandler(IOException e) {
+        log.error("全局异常 - ioExceptionHandler: ", e);
+        return Result.fail(ResultStatus.IO_EXCEPTION, ResultStatus.IO_EXCEPTION.getMsg() + ": " + e.getMessage());
     }
 
     /**

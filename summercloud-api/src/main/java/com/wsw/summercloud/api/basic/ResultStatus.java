@@ -14,6 +14,7 @@ public enum ResultStatus {
     VALIDATE_FAILED(404, "请求资源不存在", 0),
     SYSTEM_EXCEPTION(405, "系统异常", 0),
     SEND_MAIL_EXCEPTION(406, "发送邮件异常", 0),
+    IO_EXCEPTION(407, "IO异常", 0),
 
     //参数校验级
     PARAMS_EXCEPTION(5000, "参数异常", 0),
