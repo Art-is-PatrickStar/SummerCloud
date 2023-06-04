@@ -89,6 +89,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 
     @Override
     public List<Hit<EsData>> searchDocument(String indexName) throws IOException {
+        //TODO: bug not fixed yet
         SearchResponse<EsData> searchResponse = elasticsearchClient.search(c -> c.index(indexName)
                 .query(q -> q.match(t -> t.field("data").query("测试")))
                 .from(0)

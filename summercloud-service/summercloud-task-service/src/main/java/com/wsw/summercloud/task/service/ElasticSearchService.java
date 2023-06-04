@@ -45,17 +45,67 @@ public interface ElasticSearchService {
      */
     void deleteIndex(String indexName) throws IOException;
 
+    /**
+     * 创建文档
+     *
+     * @param indexName
+     * @param documentId
+     * @param document
+     * @return void
+     */
     void createDocument(String indexName, String documentId, EsData document) throws IOException;
 
+    /**
+     * 批量创建文档
+     *
+     * @param indexName
+     * @param documents
+     * @return void
+     */
     void batchCreateDocument(String indexName, List<EsData> documents) throws IOException;
 
+    /**
+     * 判断文档是否存在
+     *
+     * @param indexName
+     * @param documentId
+     * @return boolean
+     */
     boolean isDocumentExist(String indexName, String documentId) throws IOException;
 
+    /**
+     * 删除文档
+     *
+     * @param indexName
+     * @param documentId
+     * @return void
+     */
     void deleteDocument(String indexName, String documentId) throws IOException;
 
+    /**
+     * 更新文档
+     *
+     * @param indexName
+     * @param documentId
+     * @param document
+     * @return void
+     */
     void updateDocument(String indexName, String documentId, EsData document) throws IOException;
 
+    /**
+     * 获取文档
+     *
+     * @param indexName
+     * @param documentId
+     * @return EsData
+     */
     EsData getDocument(String indexName, String documentId) throws IOException;
 
+    /**
+     * 搜索文档
+     *
+     * @param indexName
+     * @return List<Hit<EsData>>
+     */
     List<Hit<EsData>> searchDocument(String indexName) throws IOException;
 }
