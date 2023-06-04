@@ -65,6 +65,12 @@ archive:
   history-exchange: resource_history_exchange
   history-queue: resource_history_queue
   history-routingKey: resource_history_routing_key
+  threadpool:
+    config:
+      corePoolSize: 5
+      maximumPoolSize: 10
+      keepAliveTime: 60
+      queueCapacity: 1024
 
 xxl:
   job:

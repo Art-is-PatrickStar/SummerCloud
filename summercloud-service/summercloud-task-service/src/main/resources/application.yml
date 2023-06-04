@@ -111,3 +111,11 @@ mail:
 not:
   authentication:
     urls: /swagger-ui/**,/swagger-resources/**,/v2/**,/task/health,/task/hello,/task/createTasks
+
+task:
+  threadpool:
+    config:
+      corePoolSize: 5
+      maximumPoolSize: 10
+      keepAliveTime: 60
+      queueCapacity: 1024
