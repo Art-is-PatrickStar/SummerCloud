@@ -6,6 +6,7 @@ services:
     restart: always
     ports:
       - '8091:8091'
+      - '10011:10011'
     environment:
       TASK_SERVICE_ENDPOINT: http://192.168.223.100:8092
 
@@ -15,6 +16,7 @@ services:
     restart: always
     ports:
       - '8092:8092'
+      - '10012:10012'
 
   user-service:
     image: summer15/user-service:1.0.0
@@ -22,4 +24,5 @@ services:
     restart: always
     ports:
       - '8093:8093'
+      - '10013:10013'
 
