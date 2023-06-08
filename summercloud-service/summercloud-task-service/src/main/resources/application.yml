@@ -119,3 +119,8 @@ task:
       maximumPoolSize: 10
       keepAliveTime: 60
       queueCapacity: 1024
+  api-log:
+    enabled: true
+    log-persist-interval: 1
+    log-cleanup-interval: 12
+    expire-days: 7
