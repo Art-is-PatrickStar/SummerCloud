@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.indices.GetIndexResponse;
 import com.wsw.summercloud.api.data.EsData;
+import com.wsw.summercloud.api.dto.EsQueryDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class EsServiceTests {
         esData.setData("wsw测试1");
         esData.setCreatedTime(DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss.SSS"));
         esData.setUpdatedTime(DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss.SSS"));
-        elasticSearchService.createDocument("test1", String.valueOf(esData.getDataId()), esData);
+        elasticSearchService.createDocument("test1", esData.getDataId(), esData);
     }
 
     @Test
@@ -70,7 +71,7 @@ public class EsServiceTests {
 
     @Test
     void getDocument() throws IOException {
-        Object esData = elasticSearchService.getDocument("test1", "1");
+        EsData esData = elasticSearchService.getDocument("test1", "1");
         log.info("getDocument: {}", esData);
     }
 
@@ -97,7 +98,14 @@ public class EsServiceTests {
 
     @Test
     void searchDocument() throws IOException {
-        List<Hit<EsData>> hits = elasticSearchService.searchDocument("test1");
+        EsQueryDto esQueryDto = new EsQueryDto();
+        esQueryDto.setCurrentPage(0);
+        esQueryDto.setPageSize(20);
+        esQueryDto.setIndexName("test1");
+        esQueryDto.setQueryField("data");
+        esQueryDto.setQueryValue("测试");
+        esQueryDto.setSortField("createdTime.keyword");
+        List<Hit<EsData>> hits = elasticSearchService.searchDocument(esQueryDto);
         for (Hit<EsData> hit : hits) {
             log.info("searchDocument: {}", hit.source());
         }

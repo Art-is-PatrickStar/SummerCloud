@@ -3,6 +3,7 @@ package com.wsw.summercloud.task.service;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.indices.GetIndexResponse;
 import com.wsw.summercloud.api.data.EsData;
+import com.wsw.summercloud.api.dto.EsQueryDto;
 
 import java.io.IOException;
 import java.util.List;
@@ -104,8 +105,8 @@ public interface ElasticSearchService {
     /**
      * 搜索文档
      *
-     * @param indexName
+     * @param esQueryDto
      * @return List<Hit<EsData>>
      */
-    List<Hit<EsData>> searchDocument(String indexName) throws IOException;
+    List<Hit<EsData>> searchDocument(EsQueryDto esQueryDto) throws IOException;
 }

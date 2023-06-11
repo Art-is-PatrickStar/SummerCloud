@@ -9,6 +9,7 @@ import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.indices.GetIndexResponse;
 import co.elastic.clients.transport.endpoints.BooleanResponse;
 import com.wsw.summercloud.api.data.EsData;
+import com.wsw.summercloud.api.dto.EsQueryDto;
 import com.wsw.summercloud.task.service.ElasticSearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,13 +89,13 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
     }
 
     @Override
-    public List<Hit<EsData>> searchDocument(String indexName) throws IOException {
-        //TODO: bug not fixed yet
-        SearchResponse<EsData> searchResponse = elasticsearchClient.search(c -> c.index(indexName)
-                .query(q -> q.match(t -> t.field("data").query("测试")))
-                .from(0)
-                .size(10)
-                .sort(f -> f.field(o -> o.field("createdTime").order(SortOrder.Desc))), EsData.class);
+    public List<Hit<EsData>> searchDocument(EsQueryDto esQueryDto) throws IOException {
+        SearchResponse<EsData> searchResponse = elasticsearchClient.search(c -> c.index(esQueryDto.getIndexName())
+                        .query(q -> q.match(t -> t.field(esQueryDto.getQueryField()).query(esQueryDto.getQueryValue())))
+                        .from(esQueryDto.getCurrentPage())
+                        .size(esQueryDto.getPageSize())
+                        .sort(f -> f.field(o -> o.field(esQueryDto.getSortField()).order(SortOrder.Desc)))
+                , EsData.class);
         return searchResponse.hits().hits();
     }
 }
