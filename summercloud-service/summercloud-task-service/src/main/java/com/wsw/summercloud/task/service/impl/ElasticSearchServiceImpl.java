@@ -90,12 +90,16 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 
     @Override
     public List<Hit<EsData>> searchDocument(EsQueryDto esQueryDto) throws IOException {
-        SearchResponse<EsData> searchResponse = elasticsearchClient.search(c -> c.index(esQueryDto.getIndexName())
-                        .query(q -> q.match(t -> t.field(esQueryDto.getQueryField()).query(esQueryDto.getQueryValue())))
-                        .from(esQueryDto.getCurrentPage())
-                        .size(esQueryDto.getPageSize())
-                        .sort(f -> f.field(o -> o.field(esQueryDto.getSortField()).order(SortOrder.Desc)))
-                , EsData.class);
+        SearchResponse<EsData> searchResponse = elasticsearchClient.search(s -> s.index(esQueryDto.getIndexName())
+                //分词查询
+                .query(q -> q.match(t -> t.field(esQueryDto.getQueryField()).query(esQueryDto.getQueryValue())))
+                //分页
+                .from(esQueryDto.getCurrentPage())
+                .size(esQueryDto.getPageSize())
+                //排序
+                .sort(f -> f.field(o -> o.field(esQueryDto.getSortField()).order(SortOrder.Desc)))
+                //高亮
+                .highlight(h -> h.preTags("<font color='red'>").postTags("</font>").fields(esQueryDto.getQueryField(), c -> c)), EsData.class);
         return searchResponse.hits().hits();
     }
 }

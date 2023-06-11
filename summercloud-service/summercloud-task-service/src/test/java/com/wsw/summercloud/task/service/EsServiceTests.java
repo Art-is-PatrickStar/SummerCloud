@@ -107,7 +107,7 @@ public class EsServiceTests {
         esQueryDto.setSortField("createdTime.keyword");
         List<Hit<EsData>> hits = elasticSearchService.searchDocument(esQueryDto);
         for (Hit<EsData> hit : hits) {
-            log.info("searchDocument: {}", hit.source());
+            log.info("source: {}, highlight: {}", hit.source(), hit.highlight());
         }
     }
 }
