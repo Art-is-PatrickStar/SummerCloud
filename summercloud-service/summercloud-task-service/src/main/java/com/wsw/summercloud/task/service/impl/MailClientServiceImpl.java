@@ -3,6 +3,7 @@ package com.wsw.summercloud.task.service.impl;
 import com.wsw.summercloud.api.basic.ResultStatus;
 import com.wsw.summercloud.common.exception.BusinessException;
 import com.wsw.summercloud.task.service.MailClientService;
+import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +11,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.util.Objects;
 

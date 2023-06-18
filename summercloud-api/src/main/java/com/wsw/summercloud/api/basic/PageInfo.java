@@ -1,5 +1,6 @@
 package com.wsw.summercloud.api.basic;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  * @Date: 2023/4/6 23:51
  */
 public class PageInfo<T> implements Serializable {
+    @Serial
     private static final long serialVersionUID = 6040428852336436531L;
 
     /**

@@ -8,17 +8,17 @@ import com.wsw.summercloud.archive.entities.ResourceInfoEntity;
 import com.wsw.summercloud.archive.mapstruct.IResourceInfoConverter;
 import com.wsw.summercloud.archive.repository.ResourceInfoRepository;
 import com.wsw.summercloud.archive.service.ResourceInfoService;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -31,7 +31,7 @@ import java.util.Objects;
 @Slf4j
 @Service
 public class ResourceInfoServiceImpl implements ResourceInfoService {
-    @Resource
+    @Autowired
     private ResourceInfoRepository resourceInfoRepository;
 
     @Override

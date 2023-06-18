@@ -6,16 +6,18 @@ import com.wsw.summercloud.api.dto.TaskJobQueryDto;
 import com.wsw.summercloud.api.dto.TaskJobRequestDto;
 import com.wsw.summercloud.api.dto.TaskJobResponseDto;
 import com.wsw.summercloud.task.service.TaskJobService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @Description: 任务服务相关接口
+ * @Description: 任务信息相关接口
  * <p>
  * <a href="http://localhost:8092/swagger-ui/index.html">swagger地址</a>
  * @Author: wangsongwen
@@ -24,9 +26,9 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/task")
-@Api(tags = "任务接口")
+@Tag(name = "TaskJobController", description = "任务接口")
 public class TaskJobController {
-    @Resource
+    @Autowired
     private TaskJobService taskJobService;
 
     @GetMapping("/health")
@@ -36,7 +38,10 @@ public class TaskJobController {
         return msgFromTask;
     }
 
-    @ApiOperation("批量增加任务")
+    @Operation(summary = "批量增加任务")
+    @Parameters({
+            @Parameter(name = "requestDtos", description = "任务信息请求实体类", required = true)
+    })
     @PostMapping("/createTasks")
     public Result<Void> createTasks(@RequestBody List<TaskJobRequestDto> requestDtos) {
         Result<Void> result = Result.success();
@@ -44,7 +49,10 @@ public class TaskJobController {
         return result;
     }
 
-    @ApiOperation("分页查询任务")
+    @Operation(summary = "分页查询任务")
+    @Parameters({
+            @Parameter(name = "queryDto", description = "任务信息查询实体类", required = true)
+    })
     @PostMapping("/selectTasks")
     public Result<PageInfo<TaskJobResponseDto>> selectTask(@RequestBody TaskJobQueryDto queryDto) {
         Result<PageInfo<TaskJobResponseDto>> result = Result.success();
@@ -52,7 +60,7 @@ public class TaskJobController {
         return result;
     }
 
-    @ApiOperation("获取所有任务")
+    @Operation(summary = "获取所有任务")
     @GetMapping("/getAllTasks")
     public Result<List<TaskJobResponseDto>> getAllTasks() {
         Result<List<TaskJobResponseDto>> result = Result.success();

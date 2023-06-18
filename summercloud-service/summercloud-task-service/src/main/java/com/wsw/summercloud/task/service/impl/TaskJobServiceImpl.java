@@ -22,7 +22,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -33,11 +32,11 @@ import java.util.List;
 @Slf4j
 @Service
 public class TaskJobServiceImpl extends ServiceImpl<TaskJobMapper, TaskJobEntity> implements TaskJobService {
-    @Resource
+    @Autowired
     private TaskJobRecordService taskJobRecordService;
-    @Resource
+    @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
-    @Resource
+    @Autowired
     private LoadingCache<String, List<TaskJobEntity>> taskJobEntityCache;
 
     @Override

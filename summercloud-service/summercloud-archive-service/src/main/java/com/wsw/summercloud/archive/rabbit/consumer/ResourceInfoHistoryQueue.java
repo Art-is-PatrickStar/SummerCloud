@@ -9,9 +9,9 @@ import com.wsw.summercloud.archive.service.ResourceMsgService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,11 +24,11 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class ResourceInfoHistoryQueue {
-    @Resource
+    @Autowired
     private ArchiveRabbitProperties archiveRabbitProperties;
-    @Resource
+    @Autowired
     private ResourceMsgService resourceMsgService;
-    @Resource
+    @Autowired
     private ObjectMapper objectMapper;
 
     @RabbitListener(queues = "#{archiveRabbitProperties.getHistoryQueue()}")

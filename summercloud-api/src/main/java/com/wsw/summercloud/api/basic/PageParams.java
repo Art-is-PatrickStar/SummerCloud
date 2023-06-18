@@ -1,7 +1,6 @@
 package com.wsw.summercloud.api.basic;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -10,11 +9,11 @@ import lombok.Data;
  * @Date: 2023/4/8 22:06
  */
 @Data
-@ApiModel(value = "分页查询参数")
+@Schema(name = "PageParams", title = "分页查询参数")
 public class PageParams {
-    @ApiModelProperty(value = "页码")
+    @Schema(title = "页码")
     private Integer currentPage;
 
-    @ApiModelProperty(value = "每页数量")
+    @Schema(title = "每页数量")
     private Integer pageSize;
 }

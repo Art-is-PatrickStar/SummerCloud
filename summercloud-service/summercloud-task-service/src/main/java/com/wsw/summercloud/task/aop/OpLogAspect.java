@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wsw.summercloud.common.annotation.OpLog;
 import com.wsw.summercloud.common.enums.ModuleTypeEnum;
 import com.wsw.summercloud.common.enums.OperationTypeEnum;
-import com.wsw.summercloud.common.log.OpLogDTO;
+import com.wsw.summercloud.api.dto.OpLogDTO;
 import com.wsw.summercloud.common.utils.CompareUtil;
 import com.wsw.summercloud.common.utils.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +15,9 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.lang.reflect.Method;
 
 /**
@@ -29,7 +29,7 @@ import java.lang.reflect.Method;
 @Aspect
 @Component
 public class OpLogAspect {
-    @Resource
+    @Autowired
     private ObjectMapper objectMapper;
 
     @Pointcut("@annotation(com.wsw.summercloud.common.annotation.OpLog)")

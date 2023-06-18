@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wsw.summercloud.api.dto.ResourceInfoRequestDto;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,9 +19,9 @@ import java.util.Map;
  */
 @SpringBootTest
 public class ResourceInfoServiceTests {
-    @Resource
+    @Autowired
     private ObjectMapper objectMapper;
-    @Resource
+    @Autowired
     private ResourceInfoService resourceInfoService;
 
     @Test

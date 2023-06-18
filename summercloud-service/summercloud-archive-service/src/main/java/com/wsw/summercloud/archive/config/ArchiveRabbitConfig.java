@@ -3,11 +3,10 @@ package com.wsw.summercloud.archive.config;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.annotation.Resource;
 
 /**
  * @Description: 归档服务RabbitMQ配置类
@@ -16,7 +15,7 @@ import javax.annotation.Resource;
  */
 @Configuration
 public class ArchiveRabbitConfig {
-    @Resource
+    @Autowired
     private ArchiveRabbitProperties archiveRabbitProperties;
 
     /**

@@ -6,61 +6,30 @@ spring:
     active: dev
   application:
     name: task-service
-  redis:
-    host: 192.168.223.100
-    port: 6379
-    database: 0
-    password: root
-    timeout: 30000
-    lettuce:
-      pool:
-        max-active: 10
-        max-wait: 2
-        min-idle: 5
-        max-idle: 10
+
   elasticsearch:
-    rest:
-      uris: 192.168.223.100:9200
-  shardingsphere:
-    datasource:
-      names: ds0
-      default-data-source-name: ds0
-      ds0:
-        type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbcUrl: jdbc:mysql://192.168.223.100:3306/summercloud?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
-        username: root
-        password: Wsw19980801.
-        connection-timeout: 60000
-        idle-timeout: 500000
-        max-lifetime: 540000
-        minimum-idle: 5
-        maximum-pool-size: 20
-        pool-name: HikariPool-task
-    sharding:
-      tables:
-        task_job:
-          actualDataNodes: ds0.task_job_$->{[20230401,20230501]}
-          tableStrategy:
-            standard:
-              shardingColumn: created_time
-              preciseAlgorithmClassName: com.wsw.summercloud.task.config.CustomShardingAlgorithm
-              rangeAlgorithmClassName: com.wsw.summercloud.task.config.CustomShardingAlgorithm
-        task_job_record:
-          actualDataNodes: ds0.task_job_record_$->{[20230401,20230501]}
-          tableStrategy:
-            standard:
-              shardingColumn: created_time
-              preciseAlgorithmClassName: com.wsw.summercloud.task.config.CustomShardingAlgorithm
-              rangeAlgorithmClassName: com.wsw.summercloud.task.config.CustomShardingAlgorithm
-    props:
-      max:
-        connections:
-          size:
-            per:
-              query: 20
-      sql:
-        show: true
+    uris: 192.168.223.100:9200
+
+  data:
+    redis:
+      host: 192.168.223.100
+      port: 6379
+      database: 0
+      password: root
+      timeout: 5000
+      lettuce:
+        pool:
+          enabled: true
+          max-active: 10
+          max-wait: 5000
+          min-idle: 5
+          max-idle: 10
+          time-between-eviction-runs: 1000
+
+  datasource:
+    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+    url: jdbc:shardingsphere:classpath:sharding.yml
+
   mail:
     host: smtp.qq.com
     port: 465
@@ -69,10 +38,11 @@ spring:
     default-encoding: UTF-8
     properties:
       mail:
-        debug: true
+        debug: false
         smtp:
-          socketFactory:
-            class: javax.net.ssl.SSLSocketFactory
+          ssl:
+            enable: true
+            required: false
           auth: true
           timeout: 25000
 

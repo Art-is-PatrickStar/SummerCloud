@@ -6,12 +6,15 @@ import com.wsw.summercloud.task.mapstruct.ITaskJobConverter;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
+import java.io.Serial;
+
 /**
  * @Description:
  * @Author: wangsongwen
  * @Date: 2023/5/25 10:43
  */
 public abstract class TaskEvent extends ApplicationEvent {
+    @Serial
     private static final long serialVersionUID = -7964823581435856986L;
 
     @Getter

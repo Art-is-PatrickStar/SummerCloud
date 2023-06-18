@@ -4,10 +4,9 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.google.common.collect.Range;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shardingsphere.api.sharding.standard.PreciseShardingAlgorithm;
-import org.apache.shardingsphere.api.sharding.standard.PreciseShardingValue;
-import org.apache.shardingsphere.api.sharding.standard.RangeShardingAlgorithm;
-import org.apache.shardingsphere.api.sharding.standard.RangeShardingValue;
+import org.apache.shardingsphere.sharding.api.sharding.standard.PreciseShardingValue;
+import org.apache.shardingsphere.sharding.api.sharding.standard.RangeShardingValue;
+import org.apache.shardingsphere.sharding.api.sharding.standard.StandardShardingAlgorithm;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -19,7 +18,7 @@ import java.util.*;
  */
 @Slf4j
 @Component
-public class CustomShardingAlgorithm implements PreciseShardingAlgorithm<Date>, RangeShardingAlgorithm<Date> {
+public class CustomShardingAlgorithm implements StandardShardingAlgorithm<Date> {
     private final static String YYYYMMDD = "yyyyMMdd";
     List<Integer> cacheList;
     Map<Integer, Integer> cacheMap;

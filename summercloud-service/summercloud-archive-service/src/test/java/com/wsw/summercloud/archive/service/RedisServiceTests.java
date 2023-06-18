@@ -2,9 +2,9 @@ package com.wsw.summercloud.archive.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @SpringBootTest
 public class RedisServiceTests {
-    @Resource
+    @Autowired
     private RedisService redisService;
 
     @Test

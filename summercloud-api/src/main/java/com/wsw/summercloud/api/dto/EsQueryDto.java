@@ -4,6 +4,7 @@ import com.wsw.summercloud.api.basic.PageParams;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -14,6 +15,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class EsQueryDto extends PageParams implements Serializable {
+    @Serial
     private static final long serialVersionUID = 441010717716040712L;
 
     private String indexName;

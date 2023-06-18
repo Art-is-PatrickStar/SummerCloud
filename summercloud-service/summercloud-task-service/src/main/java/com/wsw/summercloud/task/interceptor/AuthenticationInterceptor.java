@@ -4,11 +4,10 @@ import cn.hutool.core.util.StrUtil;
 import com.wsw.summercloud.api.basic.ResultStatus;
 import com.wsw.summercloud.common.exception.BusinessException;
 import com.wsw.summercloud.common.utils.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Description:
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Date: 2023/4/28 15:18
  */
 public class AuthenticationInterceptor implements HandlerInterceptor {
-    @Resource
+    @Autowired
     private JwtUtil jwtUtil;
 
     @Override

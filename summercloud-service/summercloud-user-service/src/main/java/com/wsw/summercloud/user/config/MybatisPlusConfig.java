@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
  * @Date: 2023/4/23 0:05
  */
 @Configuration
-@MapperScan("com.wsw.summercloud.user.mapper")
 public class MybatisPlusConfig {
     /**
      * mybatis-plus分页插件, 一缓和二缓遵循mybatis的规则

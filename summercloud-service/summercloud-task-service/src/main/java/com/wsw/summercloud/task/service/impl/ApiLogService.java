@@ -42,7 +42,7 @@ public class ApiLogService {
         try {
             StringBuilder sb = new StringBuilder();
             while (!queue.isEmpty()) {
-                sb.append(queue.poll()).append(",");
+                sb.append(queue.poll());
             }
             log.info(sb.toString());
         } catch (Exception e) {

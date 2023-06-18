@@ -5,16 +5,18 @@ import com.wsw.summercloud.api.dto.ResourceInfoQueryDto;
 import com.wsw.summercloud.api.dto.ResourceInfoRequestDto;
 import com.wsw.summercloud.api.dto.ResourceInfoResponseDto;
 import com.wsw.summercloud.archive.service.ResourceInfoService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -25,12 +27,15 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/resource")
-@Api(tags = "资源信息接口")
+@Tag(name = "ResourceInfoController", description = "资源信息接口")
 public class ResourceInfoController {
-    @Resource
+    @Autowired
     private ResourceInfoService resourceInfoService;
 
-    @ApiOperation("批量增加资源")
+    @Operation(summary = "批量增加资源")
+    @Parameters({
+            @Parameter(name = "requestDtos", description = "资源信息请求实体类", required = true)
+    })
     @PostMapping("/insertResourceInfos")
     public Result<Void> insertResourceInfo(@RequestBody List<ResourceInfoRequestDto> requestDtos) {
         Result<Void> result = Result.success();
@@ -38,7 +43,10 @@ public class ResourceInfoController {
         return result;
     }
 
-    @ApiOperation("分页查询资源")
+    @Operation(summary = "分页查询资源")
+    @Parameters({
+            @Parameter(name = "queryDto", description = "资源信息查询实体类", required = true)
+    })
     @PostMapping("/selectResourceInfos")
     public Result<Page<ResourceInfoResponseDto>> selectResourceInfos(@RequestBody ResourceInfoQueryDto queryDto) {
         Result<Page<ResourceInfoResponseDto>> result = Result.success();

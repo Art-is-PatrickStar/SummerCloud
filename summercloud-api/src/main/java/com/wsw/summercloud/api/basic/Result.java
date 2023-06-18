@@ -2,6 +2,7 @@ package com.wsw.summercloud.api.basic;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -11,6 +12,7 @@ import java.io.Serializable;
  */
 @Data
 public class Result<T> implements Serializable {
+    @Serial
     private static final long serialVersionUID = 3535289962320806820L;
 
     private Integer status;

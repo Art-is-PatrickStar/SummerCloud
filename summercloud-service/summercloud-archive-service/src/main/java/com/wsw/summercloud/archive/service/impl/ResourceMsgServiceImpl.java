@@ -10,9 +10,9 @@ import com.wsw.summercloud.archive.service.ArchiveNodeService;
 import com.wsw.summercloud.archive.service.ResourceInfoService;
 import com.wsw.summercloud.archive.service.ResourceMsgService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,11 +29,11 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class ResourceMsgServiceImpl implements ResourceMsgService {
-    @Resource
+    @Autowired
     private TaskClient taskClient;
-    @Resource
+    @Autowired
     private ArchiveNodeService archiveNodeService;
-    @Resource
+    @Autowired
     private ResourceInfoService resourceInfoService;
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(3);

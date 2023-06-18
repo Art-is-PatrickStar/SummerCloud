@@ -14,9 +14,9 @@ import com.wsw.summercloud.user.mapper.UserInfoMapper;
 import com.wsw.summercloud.user.mapstruct.IUserInfoConverter;
 import com.wsw.summercloud.user.service.UserInfoService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +30,7 @@ import java.util.Objects;
 @Slf4j
 @Service
 public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfoEntity> implements UserInfoService {
-    @Resource
+    @Autowired
     private JwtUtil jwtUtil;
 
     @Override

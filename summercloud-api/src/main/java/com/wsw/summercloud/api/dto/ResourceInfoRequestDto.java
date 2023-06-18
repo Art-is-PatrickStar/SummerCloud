@@ -1,9 +1,9 @@
 package com.wsw.summercloud.api.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -12,16 +12,17 @@ import java.io.Serializable;
  * @Date: 2023/4/19 16:12
  */
 @Data
-@ApiModel(value = "资源信息请求实体类")
+@Schema(name = "ResourceInfoRequestDto", title = "资源信息请求实体类")
 public class ResourceInfoRequestDto implements Serializable {
+    @Serial
     private static final long serialVersionUID = -8858818581471931491L;
 
-    @ApiModelProperty(value = "资源id")
+    @Schema(title = "资源id")
     private Long resourceId;
 
-    @ApiModelProperty(value = "数据")
+    @Schema(title = "数据")
     private String data;
 
-    @ApiModelProperty(value = "是否有效 1:是 0:否")
+    @Schema(title = "是否有效 1:是 0:否")
     private Integer enableType;
 }

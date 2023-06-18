@@ -2,10 +2,10 @@ package com.wsw.summercloud.archive.service.impl;
 
 import com.wsw.summercloud.archive.service.RedisService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 public class RedisServiceImpl implements RedisService {
-    @Resource
+    @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
     @Override

@@ -1,6 +1,6 @@
 package com.wsw.summercloud.common.utils;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -51,17 +51,17 @@ public class CompareUtil {
                     Object o2 = readMethod.invoke(obj2);
                     if (!Objects.equals(o1, o2)) {
                         try {
-                            //根据属性名获取swagger注解的注释从而获取属性的中文名
-                            ApiModelProperty apiModelProperty = clazz.getDeclaredField(name).getAnnotation(ApiModelProperty.class);
-                            if (apiModelProperty != null) {
-                                name = apiModelProperty.value();
+                            //根据属性名获取springdoc-schema注解的注释从而获取属性的中文名
+                            Schema schema = clazz.getDeclaredField(name).getAnnotation(Schema.class);
+                            if (schema != null) {
+                                name = schema.title();
                             }
                         } catch (Exception e) {
                             //反射 clazz.getDeclaredField(name) 不能获取到基类的属性
                             //如果属性获取不到且未被忽略，去基类里面寻找 clazz.getSuperclass().getDeclaredField(name)
-                            ApiModelProperty apiModelProperty = clazz.getSuperclass().getDeclaredField(name).getAnnotation(ApiModelProperty.class);
-                            if (apiModelProperty != null) {
-                                name = apiModelProperty.value();
+                            Schema schema = clazz.getSuperclass().getDeclaredField(name).getAnnotation(Schema.class);
+                            if (schema != null) {
+                                name = schema.title();
                             }
                         }
                         if (Objects.isNull(o1)) {

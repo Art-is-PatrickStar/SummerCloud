@@ -11,9 +11,9 @@ import com.wsw.summercloud.archive.service.ResourceInfoService;
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -24,13 +24,13 @@ import java.util.List;
 @Slf4j
 @Component
 public class ArchiveCompensateJob {
-    @Resource
+    @Autowired
     private ObjectMapper objectMapper;
-    @Resource
+    @Autowired
     private RabbitProvider rabbitProvider;
-    @Resource
+    @Autowired
     private ResourceInfoService resourceInfoService;
-    @Resource
+    @Autowired
     private ArchiveRabbitProperties archiveRabbitProperties;
 
     @XxlJob("archiveCompensateJobHandler")

@@ -1,0 +1,44 @@
+mode:
+  type: Standalone
+  repository:
+    type: JDBC
+
+dataSources:
+  ds0:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://192.168.223.100:3306/summercloud?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
+    username: root
+    password: Wsw19980801.
+    connectionTimeoutMilliseconds: 60000
+    idleTimeoutMilliseconds: 500000
+    maxLifetimeMilliseconds: 540000
+    minPoolSize: 5
+    maxPoolSize: 20
+    poolName: HikariPool-task
+
+rules:
+- !SHARDING
+  tables:
+    task_job:
+      actualDataNodes: ds0.task_job_$->{[20230401,20230501,20230601,20230701]}
+      tableStrategy:
+        standard:
+          shardingColumn: created_time
+          shardingAlgorithmName: my_sharding_algorithm
+    task_job_record:
+      actualDataNodes: ds0.task_job_record_$->{[20230401,20230501,20230601,20230701]}
+      tableStrategy:
+        standard:
+          shardingColumn: created_time
+          shardingAlgorithmName: my_sharding_algorithm
+  shardingAlgorithms:
+    my_sharding_algorithm:
+      type: CLASS_BASED
+      props:
+        strategy: standard
+        algorithmClassName: com.wsw.summercloud.task.config.CustomShardingAlgorithm
+
+props:
+  max-connections-size-per-query: 20
+  sql-show: true

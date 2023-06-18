@@ -2,6 +2,7 @@ package com.wsw.summercloud.common.exception;
 
 import com.wsw.summercloud.api.basic.ResultStatus;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -10,6 +11,7 @@ import java.io.Serializable;
  * @Date: 2023/4/6 23:57
  */
 public class BusinessException extends RuntimeException implements Serializable {
+    @Serial
     private static final long serialVersionUID = 6094159908069439356L;
 
     private final String message;

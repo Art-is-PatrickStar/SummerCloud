@@ -1,11 +1,11 @@
 package com.wsw.summercloud.api.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -14,18 +14,19 @@ import java.io.Serializable;
  * @Date: 2023/4/28 16:20
  */
 @Data
-@ApiModel("用户注册请求参数")
+@Schema(name = "UserSignUpRequestDto", title = "用户注册请求参数")
 public class UserSignUpRequestDto implements Serializable {
+    @Serial
     private static final long serialVersionUID = 2697520898164037913L;
 
-    @ApiModelProperty(value = "用户名")
+    @Schema(title = "用户名")
     private String username;
 
-    @ApiModelProperty(value = "密码")
+    @Schema(title = "密码")
     @NotBlank(message = "密码不能为空")
     @Size(min = 1, max = 200)
     private String password;
 
-    @ApiModelProperty(value = "邮箱")
+    @Schema(title = "邮箱")
     private String email;
 }
