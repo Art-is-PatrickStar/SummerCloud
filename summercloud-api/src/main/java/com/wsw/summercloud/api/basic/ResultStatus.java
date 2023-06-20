@@ -29,11 +29,10 @@ public enum ResultStatus {
     TASK_RECORD_INSERT_FAILD(6006, "新增任务记录失败", 0),
     USER_NOT_FOUND(6007, "用户不存在", 0),
     USER_INFORMATION_ERROR(6008, "用户名或密码错误", 0),
-    USER_IS_EXIST(6009, "用户名已存在", 0),
+    USER_IS_EXIST(6009, "用户已存在", 0),
     REDIS_LOCK_GET_FAILD(60010, "分布式锁获取失败", 0),
-    USERNAME_OR_EMAIL_CAN_NOT_NULL(60011, "用户名或邮箱不能为空", 0),
+    USERNAME_CAN_NOT_NULL(60011, "用户名不能为空", 0),
     PASSWORD_CAN_NOT_NULL(60012, "密码不能为空", 0),
-    USERNAME_IS_EXIST(60013, "用户名已存在", 0),
     EMAIL_IS_EXIST(60014, "邮箱已存在", 0),
     ;
 
