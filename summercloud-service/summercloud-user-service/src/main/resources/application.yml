@@ -43,10 +43,13 @@ spring:
       #最大连接数,小于等于0会被重置为默认值10,大于零小于1会被重置为minimum-idle的值
       maximum-pool-size: 20
       pool-name: HikariPool-user
-
-mybatis-plus:
-  mapper-locations: classpath*:mapper/*.xml
-  configuration.log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
 
 jwt:
   secret:

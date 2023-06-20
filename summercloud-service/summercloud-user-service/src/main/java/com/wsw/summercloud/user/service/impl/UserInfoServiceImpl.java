@@ -1,17 +1,18 @@
 package com.wsw.summercloud.user.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.benmanes.caffeine.cache.LoadingCache;
 import com.wsw.summercloud.api.basic.ResultStatus;
 import com.wsw.summercloud.api.dto.UserInfoResponseDto;
 import com.wsw.summercloud.api.dto.UserLoginRequestDto;
 import com.wsw.summercloud.api.dto.UserLoginResponseDto;
 import com.wsw.summercloud.api.dto.UserSignUpRequestDto;
+import com.wsw.summercloud.common.constants.MemoryCacheConstant;
 import com.wsw.summercloud.common.exception.BusinessException;
 import com.wsw.summercloud.common.utils.JwtUtil;
 import com.wsw.summercloud.user.entities.UserInfoEntity;
-import com.wsw.summercloud.user.mapper.UserInfoMapper;
 import com.wsw.summercloud.user.mapstruct.IUserInfoConverter;
+import com.wsw.summercloud.user.repository.UserInfoRepository;
 import com.wsw.summercloud.user.service.UserInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +30,17 @@ import java.util.Objects;
  */
 @Slf4j
 @Service
-public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfoEntity> implements UserInfoService {
+public class UserInfoServiceImpl implements UserInfoService {
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private UserInfoRepository userInfoRepository;
+    @Autowired
+    private LoadingCache<String, List<UserInfoEntity>> userInfoEntityCache;
 
     @Override
     public List<UserInfoResponseDto> getAllUsers() {
-        List<UserInfoEntity> userInfoEntities = list();
+        List<UserInfoEntity> userInfoEntities = userInfoEntityCache.get(MemoryCacheConstant.USER_INFO_ENTITY_CACHE);
         return IUserInfoConverter.INSTANCE.entityToResponseDto(userInfoEntities);
     }
 
@@ -44,15 +49,17 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfoEnt
         if (Objects.isNull(loginRequestDto)) {
             throw new BusinessException(ResultStatus.PARAMS_EXCEPTION);
         }
-        if (StrUtil.isBlank(loginRequestDto.getUsername()) && StrUtil.isBlank(loginRequestDto.getEmail())) {
-            throw new BusinessException(ResultStatus.USERNAME_OR_EMAIL_CAN_NOT_NULL);
+        String username = loginRequestDto.getUsername();
+        String password = loginRequestDto.getPassword();
+        if (StrUtil.isBlank(username)) {
+            throw new BusinessException(ResultStatus.USERNAME_CAN_NOT_NULL);
         }
-        if (StrUtil.isBlank(loginRequestDto.getPassword())) {
+        if (StrUtil.isBlank(password)) {
             throw new BusinessException(ResultStatus.PASSWORD_CAN_NOT_NULL);
         }
-        UserInfoEntity userInfoEntity = baseMapper.getUserByNameOrEmailAndPassword(loginRequestDto);
+        UserInfoEntity userInfoEntity = userInfoRepository.getUserInfoEntity(username, password);
         if (Objects.isNull(userInfoEntity)) {
-            throw new BusinessException(ResultStatus.USER_NOT_FOUND);
+            throw new BusinessException(ResultStatus.USER_INFORMATION_ERROR);
         }
         Map<String, Object> userInfoMap = new HashMap<>();
         userInfoMap.put("userId", userInfoEntity.getId());
@@ -69,27 +76,19 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfoEnt
         if (Objects.isNull(signUpRequestDto)) {
             throw new BusinessException(ResultStatus.PARAMS_EXCEPTION);
         }
-        if (StrUtil.isBlank(signUpRequestDto.getUsername()) && StrUtil.isBlank(signUpRequestDto.getEmail())) {
-            throw new BusinessException(ResultStatus.USERNAME_OR_EMAIL_CAN_NOT_NULL);
+        String username = signUpRequestDto.getUsername();
+        String password = signUpRequestDto.getPassword();
+        if (StrUtil.isBlank(username)) {
+            throw new BusinessException(ResultStatus.USERNAME_CAN_NOT_NULL);
         }
-        if (StrUtil.isBlank(signUpRequestDto.getPassword())) {
+        if (StrUtil.isBlank(password)) {
             throw new BusinessException(ResultStatus.PASSWORD_CAN_NOT_NULL);
         }
-        String username = signUpRequestDto.getUsername();
-        String email = signUpRequestDto.getEmail();
-        if (StrUtil.isNotBlank(username)) {
-            UserInfoEntity userInfoEntity = lambdaQuery().eq(UserInfoEntity::getUsername, username).eq(UserInfoEntity::getIsDelete, 0).one();
-            if (!Objects.isNull(userInfoEntity)) {
-                throw new BusinessException(ResultStatus.USERNAME_IS_EXIST);
-            }
-        }
-        if (StrUtil.isNotBlank(email)) {
-            UserInfoEntity userInfoEntity = lambdaQuery().eq(UserInfoEntity::getEmail, email).eq(UserInfoEntity::getIsDelete, 0).one();
-            if (!Objects.isNull(userInfoEntity)) {
-                throw new BusinessException(ResultStatus.EMAIL_IS_EXIST);
-            }
+        UserInfoEntity ifExistUserInfoEntity = userInfoRepository.getUserInfoEntity(username);
+        if (!Objects.isNull(ifExistUserInfoEntity)) {
+            throw new BusinessException(ResultStatus.USER_IS_EXIST);
         }
         UserInfoEntity userInfoEntity = IUserInfoConverter.INSTANCE.signUpRequestDtoToEntity(signUpRequestDto);
-        save(userInfoEntity);
+        userInfoRepository.save(userInfoEntity);
     }
 }
