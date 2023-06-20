@@ -4,7 +4,7 @@ import com.wsw.summercloud.api.dto.ArchiveNodeResponseDto;
 import com.wsw.summercloud.api.dto.ResourceInfoRequestDto;
 import com.wsw.summercloud.api.dto.TaskJobRequestDto;
 import com.wsw.summercloud.api.msg.ResourceMsg;
-import com.wsw.summercloud.archive.client.TaskClient;
+import com.wsw.summercloud.archive.client.TaskServiceClient;
 import com.wsw.summercloud.archive.mapstruct.IResourceInfoConverter;
 import com.wsw.summercloud.archive.service.ArchiveNodeService;
 import com.wsw.summercloud.archive.service.ResourceInfoService;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @Service
 public class ResourceMsgServiceImpl implements ResourceMsgService {
     @Autowired
-    private TaskClient taskClient;
+    private TaskServiceClient taskServiceClient;
     @Autowired
     private ArchiveNodeService archiveNodeService;
     @Autowired
@@ -54,7 +54,7 @@ public class ResourceMsgServiceImpl implements ResourceMsgService {
     private void doArchive(List<ResourceInfoRequestDto> resourceInfoRequestDtos) {
         try {
             Map<Long, List<TaskJobRequestDto>> archivedResource = getArchivedResource(resourceInfoRequestDtos);
-            archivedResource.values().forEach(taskClient::createTask);
+            archivedResource.values().forEach(taskServiceClient::createTasks);
         } catch (Exception e) {
             throw new RuntimeException("归档创建任务失败: " + e);
         }

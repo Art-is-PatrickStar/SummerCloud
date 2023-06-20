@@ -3,7 +3,7 @@ package com.wsw.summercloud.archive.controller;
 import com.wsw.summercloud.api.basic.Result;
 import com.wsw.summercloud.api.dto.ArchiveNodeRequestDto;
 import com.wsw.summercloud.api.dto.ArchiveNodeResponseDto;
-import com.wsw.summercloud.archive.client.TaskClient;
+import com.wsw.summercloud.archive.client.TaskServiceClient;
 import com.wsw.summercloud.archive.service.ArchiveNodeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,7 +28,7 @@ import java.util.List;
 @Tag(name = "ArchiveNodeController", description = "归档节点接口")
 public class ArchiveNodeController {
     @Autowired
-    private TaskClient taskClient;
+    private TaskServiceClient taskServiceClient;
     @Autowired
     private ArchiveNodeService archiveNodeService;
 
@@ -41,7 +41,7 @@ public class ArchiveNodeController {
 
     @GetMapping("/getHealthFromTaskService")
     public String getHealthFromTaskService() {
-        String msgFromTask = taskClient.health();
+        String msgFromTask = taskServiceClient.health();
         log.info(msgFromTask);
         return msgFromTask;
     }
