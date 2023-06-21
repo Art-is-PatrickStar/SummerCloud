@@ -25,15 +25,20 @@ rules:
       tableStrategy:
         standard:
           shardingColumn: created_time
-          shardingAlgorithmName: my_sharding_algorithm
+          shardingAlgorithmName: my_task_job_sharding_algorithm
     task_job_record:
       actualDataNodes: ds0.task_job_record_$->{[20230401,20230501,20230601,20230701]}
       tableStrategy:
         standard:
           shardingColumn: created_time
-          shardingAlgorithmName: my_sharding_algorithm
+          shardingAlgorithmName: my_task_job_record_sharding_algorithm
   shardingAlgorithms:
-    my_sharding_algorithm:
+    my_task_job_sharding_algorithm:
+      type: CLASS_BASED
+      props:
+        strategy: standard
+        algorithmClassName: com.wsw.summercloud.task.config.CustomShardingAlgorithm
+    my_task_job_record_sharding_algorithm:
       type: CLASS_BASED
       props:
         strategy: standard
