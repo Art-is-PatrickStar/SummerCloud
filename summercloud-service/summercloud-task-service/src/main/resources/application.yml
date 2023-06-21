@@ -82,7 +82,7 @@ mail:
 #不需要鉴权的url
 not:
   authentication:
-    urls: /swagger-ui/**,/swagger-resources/**,/v2/**,/task/health,/task/hello,/task/createTasks
+    urls: /swagger-ui/**,/swagger-resources/**,/v2/**,/task/health,/task/client/getAllArchiveNodes,/task/client/getAllUsers
 
 task:
   threadpool:
@@ -96,3 +96,11 @@ task:
     log-persist-interval: 1
     log-cleanup-interval: 12
     expire-days: 7
+
+archive:
+  service:
+    url: ${ARCHIVE_SERVICE_ENDPOINT:http://localhost:8091}
+
+user:
+  service:
+    url: ${USER_SERVICE_ENDPOINT:http://localhost:8093}

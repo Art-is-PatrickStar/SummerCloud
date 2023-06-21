@@ -1,10 +1,12 @@
 package com.wsw.summercloud.task.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wsw.summercloud.api.basic.PageInfo;
 import com.wsw.summercloud.api.basic.Result;
-import com.wsw.summercloud.api.dto.TaskJobQueryDto;
-import com.wsw.summercloud.api.dto.TaskJobRequestDto;
-import com.wsw.summercloud.api.dto.TaskJobResponseDto;
+import com.wsw.summercloud.api.dto.*;
+import com.wsw.summercloud.task.client.ArchiveServiceClient;
+import com.wsw.summercloud.task.client.UserServiceClient;
 import com.wsw.summercloud.task.service.TaskJobService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,13 +31,35 @@ import java.util.List;
 @Tag(name = "TaskJobController", description = "任务接口")
 public class TaskJobController {
     @Autowired
+    private ObjectMapper objectMapper;
+    @Autowired
     private TaskJobService taskJobService;
+    @Autowired
+    private ArchiveServiceClient archiveServiceClient;
+    @Autowired
+    private UserServiceClient userServiceClient;
 
     @GetMapping("/health")
     public String health() {
         String msgFromTask = "ok from task service.";
         log.info(msgFromTask);
         return msgFromTask;
+    }
+
+    @GetMapping("/client/getAllArchiveNodes")
+    public String getAllArchiveNodes() throws JsonProcessingException {
+        Result<List<ArchiveNodeResponseDto>> allArchiveNodes = archiveServiceClient.getAllArchiveNodes();
+        String msgFromArchive = objectMapper.writeValueAsString(allArchiveNodes.getData());
+        log.info(msgFromArchive);
+        return msgFromArchive;
+    }
+
+    @GetMapping("/client/getAllUsers")
+    public String getAllUsers() throws JsonProcessingException {
+        Result<List<UserInfoResponseDto>> allUsers = userServiceClient.getAllUsers();
+        String msgFromUser = objectMapper.writeValueAsString(allUsers.getData());
+        log.info(msgFromUser);
+        return msgFromUser;
     }
 
     @Operation(summary = "批量增加任务")
