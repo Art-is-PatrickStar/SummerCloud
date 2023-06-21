@@ -11,14 +11,14 @@ import com.wsw.summercloud.archive.service.ResourceInfoService;
 import com.wsw.summercloud.archive.service.ResourceMsgService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 /**
@@ -35,20 +35,21 @@ public class ResourceMsgServiceImpl implements ResourceMsgService {
     private ArchiveNodeService archiveNodeService;
     @Autowired
     private ResourceInfoService resourceInfoService;
-
-    private final ExecutorService executorService = Executors.newFixedThreadPool(3);
+    @Autowired
+    @Qualifier("archiveThreadPool")
+    private ThreadPoolExecutor archiveThreadPool;
 
     @Override
     public void realTimeResourceHandle(List<ResourceMsg> resourceMsgs) {
         List<ResourceInfoRequestDto> resourceInfoRequestDtos = IResourceInfoConverter.INSTANCE.resourceMsgToRequestDto(resourceMsgs);
         resourceInfoService.saveOrUpdateResourceInfos(resourceInfoRequestDtos);
-        executorService.execute(() -> doArchive(resourceInfoRequestDtos));
+        archiveThreadPool.execute(() -> doArchive(resourceInfoRequestDtos));
     }
 
     @Override
     public void historyResourceHandle(List<ResourceMsg> resourceMsgs) {
         List<ResourceInfoRequestDto> resourceInfoRequestDtos = IResourceInfoConverter.INSTANCE.resourceMsgToRequestDto(resourceMsgs);
-        executorService.execute(() -> doArchive(resourceInfoRequestDtos));
+        archiveThreadPool.execute(() -> doArchive(resourceInfoRequestDtos));
     }
 
     private void doArchive(List<ResourceInfoRequestDto> resourceInfoRequestDtos) {

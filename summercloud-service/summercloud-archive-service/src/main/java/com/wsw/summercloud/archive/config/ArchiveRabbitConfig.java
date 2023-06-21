@@ -138,4 +138,3 @@ public class ArchiveRabbitConfig {
         return factory;
     }
 }
-

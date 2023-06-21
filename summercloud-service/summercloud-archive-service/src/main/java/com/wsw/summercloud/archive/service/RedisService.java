@@ -26,4 +26,12 @@ public interface RedisService {
      * @return String
      */
     String getValueByKey(String key);
+
+    /**
+     * 根据key删除value
+     *
+     * @param key
+     * @return void
+     */
+    void deleteByKey(String key);
 }

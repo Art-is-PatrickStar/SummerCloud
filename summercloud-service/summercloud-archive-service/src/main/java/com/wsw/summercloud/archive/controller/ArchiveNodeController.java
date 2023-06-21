@@ -54,7 +54,7 @@ public class ArchiveNodeController {
         return result;
     }
 
-    @Operation(summary = "批量增加归档节点")
+    @Operation(summary = "批量新增或修改归档节点")
     @Parameters({
             @Parameter(name = "requestDtos", description = "归档节点请求实体类", required = true)
     })

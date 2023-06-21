@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wsw.summercloud.archive.mapper.ArchiveNodeMapper">
+    <resultMap id="BaseResultMap" type="com.wsw.summercloud.archive.entities.ArchiveNodeEntity">
+        <id column="archive_id" jdbcType="BIGINT" property="archiveId"/>
+        <result column="archive_rule" jdbcType="VARCHAR" property="archiveRule"/>
+        <result column="enable" jdbcType="INTEGER" property="enable"/>
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        archive_id,
+        archive_rule,
+        `enable`,
+        is_delete,
+        created_time,
+        updated_time
+    </sql>
+</mapper>

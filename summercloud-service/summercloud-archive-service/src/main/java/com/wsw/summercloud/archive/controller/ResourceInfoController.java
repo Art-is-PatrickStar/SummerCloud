@@ -1,5 +1,6 @@
 package com.wsw.summercloud.archive.controller;
 
+import com.wsw.summercloud.api.basic.PageInfo;
 import com.wsw.summercloud.api.basic.Result;
 import com.wsw.summercloud.api.dto.ResourceInfoQueryDto;
 import com.wsw.summercloud.api.dto.ResourceInfoRequestDto;
@@ -32,7 +33,7 @@ public class ResourceInfoController {
     @Autowired
     private ResourceInfoService resourceInfoService;
 
-    @Operation(summary = "批量增加资源")
+    @Operation(summary = "批量新增或修改资源")
     @Parameters({
             @Parameter(name = "requestDtos", description = "资源信息请求实体类", required = true)
     })
@@ -48,8 +49,8 @@ public class ResourceInfoController {
             @Parameter(name = "queryDto", description = "资源信息查询实体类", required = true)
     })
     @PostMapping("/selectResourceInfos")
-    public Result<Page<ResourceInfoResponseDto>> selectResourceInfos(@RequestBody ResourceInfoQueryDto queryDto) {
-        Result<Page<ResourceInfoResponseDto>> result = Result.success();
+    public Result<PageInfo<ResourceInfoResponseDto>> selectResourceInfos(@RequestBody ResourceInfoQueryDto queryDto) {
+        Result<PageInfo<ResourceInfoResponseDto>> result = Result.success();
         result.value(resourceInfoService.selectResourceInfos(queryDto));
         return result;
     }
