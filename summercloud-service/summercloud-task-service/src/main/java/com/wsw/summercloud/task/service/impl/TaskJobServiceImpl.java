@@ -22,7 +22,9 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Description:
@@ -53,6 +55,9 @@ public class TaskJobServiceImpl extends ServiceImpl<TaskJobMapper, TaskJobEntity
 
     @Override
     public PageInfo<TaskJobResponseDto> selectTaskJobs(TaskJobQueryDto queryDto) {
+        if (Objects.isNull(queryDto.getCreatedTimeEnd())) {
+            queryDto.setCreatedTimeEnd(new Date());
+        }
         IPage<TaskJobEntity> taskJobEntityIPage = baseMapper.selectTaskJobs(new Page<>(queryDto.getCurrentPage(), queryDto.getPageSize()), queryDto);
         List<TaskJobResponseDto> taskJobResponseDtos = ITaskJobConverter.INSTANCE.entityToResponseDto(taskJobEntityIPage.getRecords());
         return new PageInfo<>(taskJobEntityIPage.getCurrent(), taskJobEntityIPage.getSize(), taskJobEntityIPage.getTotal(), taskJobResponseDtos);

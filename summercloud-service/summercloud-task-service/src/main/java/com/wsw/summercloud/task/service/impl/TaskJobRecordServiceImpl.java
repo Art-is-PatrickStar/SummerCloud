@@ -14,7 +14,9 @@ import com.wsw.summercloud.task.service.TaskJobRecordService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Description:
@@ -32,6 +34,9 @@ public class TaskJobRecordServiceImpl extends ServiceImpl<TaskJobRecordMapper, T
 
     @Override
     public PageInfo<TaskJobRecordResponseDto> selectTaskJobRecords(TaskJobRecordQueryDto queryDto) {
+        if (Objects.isNull(queryDto.getCreatedTimeEnd())) {
+            queryDto.setCreatedTimeEnd(new Date());
+        }
         IPage<TaskJobRecordEntity> taskJobRecordEntityIPage = baseMapper.selectTaskJobRecords(new Page<>(queryDto.getCurrentPage(), queryDto.getPageSize()), queryDto);
         List<TaskJobRecordResponseDto> taskJobRecordResponseDtos = ITaskJobRecordConverter.INSTANCE.entityToResponseDto(taskJobRecordEntityIPage.getRecords());
         return new PageInfo<>(taskJobRecordEntityIPage.getCurrent(), taskJobRecordEntityIPage.getSize(), taskJobRecordEntityIPage.getTotal(), taskJobRecordResponseDtos);

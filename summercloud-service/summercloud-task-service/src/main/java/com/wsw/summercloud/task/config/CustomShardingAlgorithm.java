@@ -20,18 +20,17 @@ import java.util.*;
 @Component
 public class CustomShardingAlgorithm implements StandardShardingAlgorithm<Date> {
     private final static String YYYYMMDD = "yyyyMMdd";
-    List<Integer> cacheList;
-    Map<Integer, Integer> cacheMap;
+    private List<Integer> cacheList;
+    private Map<Integer, Integer> cacheMap;
     //key: 数字类型的日期， value 实际表名
-    Map<Integer, List<String>> cachedActualTables;
+    private Map<Integer, List<String>> cachedActualTables;
 
     @Override
     public String doSharding(Collection<String> availableTargetNames, PreciseShardingValue<Date> preciseShardingValue) {
-        String logicTable = preciseShardingValue.getLogicTableName();
         if (Objects.isNull(cacheList)) {
             synchronized (this) {
                 if (Objects.isNull(cacheList)) {
-                    cacheTable(availableTargetNames, logicTable);
+                    cacheTable(availableTargetNames);
                 }
             }
         }
@@ -40,7 +39,7 @@ public class CustomShardingAlgorithm implements StandardShardingAlgorithm<Date> 
             int source = cacheList.get(i);
             if (getDateNum(date) >= source) {
                 List<String> nodes = cachedActualTables.get(source);
-                if (nodes != null && nodes.size() >= 0) {
+                if (nodes != null && !nodes.isEmpty()) {
                     return nodes.get(0);
                 }
             }
@@ -51,11 +50,10 @@ public class CustomShardingAlgorithm implements StandardShardingAlgorithm<Date> 
     @Override
     public Collection<String> doSharding(Collection<String> availableTargetNames, RangeShardingValue<Date> rangeShardingValue) {
         List<String> tables = new ArrayList<>(16);
-        String logicTable = rangeShardingValue.getLogicTableName();
         if (Objects.isNull(cacheList)) {
             synchronized (this) {
                 if (Objects.isNull(cacheList)) {
-                    cacheTable(availableTargetNames, logicTable);
+                    cacheTable(availableTargetNames);
                 }
             }
         }
@@ -77,17 +75,17 @@ public class CustomShardingAlgorithm implements StandardShardingAlgorithm<Date> 
         end = this.getEndTable(end);
         //这个判断应该是有问题的，会导致开始时间如果小于最早分片中的时间，将返回最大分片。
         if (start == -1 || end == -1) {
-            this.addAvailableTargetName(cacheList.get(cacheList.size() - 1), logicTable, tables);
+            this.addAvailableTargetName(cacheList.get(cacheList.size() - 1), tables);
         } else {
             int current;
             for (Integer integer : cacheList) {
                 current = integer;
                 if (current >= start && current <= end) {
-                    this.addAvailableTargetName(current, logicTable, tables);
+                    this.addAvailableTargetName(current, tables);
                 }
             }
             if (tables.isEmpty()) {
-                this.addAvailableTargetName(cacheList.get(cacheList.size() - 1), logicTable, tables);
+                this.addAvailableTargetName(cacheList.get(cacheList.size() - 1), tables);
             }
         }
         return tables;
@@ -141,33 +139,7 @@ public class CustomShardingAlgorithm implements StandardShardingAlgorithm<Date> 
         return 0;
     }
 
-    private boolean isAvailable(int current, int start, int end) {
-        boolean flag = false;
-        if (current >= start) {
-        }
-        if (start > 0) {
-            if (end <= 0) {
-                if (current >= start) {
-                    flag = true;
-                }
-            } else {
-                if (current >= start && current <= end) {
-                    flag = true;
-                }
-            }
-        } else {
-            if (end > 0) {
-                if (current <= end) {
-                    flag = true;
-                }
-            } else {
-                flag = true;
-            }
-        }
-        return flag;
-    }
-
-    private void addAvailableTargetName(int current, String logicTable, List<String> tables) {
+    private void addAvailableTargetName(int current, List<String> tables) {
         final List<String> list = cachedActualTables.get(current);
         tables.addAll(list);
     }
@@ -177,7 +149,7 @@ public class CustomShardingAlgorithm implements StandardShardingAlgorithm<Date> 
         return calendar.get(Calendar.YEAR) * 10000 + (calendar.get(Calendar.MONTH) + 1) * 100 + calendar.get(Calendar.DAY_OF_MONTH);
     }
 
-    private void cacheTable(Collection<String> availableTargetNames, String logicTable) {
+    private void cacheTable(Collection<String> availableTargetNames) {
         cacheMap = new HashMap<>();
         cacheList = new ArrayList<>();
         cachedActualTables = new HashMap<>();
@@ -205,5 +177,4 @@ public class CustomShardingAlgorithm implements StandardShardingAlgorithm<Date> 
         });
         cacheList.sort(Comparator.comparingInt(a -> a));
     }
-
 }

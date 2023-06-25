@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Description:
@@ -41,6 +42,9 @@ public class ResourceInfoServiceImpl extends ServiceImpl<ResourceInfoMapper, Res
 
     @Override
     public PageInfo<ResourceInfoResponseDto> selectResourceInfos(ResourceInfoQueryDto queryDto) {
+        if (Objects.isNull(queryDto.getCreatedTimeEnd())) {
+            queryDto.setCreatedTimeEnd(new Date());
+        }
         IPage<ResourceInfoEntity> resourceInfoEntityIPage = baseMapper.selectResourceInfos(new Page<>(queryDto.getCurrentPage(), queryDto.getPageSize()), queryDto);
         List<ResourceInfoResponseDto> resourceInfoResponseDtos = IResourceInfoConverter.INSTANCE.entityToResponseDto(resourceInfoEntityIPage.getRecords());
         return new PageInfo<>(resourceInfoEntityIPage.getCurrent(), resourceInfoEntityIPage.getSize(), resourceInfoEntityIPage.getTotal(), resourceInfoResponseDtos);

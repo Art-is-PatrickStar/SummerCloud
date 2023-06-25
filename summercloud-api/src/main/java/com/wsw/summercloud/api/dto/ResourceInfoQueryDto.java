@@ -1,5 +1,6 @@
 package com.wsw.summercloud.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wsw.summercloud.api.basic.PageParams;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -31,14 +32,18 @@ public class ResourceInfoQueryDto extends PageParams implements Serializable {
     private Integer archiveStatus;
 
     @Schema(title = "资源入库时间-开始")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createdTimeBegin;
 
     @Schema(title = "资源入库时间-结束")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createdTimeEnd;
 
     @Schema(title = "资源修改时间-开始")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updatedTimeBegin;
 
     @Schema(title = "资源修改时间-结束")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updatedTimeEnd;
 }
