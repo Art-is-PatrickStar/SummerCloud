@@ -3,6 +3,7 @@ package com.wsw.summercloud.common.utils;
 import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.json.JSONObject;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTPayload;
 import cn.hutool.jwt.JWTUtil;
@@ -52,5 +53,20 @@ public class JwtUtil {
     public boolean verifyToken(String token) {
         JWT jwt = JWTUtil.parseToken(token).setKey(secretKey.getBytes());
         return jwt.validate(0);
+    }
+
+    /**
+     * 获取token中的用户信息
+     *
+     * @param token
+     * @return Map<String, Object>
+     */
+    public Map<String, Object> getUserInfo(String token) {
+        JWT jwt = JWTUtil.parseToken(token).setKey(secretKey.getBytes());
+        JSONObject payloads = jwt.getPayloads();
+        payloads.remove(JWTPayload.ISSUED_AT);
+        payloads.remove(JWTPayload.NOT_BEFORE);
+        payloads.remove(JWTPayload.EXPIRES_AT);
+        return payloads;
     }
 }

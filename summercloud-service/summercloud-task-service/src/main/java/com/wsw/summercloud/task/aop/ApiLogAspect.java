@@ -2,6 +2,8 @@ package com.wsw.summercloud.task.aop;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wsw.summercloud.api.basic.UserInfo;
+import com.wsw.summercloud.common.utils.UserInfoUtil;
 import com.wsw.summercloud.task.service.impl.ApiLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -65,7 +67,10 @@ public class ApiLogAspect {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         //获取被切入方法对象
         Method method = signature.getMethod();
+        //获取当前用户信息
+        UserInfo currentUserInfo = UserInfoUtil.getCurrentUserInfoThreadLocal();
         apiLogBuilder.append("请求方法:").append(method.getName()).append(",");
+        apiLogBuilder.append("请求用户:").append(currentUserInfo).append(",");
         apiLogBuilder.append("请求参数:").append(objectMapper.writeValueAsString(pjp.getArgs())).append(",");
         apiLogBuilder.append("请求结果:").append(objectMapper.writeValueAsString(result)).append(",");
         apiLogBuilder.append("请求耗时:").append(costTime).append("ms");
