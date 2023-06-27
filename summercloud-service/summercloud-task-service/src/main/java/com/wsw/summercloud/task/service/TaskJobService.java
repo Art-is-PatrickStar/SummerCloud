@@ -35,4 +35,12 @@ public interface TaskJobService {
      * @return List<TaskJobResponseDto>
      */
     List<TaskJobResponseDto> getAllTasks();
+
+    /**
+     * 更新任务
+     *
+     * @param requestDto
+     * @return void
+     */
+    void updateTask(TaskJobRequestDto requestDto);
 }

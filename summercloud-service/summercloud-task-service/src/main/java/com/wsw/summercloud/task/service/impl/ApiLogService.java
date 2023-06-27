@@ -1,7 +1,12 @@
 package com.wsw.summercloud.task.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.wsw.summercloud.api.data.EsData;
+import com.wsw.summercloud.api.dto.ApiLogDto;
 import com.wsw.summercloud.task.config.ApiLogProperties;
+import com.wsw.summercloud.task.service.ElasticSearchService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
@@ -15,7 +20,10 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 public class ApiLogService {
-    private final ConcurrentLinkedQueue<String> queue;
+    @Autowired
+    private ElasticSearchService elasticSearchService;
+
+    private final ConcurrentLinkedQueue<ApiLogDto> queue;
     private final ApiLogProperties apiLogProperties;
 
     public ApiLogService(ApiLogProperties apiLogProperties) {
@@ -27,9 +35,9 @@ public class ApiLogService {
         removeExpireLogSchedule.scheduleAtFixedRate(this::removeExpireLog, 0, apiLogProperties.getLogCleanupInterval(), TimeUnit.HOURS);
     }
 
-    public void appendApiLog(String logs) {
+    public void appendApiLog(ApiLogDto apiLogDto) {
         try {
-            queue.add(logs);
+            queue.add(apiLogDto);
         } catch (Exception e) {
             log.error("appendApiLog异常", e);
         }
@@ -40,11 +48,27 @@ public class ApiLogService {
             return;
         }
         try {
-            StringBuilder sb = new StringBuilder();
+            ApiLogDto apiLogDto = new ApiLogDto();
+            StringBuilder apiLogBuilder = new StringBuilder();
+            EsData esData = new EsData();
             while (!queue.isEmpty()) {
-                sb.append(queue.poll());
+                apiLogDto = queue.poll();
             }
-            log.info(sb.toString());
+            apiLogBuilder.append("请求方法:").append(apiLogDto.getMethod()).append(",");
+            apiLogBuilder.append("请求用户:").append(apiLogDto.getOperateUser()).append(",");
+            apiLogBuilder.append("请求参数:").append(apiLogDto.getParams()).append(",");
+            apiLogBuilder.append("请求结果:").append(apiLogDto.getResult()).append(",");
+            apiLogBuilder.append("请求耗时:").append(apiLogDto.getCostTime()).append("ms");
+            if (StrUtil.isNotBlank(apiLogDto.getException())) {
+                apiLogBuilder.append(",请求异常:").append(apiLogDto.getException());
+            }
+            esData.setData(apiLogBuilder.toString());
+            boolean indexExist = elasticSearchService.isIndexExist("api_log");
+            if (!indexExist) {
+                elasticSearchService.createIndex("api_log");
+            }
+            elasticSearchService.createDocument("api_log", apiLogDto.getId().toString(), esData);
+            log.info(apiLogBuilder.toString());
         } catch (Exception e) {
             log.error("persistLog异常", e);
         }

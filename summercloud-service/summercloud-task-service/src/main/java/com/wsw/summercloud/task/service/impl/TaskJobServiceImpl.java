@@ -68,4 +68,10 @@ public class TaskJobServiceImpl extends ServiceImpl<TaskJobMapper, TaskJobEntity
         List<TaskJobEntity> allTaskJobs = taskJobEntityCache.get(MemoryCacheConstant.TASK_JOB_ENTITY_CACHE);
         return ITaskJobConverter.INSTANCE.entityToResponseDto(allTaskJobs);
     }
+
+    @Override
+    public void updateTask(TaskJobRequestDto requestDto) {
+        TaskJobEntity taskJobEntity = ITaskJobConverter.INSTANCE.requestDtoToEntity(requestDto);
+        updateById(taskJobEntity);
+    }
 }

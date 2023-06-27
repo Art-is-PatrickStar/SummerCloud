@@ -3,12 +3,14 @@ package com.wsw.summercloud.task.aop;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wsw.summercloud.api.basic.UserInfo;
 import com.wsw.summercloud.common.annotation.OpLog;
 import com.wsw.summercloud.common.enums.ModuleTypeEnum;
 import com.wsw.summercloud.common.enums.OperationTypeEnum;
-import com.wsw.summercloud.api.dto.OpLogDTO;
+import com.wsw.summercloud.api.dto.OpLogDto;
 import com.wsw.summercloud.common.utils.CompareUtil;
 import com.wsw.summercloud.common.utils.SpringUtil;
+import com.wsw.summercloud.common.utils.UserInfoUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -19,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.util.Date;
 
 /**
  * @Description: 操作日志记录切面
@@ -64,7 +67,7 @@ public class OpLogAspect {
         }
         try {
             //操作日志类
-            OpLogDTO opLogDTO = new OpLogDTO();
+            OpLogDto opLogDTO = new OpLogDto();
             opLogDTO.setOperateType(opLog.opType().getMessage());
             opLogDTO.setModuleType(opLog.type().getDes());
             if (opLog.opType() == OperationTypeEnum.UPDATE) {
@@ -79,7 +82,9 @@ public class OpLogAspect {
                 opLogDTO.setOperateContent(opLog.opType().getMessage() + opLog.type().getDes());
             }
             //操作人员
-
+            UserInfo currentUserInfo = UserInfoUtil.getCurrentUserInfoThreadLocal();
+            opLogDTO.setCreatedUser(currentUserInfo.getUserName());
+            opLogDTO.setCreatedTime(new Date());
             Object paramValue = getParamValue(pjp, opLog);
             opLogDTO.setModuleId(String.valueOf(paramValue));
             if (StrUtil.isNotBlank(opLogDTO.getOperateContent())) {

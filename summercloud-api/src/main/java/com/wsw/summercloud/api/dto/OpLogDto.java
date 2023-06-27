@@ -13,8 +13,8 @@ import java.util.Date;
  * @Date: 2023/4/9 16:51
  */
 @Data
-@Schema(name = "OpLogDTO", title = "日志信息")
-public class OpLogDTO implements Serializable {
+@Schema(name = "OpLogDto", title = "操作日志信息")
+public class OpLogDto implements Serializable {
     @Serial
     private static final long serialVersionUID = -4231911063865350513L;
 

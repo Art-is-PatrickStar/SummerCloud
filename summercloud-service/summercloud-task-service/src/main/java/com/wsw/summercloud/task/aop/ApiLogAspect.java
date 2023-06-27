@@ -1,8 +1,10 @@
 package com.wsw.summercloud.task.aop;
 
+import cn.hutool.core.util.IdUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wsw.summercloud.api.basic.UserInfo;
+import com.wsw.summercloud.api.dto.ApiLogDto;
 import com.wsw.summercloud.common.utils.UserInfoUtil;
 import com.wsw.summercloud.task.service.impl.ApiLogService;
 import lombok.extern.slf4j.Slf4j;
@@ -50,8 +52,8 @@ public class ApiLogAspect {
         }
         try {
             long costTime = System.currentTimeMillis() - start;
-            String apiLog = buildApiLog(pjp, costTime, isException, currentException, result);
-            apiLogService.appendApiLog(apiLog);
+            ApiLogDto apiLogDto = buildApiLog(pjp, costTime, isException, currentException, result);
+            apiLogService.appendApiLog(apiLogDto);
         } catch (Throwable ex) {
             log.error("记录api日志异常", ex);
         }
@@ -61,22 +63,23 @@ public class ApiLogAspect {
         return result;
     }
 
-    private String buildApiLog(ProceedingJoinPoint pjp, long costTime, boolean isException, Throwable currentException, Object result) throws JsonProcessingException {
-        StringBuilder apiLogBuilder = new StringBuilder();
+    private ApiLogDto buildApiLog(ProceedingJoinPoint pjp, long costTime, boolean isException, Throwable currentException, Object result) throws JsonProcessingException {
         //通过连接点获取方法签名 被切入方法的所有信息
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         //获取被切入方法对象
         Method method = signature.getMethod();
         //获取当前用户信息
         UserInfo currentUserInfo = UserInfoUtil.getCurrentUserInfoThreadLocal();
-        apiLogBuilder.append("请求方法:").append(method.getName()).append(",");
-        apiLogBuilder.append("请求用户:").append(currentUserInfo).append(",");
-        apiLogBuilder.append("请求参数:").append(objectMapper.writeValueAsString(pjp.getArgs())).append(",");
-        apiLogBuilder.append("请求结果:").append(objectMapper.writeValueAsString(result)).append(",");
-        apiLogBuilder.append("请求耗时:").append(costTime).append("ms");
+        ApiLogDto apiLogDto = new ApiLogDto();
+        apiLogDto.setId(IdUtil.getSnowflake().nextId());
+        apiLogDto.setMethod(method.getName());
+        apiLogDto.setOperateUser(objectMapper.writeValueAsString(currentUserInfo));
+        apiLogDto.setParams(objectMapper.writeValueAsString(pjp.getArgs()));
+        apiLogDto.setResult(objectMapper.writeValueAsString(result));
+        apiLogDto.setCostTime(costTime);
         if (isException) {
-            apiLogBuilder.append(",请求异常:").append(currentException.toString());
+            apiLogDto.setException(currentException.toString());
         }
-        return apiLogBuilder.toString();
+        return apiLogDto;
     }
 }
