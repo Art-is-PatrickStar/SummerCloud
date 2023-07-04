@@ -70,7 +70,6 @@ public class TaskJobController {
             @Parameter(name = "requestDtos", description = "任务信息请求实体类", required = true)
     })
     @PostMapping("/createTasks")
-    @OpLog(opType = OperationTypeEnum.ADD, type = ModuleTypeEnum.TASK, serviceClass = TaskJobService.class)
     public Result<Void> createTasks(@RequestBody List<TaskJobRequestDto> requestDtos) {
         Result<Void> result = Result.success();
         taskJobService.createTasks(requestDtos);
