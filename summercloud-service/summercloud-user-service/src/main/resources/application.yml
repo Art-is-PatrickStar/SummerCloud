@@ -5,55 +5,31 @@ spring:
   profiles:
     active: dev
   application:
-    name: user-service
-  data:
-    redis:
-      host: 192.168.223.100
-      port: 6379
-      database: 0
-      password: root
-      timeout: 5000
-      lettuce:
-        pool:
-          enabled: true
-          #连接池最大连接数(使用负值表示没有限制)
-          max-active: 10
-          # 连接池最大阻塞等待时间(使用负值表示没有限制)
-          max-wait: 5000
-          #连接池中的最小空闲连接
-          min-idle: 5
-          #连接池中的最大空闲连接
-          max-idle: 10
-          time-between-eviction-runs: 1000
-  datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.223.100:3306/summercloud?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
-    username: root
-    password: Wsw19980801.
-    hikari:
-      #连接超时时间,小于250毫秒,否则被重置为默认值30秒
-      connection-timeout: 60000
-      #空闲连接超时时间,默认值600000单位毫秒,大于等于max-lifetime且max-lifetime>0,会被重置为0,不等于0且小于10秒,会被重置为10秒
-      idle-timeout: 500000
-      #连接最大存活时间,不等于0且小于30秒,会被重置为默认值30分钟,设置应该比mysql设置的超时时间短
-      max-lifetime: 540000
-      #最小空闲连接,默认值10,小于0或大于maximum-pool-size,都会重置为maximum-pool-size
-      minimum-idle: 5
-      #最大连接数,小于等于0会被重置为默认值10,大于零小于1会被重置为minimum-idle的值
-      maximum-pool-size: 20
-      pool-name: HikariPool-user
-  jpa:
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQLDialect
-    show-sql: true
-    open-in-view: false
-    hibernate:
-      ddl-auto: none
-
-jwt:
-  secret:
-    key: summercloud
-  token:
-    expire:
-      time: 43200
+    name: summercloud-user-service
+  config:
+    import:
+      - optional:nacos:summercloud.yaml?group=DEV_GROUP?refresh=true
+      - optional:nacos:${spring.application.name}.yaml?group=DEV_GROUP?refresh=true
+  cloud:
+    nacos:
+      server-addr: 192.168.223.100:8848  # nacos地址
+      discovery:
+        namespace:
+        group: DEV_GROUP
+      config:
+        namespace:
+        group: DEV_GROUP
+    sentinel:
+      eager: true  # 取消控制台懒加载
+      transport:
+        dashboard: 192.168.223.100:9090  # sentinel dashboard地址
+        port: 8719  # sentinel api port
+      # sentinel配置持久化
+      datasource:
+        ds1:
+          nacos:
+            server-addr: 192.168.223.100:8848
+            dataId: ${spring.application.name}
+            groupId: DEV_GROUP
+            data-type: json
+            rule-type: flow

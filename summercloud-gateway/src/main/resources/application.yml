@@ -6,36 +6,33 @@ spring:
     active: dev
   application:
     name: summercloud-gateway
-
+  config:
+    import:
+      - optional:nacos:summercloud.yaml?group=DEV_GROUP?refresh=true
+      - optional:nacos:${spring.application.name}.yaml?group=DEV_GROUP?refresh=true
   cloud:
     nacos:
+      server-addr: 192.168.223.100:8848  # nacos地址
       discovery:
-        server-addr: localhost:8848  # nacos注册中心地址
-      config:
-        server-addr: localhost:8848  # nacos配置中心地址
-        file-extension: yaml  # 配置文件格式
+        namespace:
         group: DEV_GROUP
-        # 公共配置文件
-        ext-config:
-          - data-id: summercloud-dev.yaml
-            group: DEV_GROUP
-            refresh: true  # 是否允许自动刷新
-
+      config:
+        namespace:
+        group: DEV_GROUP
     sentinel:
       eager: true  # 取消控制台懒加载
       transport:
-        dashboard: localhost:9090  # sentinel dashboard地址
+        dashboard: 192.168.223.100:9090  # sentinel dashboard地址
         port: 8719  # sentinel api port
       # sentinel配置持久化
       datasource:
         ds1:
           nacos:
-            server-addr: localhost:8848
+            server-addr: 192.168.223.100:8848
             dataId: ${spring.application.name}
             groupId: DEV_GROUP
             data-type: json
             rule-type: flow
-
     gateway:
       discovery:
         locator:
@@ -67,7 +64,6 @@ spring:
             - Path=/summercloud-archive-service/**
           filters:
             - StripPrefix=1
-
       globalcors:
         cors-configurations:
           # gateway网关上所有URI都应用以下跨域设计
@@ -75,7 +71,7 @@ spring:
             # 允许携带认证信息
             allow-credentials: true
             # 允许所有来源进行跨域访问
-            allowed-origins:
+            allowedOriginPatterns:
               - "*"
             # 允许跨域请求里的head字段
             allowed-headers: "*"

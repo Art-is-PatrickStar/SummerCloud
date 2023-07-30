@@ -1,25 +1,23 @@
 package com.wsw.summercloud.gateway.filters;
 
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
+import com.wsw.summercloud.api.basic.ResultStatus;
+import com.wsw.summercloud.common.exception.BusinessException;
 import com.wsw.summercloud.common.utils.JwtUtil;
+import com.wsw.summercloud.common.utils.UserInfoUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.Map;
 
 /**
  * @Description:
@@ -44,42 +42,22 @@ public class AuthFilter implements GlobalFilter, Ordered {
         }
         // 从请求头中取出token
         String token = exchange.getRequest().getHeaders().getFirst("token");
-        // 未携带token
+        //token为空
         if (StrUtil.isBlank(token)) {
-            ServerHttpResponse originalResponse = exchange.getResponse();
-            originalResponse.setStatusCode(HttpStatus.OK);
-            originalResponse.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
-            byte[] response = "{\"code\": \"401\",\"massage\": \"未携带token\"}".getBytes(StandardCharsets.UTF_8);
-            DataBuffer buffer = originalResponse.bufferFactory().wrap(response);
-            return originalResponse.writeWith(Flux.just(buffer));
+            throw new BusinessException(ResultStatus.TOKEN_IS_NULL);
         }
-        // 校验token是否过期
-        if (jwtUtils.isTokenExpired(token)) {
-            ServerHttpResponse originalResponse = exchange.getResponse();
-            originalResponse.setStatusCode(HttpStatus.OK);
-            originalResponse.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
-            byte[] response = "{\"code\": \"402\",\"massage\": \"token已过期\"}".getBytes(StandardCharsets.UTF_8);
-            DataBuffer buffer = originalResponse.bufferFactory().wrap(response);
-            return originalResponse.writeWith(Flux.just(buffer));
+        //token无效
+        boolean verified = jwtUtil.verifyToken(token);
+        if (!verified) {
+            throw new BusinessException(ResultStatus.TOKEN_IS_INVALID);
         }
-        // 取出token包含的身份，用于业务处理
-        Long userId = jwtUtils.getUserIdFromToken(token);
-        String userName = jwtUtils.getUserNameFromToken(token);
-        if (Objects.isNull(userId) || StrUtil.isBlank(userName)) {
-            ServerHttpResponse originalResponse = exchange.getResponse();
-            originalResponse.setStatusCode(HttpStatus.OK);
-            originalResponse.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
-            byte[] response = "{\"code\": \"403\",\"massage\": \"token无效\"}".getBytes(StandardCharsets.UTF_8);
-            DataBuffer buffer = originalResponse.bufferFactory().wrap(response);
-            return originalResponse.writeWith(Flux.just(buffer));
-        }
-        // 将现在的request，添加当前身份
-        ServerHttpRequest mutableReq = exchange.getRequest().mutate()
-                .header("Authorization-UserId", String.valueOf(userId))
-                .header("Authorization-UserName", userName)
-                .build();
-        ServerWebExchange mutableExchange = exchange.mutate().request(mutableReq).build();
-        return chain.filter(mutableExchange);
+        //解析token中的用户信息并存入ThreadLocal
+        Map<String, Object> userInfo = jwtUtil.getUserInfo(token);
+        Long userId = MapUtil.getLong(userInfo, "userId", 0L);
+        String username = MapUtil.getStr(userInfo, "userName", "");
+        UserInfoUtil.putCurrentUserInfoThreadLocal(userId, username);
+        //最后清除ThreadLocal中的用户信息
+        return chain.filter(exchange).doFinally(r -> UserInfoUtil.clearCurrentUserInfoThreadLocal());
     }
 
     @Override
