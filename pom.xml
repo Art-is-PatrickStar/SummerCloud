@@ -57,6 +57,7 @@
         <jakarta-json.version>2.0.1</jakarta-json.version>
         <springdoc.version>2.3.0</springdoc.version>
         <jaxb-runtime.version>2.3.8</jaxb-runtime.version>
+        <snakeyaml.version>1.33</snakeyaml.version>
     </properties>
 
     <distributionManagement>
