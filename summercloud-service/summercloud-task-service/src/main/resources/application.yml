@@ -8,11 +8,11 @@ spring:
     name: task-service
 
   elasticsearch:
-    uris: 192.168.223.100:9200
+    uris: 127.0.0.1:9200
 
   data:
     redis:
-      host: 192.168.223.100
+      host: 127.0.0.1
       port: 6379
       database: 0
       password: root
@@ -53,7 +53,7 @@ mybatis-plus:
 xxl:
   job:
     admin:
-      addresses: http://192.168.223.100:8080/xxl-job-admin
+      addresses: http://127.0.0.1:8080/xxl-job-admin
     accessToken: default_token
     executor:
       appname: task-service-executor
